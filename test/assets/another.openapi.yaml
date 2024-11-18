@@ -1,0 +1,162 @@
+openapi: 3.0.0
+info:
+  title: User API
+  description: A simple API to manage users and their profiles
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths:
+  /users:
+    get:
+      summary: Get all users
+      responses:
+        '200':
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    username:
+                      type: string
+                      example: "user1"
+    post:
+      summary: Create a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: "newuser"
+      responses:
+        '201':
+          description: User created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  username:
+                    type: string
+                    example: "newuser"
+  /users/{id}:
+    get:
+      summary: Get a user by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: A user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  username:
+                    type: string
+                    example: "user1"
+        '404':
+          description: User not found
+  /profiles:
+    get:
+      summary: Get all profiles
+      responses:
+        '200':
+          description: A list of profiles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    userId:
+                      type: integer
+                      example: 1
+                    bio:
+                      type: string
+                      example: "This is a bio"
+    post:
+      summary: Create a new profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+                  example: 1
+                bio:
+                  type: string
+                  example: "This is a new bio"
+      responses:
+        '201':
+          description: Profile created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  userId:
+                    type: integer
+                    example: 1
+                  bio:
+                    type: string
+                    example: "This is a new bio"
+  /profiles/{id}:
+    get:
+      summary: Get a profile by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: A profile
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  userId:
+                    type: integer
+                    example: 1
+                  bio:
+                    type: string
+                    example: "This is a bio"
+        '404':
+          description: Profile not found
