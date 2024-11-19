@@ -25,11 +25,12 @@ After installing the dependencies, you can use the `oapi-litegraph-nodegen` libr
 ```javascript
 import { NodeGenerator } from "oapi-litegraph-nodegen";
 
+const graph = new LGraph();
+
 const generator = new NodeGenerator();
 const specPath = "./openapi.yaml";
 await generator.addSpec("exampleSpec", specPath);
-const graph = generator.generateNodes("exampleSpec", true);
-console.log(graph);
+generator.registerNodes("exampleSpec");
 
 new LGraphCanvas("#mycanvas", graph);
 graph.start();
@@ -46,6 +47,7 @@ To run the example web server showcasing the library, follow these steps:
    ```
 
 2. **Start the Example Server**:
+
    ```bash
     npm run start:example
    ```
