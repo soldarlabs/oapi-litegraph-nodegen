@@ -1,5 +1,10 @@
+/**
+ * @file Contains the NodeGenerator class, which generates LiteGraph nodes from OpenAPI.
+ */
 import SwaggerParser from "@apidevtools/swagger-parser";
-import { LGraph, LGraphNode, LiteGraph } from "litegraph.js";
+import { LiteGraph } from "litegraph.js";
+import log from "./logger.js";
+import { OpenAPINode } from "./OpenAPINode.js";
 
 /**
  * Class to generate LiteGraph nodes from OpenAPI specifications.
@@ -18,9 +23,9 @@ export class NodeGenerator {
     try {
       const parsedSpec = await SwaggerParser.validate(spec);
       this.openApiSpecs[key] = parsedSpec;
-      console.log(`OpenAPI spec '${key}' is valid:`, parsedSpec);
+      log.debug(`OpenAPI spec '${key}' is valid:`, parsedSpec);
     } catch (err) {
-      console.error(`Invalid OpenAPI spec '${key}':`, err);
+      log.error(`Invalid OpenAPI spec '${key}':`, err);
       throw err;
     }
   }
@@ -50,70 +55,83 @@ export class NodeGenerator {
   }
 
   /**
-   * Generates LiteGraph nodes from all or a specific OpenAPI specification.
-   * @param key - Optional key to generate nodes for a specific spec.
-   * @param register - Optional flag to register nodes with LiteGraph.
-   * @returns The generated LGraph object.
+   * Registers LiteGraph nodes from all or a specific OpenAPI specification.
+   * @param key - Optional key to register nodes for a specific spec.
    * @throws If no specs are parsed or the specified key does not exist.
    */
-  public generateNodes(key?: string, register: boolean = false): LGraph {
+  public registerNodes(key?: string): void {
     if (Object.keys(this.openApiSpecs).length === 0) {
       throw new Error(
         "No OpenAPI specs have been parsed. Call addSpec() first."
       );
     }
 
-    const graph = new LGraph();
     if (key) {
       if (!this.openApiSpecs[key]) {
         throw new Error(`OpenAPI spec with key '${key}' does not exist.`);
       }
-      this.generateNodesForSpec(key, this.openApiSpecs[key], graph, register);
+      this.registerNodesForSpec(key, this.openApiSpecs[key]);
     } else {
-      console.log("Generating LiteGraph nodes from all OpenAPI specs...");
+      log.debug("Registering LiteGraph nodes from all OpenAPI specs...");
       for (const key in this.openApiSpecs) {
-        this.generateNodesForSpec(key, this.openApiSpecs[key], graph, register);
+        this.registerNodesForSpec(key, this.openApiSpecs[key]);
       }
     }
-
-    return graph;
   }
 
   /**
-   * Generates LiteGraph nodes for a specific OpenAPI specification.
+   * Unregisters LiteGraph nodes for a specific OpenAPI specification or all specifications.
+   * @param key - Optional key to unregister nodes for a specific spec.
+   * @throws If the specified key does not exist.
+   */
+  public unregisterNodes(key?: string): void {
+    if (key) {
+      if (!this.openApiSpecs[key]) {
+        throw new Error(`OpenAPI spec with key '${key}' does not exist.`);
+      }
+      this.unregisterNodesForSpec(key, this.openApiSpecs[key]);
+    } else {
+      log.debug("Unregistering LiteGraph nodes from all OpenAPI specs...");
+      for (const key in this.openApiSpecs) {
+        this.unregisterNodesForSpec(key, this.openApiSpecs[key]);
+      }
+    }
+  }
+
+  /**
+   * Registers LiteGraph nodes for a specific OpenAPI specification.
    * @param key - Identifier for the OpenAPI specification.
    * @param spec - The OpenAPI specification.
-   * @param graph - The LGraph object to add nodes to.
-   * @param register - Flag to register nodes with LiteGraph.
    */
-  private generateNodesForSpec(
-    key: string,
-    spec: any,
-    graph: LGraph,
-    register: boolean
-  ): void {
-    console.log(`Generating nodes for OpenAPI spec '${key}'...`);
+  private registerNodesForSpec(key: string, spec: any): void {
+    log.debug(`Registering nodes for OpenAPI spec '${key}'...`);
     for (const path in spec.paths) {
       for (const method in spec.paths[path]) {
         const operation = spec.paths[path][method];
-        const node = new LGraphNode();
-        node.title = `${method.toUpperCase()} ${path}`;
-        // TODO: Replace with method that creates the right inputs/outputs.
-        node.addOutput("Response", "string");
-        node.addInput("Request", "string");
-        graph.add(node);
-        console.log(
-          `Created node for ${method.toUpperCase()} ${path}: ${
-            operation.summary
-          }`
-        );
+        const normalizedPath = path.startsWith('/') ? path : `/${path}`;
 
-        if (register) {
-          LiteGraph.registerNodeType(
-            `openapi/${method.toUpperCase()}_${path}`,
-            LGraphNode
-          );
-        }
+        const nodeType = `oapi/${key}/${method.toLowerCase()}${normalizedPath}`;
+        LiteGraph.registerNodeType(nodeType, OpenAPINode.bind(null, method, normalizedPath, operation));
+        log.debug(
+          `Registered node for ${method.toUpperCase()} ${normalizedPath}: ${operation.summary}`
+        );
+      }
+    }
+  }
+
+  /**
+   * Unregisters LiteGraph nodes for a specific OpenAPI specification.
+   * @param key - Identifier for the OpenAPI specification.
+   * @param spec - The OpenAPI specification.
+   */
+  private unregisterNodesForSpec(key: string, spec: any): void {
+    log.debug(`Unregistering nodes for OpenAPI spec '${key}'...`);
+    for (const path in spec.paths) {
+      for (const method in spec.paths[path]) {
+        const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+        const nodeType = `oapi/${key}/${method.toLowerCase()}${normalizedPath}`;
+        LiteGraph.unregisterNodeType(nodeType);
+        log.debug(`Unregistered node type: ${nodeType}`);
       }
     }
   }

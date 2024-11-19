@@ -1,3 +1,4 @@
 import { NodeGenerator } from './nodeGenerator.js';
+import { setLogLevel } from './logger.js';
 
-export { NodeGenerator };
+export { NodeGenerator, setLogLevel };
