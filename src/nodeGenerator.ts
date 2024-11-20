@@ -1,16 +1,27 @@
-/**
- * @file Contains the NodeGenerator class, which generates LiteGraph nodes from OpenAPI.
- */
 import SwaggerParser from "@apidevtools/swagger-parser";
 import { LiteGraph } from "litegraph.js";
 import log from "./logger.js";
-import { OpenAPINode } from "./OpenAPINode.js";
+import { createOpenAPINodeClass } from "./OpenAPINode.js";
 
 /**
  * Class to generate LiteGraph nodes from OpenAPI specifications.
  */
 export class NodeGenerator {
   private openApiSpecs: { [key: string]: any } = {};
+
+  /**
+   * Checks if a string is a valid URL.
+   * @param str - The string to check.
+   * @returns True if the string is a valid URL, false otherwise.
+   */
+  private isValidUrl(str: string): boolean {
+    try {
+      new URL(str);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
 
   /**
    * Adds an OpenAPI specification from a file path or URL.
@@ -111,7 +122,8 @@ export class NodeGenerator {
         const normalizedPath = path.startsWith('/') ? path : `/${path}`;
 
         const nodeType = `oapi/${key}/${method.toLowerCase()}${normalizedPath}`;
-        LiteGraph.registerNodeType(nodeType, OpenAPINode.bind(null, method, normalizedPath, operation));
+        const NodeClass = createOpenAPINodeClass(method, normalizedPath, operation);
+        LiteGraph.registerNodeType(nodeType, NodeClass);
         log.debug(
           `Registered node for ${method.toUpperCase()} ${normalizedPath}: ${operation.summary}`
         );

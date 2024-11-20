@@ -25,6 +25,7 @@
   "dependencies": {
     "@apidevtools/swagger-parser": "^10.1.0",
     "litegraph.js": "^0.7.18",
-    "loglevel": "^1.9.2"
+    "loglevel": "^1.9.2",
+    "openapi-client-axios": "^7.5.5"
   }
 }
