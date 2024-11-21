@@ -59,6 +59,7 @@ export class OpenAPINode extends LGraphNode {
 export function createOpenAPINodeClass(method: string, path: string, operation: any) {
   const title = `${method.toUpperCase()} ${path}`;
   return class extends OpenAPINode {
+    static title = title;
     constructor() {
       super(title, operation);
     }
