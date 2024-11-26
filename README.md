@@ -4,52 +4,91 @@ Generate dynamic and callable LiteGraph nodes from OpenAPI specifications, enabl
 
 ## Features
 
-- **Dynamic Node Generation**: Automatically generate LiteGraph nodes from OpenAPI specifications.
-- **Seamless Integration**: Easily integrate APIs into your visual programming environment.
-- **Interactive Example**: Run an example web server to see the library in action.
+- **Dynamic Node Generation**: Automatically generate LiteGraph nodes from OpenAPI specifications
+- **Type-Safe Integration**: Full TypeScript support with proper type inference
+- **Interactive Widgets**: Rich set of input widgets based on OpenAPI parameter types
+- **High Performance**: Optimized event handling and canvas rendering
+- **Easy Integration**: Simple API for adding OpenAPI specs and registering nodes
 
 ## Installation
 
-Since the package is not yet published to npm, you can use the library by cloning the repository and running the following command:
-
 ```bash
-git clone https://github.com/yourusername/oapi-litegraph-nodegen.git
-cd oapi-litegraph-nodegen
-npm install
+npm install @soldarlabs/oapi-litegraph-nodegen
 ```
 
-## Usage
-
-After installing the dependencies, you can use the `oapi-litegraph-nodegen` library by importing it into your project:
+## Quick Start
 
 ```javascript
-import { NodeGenerator } from "oapi-litegraph-nodegen";
+import { NodeGenerator } from "@soldarlabs/oapi-litegraph-nodegen";
+import { LGraph, LGraphCanvas } from "litegraph.js";
 
+// Create a new graph
 const graph = new LGraph();
 
+// Initialize the node generator
 const generator = new NodeGenerator();
-const specPath = "./openapi.yaml";
-await generator.addSpec("exampleSpec", specPath);
-generator.registerNodes("exampleSpec");
 
+// Add an OpenAPI specification
+await generator.addSpec("myApi", "./openapi.yaml");
+
+// Register nodes from the spec
+generator.registerNodes();
+
+// Create and start the canvas
+const canvas = document.getElementById("mycanvas");
 new LGraphCanvas("#mycanvas", graph);
 graph.start();
 ```
 
-## Example
+## Documentation
 
-To run the example web server showcasing the library, follow these steps:
+- [Architecture Overview](docs/ARCHITECTURE.md): System design, components, and data flow
+- [Troubleshooting Guide](docs/TROUBLESHOOTING.md): Common issues and solutions
+- [Contributing Guide](CONTRIBUTING.md): Development setup and guidelines
 
-1. **Build the Example**:
+## Basic Usage
 
-   ```bash
-   npm run build:example
-   ```
+### Node Generation Options
 
-2. **Start the Example Server**:
+```typescript
+const generator = new NodeGenerator({
+  // Prefix for generated node types (default: '')
+  typePrefix: 'MyAPI/',
+  
+  // Whether to group nodes by tag (default: true)
+  groupByTag: true,
+  
+  // Custom widget mappings
+  widgetMappings: {
+    'string:date': 'date-picker',
+    'string:color': 'color-picker'
+  }
+});
+```
 
-   ```bash
-    npm run start:example
-   ```
+### Widget Types
 
-The server will be running on `http://127.0.0.1:8080`. Open this URL in your browser to see the example in action.
+The library automatically selects appropriate widgets based on OpenAPI parameter types:
+
+- **String**: Text input widget
+- **Number**: Number input widget with optional range
+- **Boolean**: Toggle widget
+- **Enum**: Combo box widget
+- **Object**: Nested properties with individual widgets
+- **Array**: Dynamic list of widgets
+
+## Browser Support
+
+- Chrome ≥ 61
+- Firefox ≥ 60
+- Safari ≥ 11
+- Edge ≥ 79
+
+## License
+
+MIT License - see [LICENSE](LICENSE) for details.
+
+## Related Projects
+
+- [LiteGraph.js](https://github.com/jagenjo/litegraph.js)
+- [OpenAPI Tools](https://openapi.tools/)

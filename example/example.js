@@ -1,23 +1,7 @@
 import { NodeGenerator, setLogLevel } from '../src';
-import { LGraphCanvas, LGraph } from 'litegraph.js';
-
-/**
- * Update the canvas used by the editor to match the size of the parent element.
- * @param {*} canvas the Litegraph canvas to update.
- * @param {*} graphCanvas the LGraphCanvas instance to resize.
- */
-function updateEditorHiPPICanvas(canvas, graphCanvas) {
-  const ratio = window.devicePixelRatio || 1;
-  const rect = canvas.parentNode.getBoundingClientRect();
-  const { width, height } = rect;
-  canvas.width = width * ratio;
-  canvas.height = height * ratio;
-  canvas.style.width = width + "px";
-  canvas.style.height = height + "px";
-  const context = canvas.getContext("2d");
-  context.scale(ratio, ratio);
-  graphCanvas.resize();
-}
+import { LGraph, LiteGraph } from 'litegraph.js';
+import { CanvasWrapper } from '../src/utils/canvasWrapper.js';
+import { patchContextMenu } from '../src/utils/contextMenu.js';
 
 /**
  * Generate a graph using the NodeGenerator class and display it in the browser.
@@ -25,19 +9,43 @@ function updateEditorHiPPICanvas(canvas, graphCanvas) {
 async function generateGraph() {
   setLogLevel('debug');
 
+  // Wait for DOM to be ready
+  if (document.readyState === 'loading') {
+    await new Promise(resolve => document.addEventListener('DOMContentLoaded', resolve));
+  }
+
+  // Configure LiteGraph to use passive event listeners
+  LiteGraph.pointerevents_method = "pointer"; // Use pointer events instead of mouse events
+  // Prevent zoom on wheel by default, but make it passive
+  Object.assign(LiteGraph, {
+    prevent_zoom_default: false,
+    ctrl_shift_zoom_default: true,
+  });
+
+  // Patch the context menu to use passive event listeners
+  patchContextMenu();
+
   const generator = new NodeGenerator();
   await generator.addSpec('exampleSpec', './openapi.yaml');
   generator.registerNodes();
 
   const canvas = document.querySelector("#mycanvas");
-  const graph = new LGraph();
-  const graphCanvas = new LGraphCanvas(canvas, graph);
+  if (!canvas) {
+    console.error("Canvas element not found!");
+    return;
+  }
 
-  // Ensure canvas update when window is resized or browser zoom changes.
-  updateEditorHiPPICanvas(canvas, graphCanvas);
-  window.addEventListener('resize', () => updateEditorHiPPICanvas(canvas, graphCanvas));
+  const graph = new LGraph();
+  
+  // Use our optimized canvas wrapper
+  const canvasWrapper = new CanvasWrapper(canvas, graph, {
+    passive: true,
+    preventDefaultOnWheel: false
+  });
 
   graph.start();
 }
 
-generateGraph();
+generateGraph().catch(err => {
+  console.error("Error generating graph:", err);
+});
