@@ -7,14 +7,14 @@ import { createOpenAPINodeClass } from "./OpenAPINode.js";
  * NodeGenerator is responsible for creating LiteGraph nodes from OpenAPI specifications.
  * It provides functionality to load OpenAPI specs, generate corresponding nodes,
  * and register them with the LiteGraph system.
- * 
+ *
  * @example
  * ```typescript
  * const generator = new NodeGenerator();
  * await generator.addSpec("petstore", "./petstore.yaml");
  * generator.registerNodes();
  * ```
- * 
+ *
  * @remarks
  * The generator supports both local file paths and URLs for OpenAPI specifications.
  * Each spec is validated before being added to ensure compatibility.
@@ -30,10 +30,10 @@ export class NodeGenerator {
   /**
    * Validates if a string represents a valid URL.
    * Used internally to determine how to load OpenAPI specifications.
-   * 
+   *
    * @param str - The string to validate as a URL
    * @returns True if the string is a valid URL, false otherwise
-   * 
+   *
    * @internal
    */
   private isValidUrl(str: string): boolean {
@@ -48,21 +48,21 @@ export class NodeGenerator {
   /**
    * Adds an OpenAPI specification to the generator.
    * The specification can be loaded from either a local file path or a URL.
-   * 
+   *
    * @param key - Unique identifier for the specification
    * @param spec - File path or URL to the OpenAPI specification
    * @returns Promise that resolves when the spec is successfully loaded and validated
-   * 
+   *
    * @throws {SwaggerParserError} If the specification is invalid or cannot be parsed
    * @throws {NetworkError} If the specification URL cannot be accessed
    * @throws {FileSystemError} If the specification file cannot be read
-   * 
+   *
    * @example
    * ```typescript
-   * // Load from file
+   * // Load OpenAPI spec from file.
    * await generator.addSpec("petstore", "./petstore.yaml");
-   * 
-   * // Load from URL
+   *
+   * // Load OpenAPI spec from URL.
    * await generator.addSpec("github", "https://api.github.com/openapi.yaml");
    * ```
    */
@@ -80,10 +80,10 @@ export class NodeGenerator {
   /**
    * Removes an OpenAPI specification from the generator.
    * Note that this does not unregister any nodes that were already created from this spec.
-   * 
+   *
    * @param key - Identifier of the specification to remove
    * @returns True if the specification was removed, false if it didn't exist
-   * 
+   *
    * @example
    * ```typescript
    * generator.removeSpec("petstore");
@@ -103,7 +103,7 @@ export class NodeGenerator {
   /**
    * Removes all OpenAPI specifications from the generator.
    * This does not unregister any nodes that were already created from these specs.
-   * 
+   *
    * @example
    * ```typescript
    * generator.removeAllSpecs();
@@ -118,18 +118,18 @@ export class NodeGenerator {
    * Registers LiteGraph nodes for all loaded OpenAPI specifications.
    * This creates node classes for each operation in the specifications
    * and registers them with the LiteGraph system.
-   * 
+   *
    * @example
    * ```typescript
    * generator.registerNodes();
    * ```
-   * 
+   *
    * @see {@link registerNodesForSpec} to register nodes for a specific spec
    */
   public registerNodes(key?: string): void {
     if (Object.keys(this.openApiSpecs).length === 0) {
       throw new Error(
-        "No OpenAPI specs have been parsed. Call addSpec() first."
+        "No OpenAPI specs have been parsed. Call addSpec() first.",
       );
     }
 
@@ -148,12 +148,12 @@ export class NodeGenerator {
 
   /**
    * Registers LiteGraph nodes for a specific OpenAPI specification.
-   * 
+   *
    * @param key - Identifier of the specification to register nodes for
    * @param spec - The OpenAPI specification
-   * 
+   *
    * @throws {Error} If the specification identifier is not found
-   * 
+   *
    * @example
    * ```typescript
    * generator.registerNodesForSpec("petstore");
@@ -164,13 +164,17 @@ export class NodeGenerator {
     for (const path in spec.paths) {
       for (const method in spec.paths[path]) {
         const operation = spec.paths[path][method];
-        const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+        const normalizedPath = path.startsWith("/") ? path : `/${path}`;
 
         const nodeType = `oapi/${key}/${method.toLowerCase()}${normalizedPath}`;
-        const NodeClass = createOpenAPINodeClass(method, normalizedPath, operation);
+        const NodeClass = createOpenAPINodeClass(
+          method,
+          normalizedPath,
+          operation,
+        );
         LiteGraph.registerNodeType(nodeType, NodeClass);
         log.debug(
-          `Registered node for ${method.toUpperCase()} ${normalizedPath}: ${operation.summary}`
+          `Registered node for ${method.toUpperCase()} ${normalizedPath}: ${operation.summary}`,
         );
       }
     }
@@ -178,11 +182,11 @@ export class NodeGenerator {
 
   /**
    * Unregisters LiteGraph nodes for a specific OpenAPI specification or all specifications.
-   * 
+   *
    * @param key - Optional key to unregister nodes for a specific spec
-   * 
+   *
    * @throws {Error} If the specified key does not exist
-   * 
+   *
    * @example
    * ```typescript
    * generator.unregisterNodes("petstore");
@@ -204,7 +208,7 @@ export class NodeGenerator {
 
   /**
    * Unregisters LiteGraph nodes for a specific OpenAPI specification.
-   * 
+   *
    * @param key - Identifier of the specification to unregister nodes for
    * @param spec - The OpenAPI specification
    */
@@ -212,7 +216,7 @@ export class NodeGenerator {
     log.debug(`Unregistering nodes for OpenAPI spec '${key}'...`);
     for (const path in spec.paths) {
       for (const method in spec.paths[path]) {
-        const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+        const normalizedPath = path.startsWith("/") ? path : `/${path}`;
         const nodeType = `oapi/${key}/${method.toLowerCase()}${normalizedPath}`;
         LiteGraph.unregisterNodeType(nodeType);
         log.debug(`Unregistered node type: ${nodeType}`);

@@ -1,9 +1,20 @@
 /**
  * @file Contains the class definition for the OpenAPI nodes.
  */
-import { LGraphNode, IWidget, LiteGraph, LLink, INodeInputSlot, INodeOutputSlot } from "litegraph.js";
+import {
+  LGraphNode,
+  IWidget,
+  LiteGraph,
+  LLink,
+  INodeInputSlot,
+  INodeOutputSlot,
+} from "litegraph.js";
 import { getWidgetForParameter, WidgetType } from "./widgets.js";
-import { addAlignedWidget, customizeNodeAppearance, calculateNodeSize } from "./visualWidgets.js";
+import {
+  addAlignedWidget,
+  customizeNodeAppearance,
+  calculateNodeSize,
+} from "./visualWidgets.js";
 import { logger } from "./utils/logger.js";
 
 /**
@@ -50,9 +61,13 @@ export class OpenAPINode extends LGraphNode {
   constructor(title: string, operation: any) {
     super(title);
     this.nodeId = `${this.type || "node"}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    logger.info("Node created", { component: "OpenAPINode", nodeId: this.nodeId, type: this.type });
+    logger.info("Node created", {
+      component: "OpenAPINode",
+      nodeId: this.nodeId,
+      type: this.type,
+    });
 
-    // Apply visual customizations
+    // Apply visual customizations.
     customizeNodeAppearance(this);
 
     // Create inputs based on operation parameters.
@@ -60,11 +75,11 @@ export class OpenAPINode extends LGraphNode {
       operation.parameters.forEach((param: any) => {
         const schema = param.schema || { type: "string" };
         const paramType = schema.type;
-        
-        // Add input slot first
+
+        // Add input slot first.
         this.addInput(param.name, paramType);
-        
-        // Add widget based on parameter type and format
+
+        // Add widget based on parameter type and format.
         const widgetConfig = getWidgetForParameter(schema);
         const widget = addAlignedWidget(
           this,
@@ -73,14 +88,17 @@ export class OpenAPINode extends LGraphNode {
           param.name,
           param.default || "",
           (v: any) => {
-            // When widget value changes, store it
+            // When widget value changes, store it.
             this.inputValues.set(param.name, { value: v, type: paramType });
-          }
+          },
         );
-        
+
         this.inputWidgets.set(param.name, widget);
         if (param.default !== undefined) {
-          this.inputValues.set(param.name, { value: param.default, type: paramType });
+          this.inputValues.set(param.name, {
+            value: param.default,
+            type: paramType,
+          });
         }
       });
     }
@@ -95,10 +113,10 @@ export class OpenAPINode extends LGraphNode {
             const propSchema = schema.properties[propName];
             const propType = propSchema.type || "string";
 
-            // Add input slot first
+            // Add input slot first.
             this.addInput(propName, propType);
 
-            // Add widget based on property type and format
+            // Add widget based on property type and format.
             const widgetConfig = getWidgetForParameter(propSchema);
             const widget = addAlignedWidget(
               this,
@@ -107,14 +125,17 @@ export class OpenAPINode extends LGraphNode {
               propName,
               propSchema.default || "",
               (v: any) => {
-                // When widget value changes, store it
+                // When widget value changes, store it.
                 this.inputValues.set(propName, { value: v, type: propType });
-              }
+              },
             );
-            
+
             this.inputWidgets.set(propName, widget);
             if (propSchema.default !== undefined) {
-              this.inputValues.set(propName, { value: propSchema.default, type: propType });
+              this.inputValues.set(propName, {
+                value: propSchema.default,
+                type: propType,
+              });
             }
           }
         }
@@ -123,16 +144,20 @@ export class OpenAPINode extends LGraphNode {
 
     // Create output based on operation response.
     const responses = operation.responses;
-    if (responses && responses['200'] && responses['200'].content) {
-      const responseSchema = responses['200'].content['application/json'].schema;
+    if (responses && responses["200"] && responses["200"].content) {
+      const responseSchema =
+        responses["200"].content["application/json"].schema;
       const responseType = responseSchema.type;
       this.addOutput(`Response (${responseType})`, responseType);
     } else {
       this.addOutput("Response (string)", "string");
     }
 
-    // Update node size based on content
-    this.size = calculateNodeSize(this.inputIndex, this.outputs ? this.outputs.length : 0);
+    // Update node size based on content.
+    this.size = calculateNodeSize(
+      this.inputIndex,
+      this.outputs ? this.outputs.length : 0,
+    );
   }
 
   /**
@@ -140,16 +165,16 @@ export class OpenAPINode extends LGraphNode {
    */
   onExecute() {
     try {
-      logger.debug("Node executing", { 
-        component: "OpenAPINode", 
-        nodeId: this.nodeId, 
+      logger.debug("Node executing", {
+        component: "OpenAPINode",
+        nodeId: this.nodeId,
         operation: "execute",
-        inputCount: this.inputs?.length || 0
+        inputCount: this.inputs?.length || 0,
       });
 
       const inputData: { [key: string]: any } = {};
 
-      // Collect input data
+      // Collect input data.
       if (this.inputs) {
         for (let i = 0; i < this.inputs.length; i++) {
           const value = this.getInputData(i);
@@ -161,13 +186,13 @@ export class OpenAPINode extends LGraphNode {
               nodeId: this.nodeId,
               operation: "execute",
               input: inputName,
-              value: value
+              value: value,
             });
           }
         }
       }
 
-      // Process widget values
+      // Process widget values.
       this.inputWidgets.forEach((widget, name) => {
         if (widget.value !== undefined && widget.value !== null) {
           inputData[name] = widget.value;
@@ -176,28 +201,31 @@ export class OpenAPINode extends LGraphNode {
             nodeId: this.nodeId,
             operation: "execute",
             widget: name,
-            value: widget.value
+            value: widget.value,
           });
         }
       });
 
-      // Set output data
+      // Set output data.
       this.setOutputData(0, inputData);
       logger.debug("Node execution completed", {
         component: "OpenAPINode",
         nodeId: this.nodeId,
         operation: "execute",
-        outputData: inputData
+        outputData: inputData,
       });
-
     } catch (err) {
       const error = err as Error;
-      logger.error("Error executing node", {
-        component: "OpenAPINode",
-        nodeId: this.nodeId,
-        operation: "execute",
-        error: error.message
-      }, error);
+      logger.error(
+        "Error executing node",
+        {
+          component: "OpenAPINode",
+          nodeId: this.nodeId,
+          operation: "execute",
+          error: error.message,
+        },
+        error,
+      );
       this.setOutputData(0, { error: error.message });
     }
   }
@@ -215,7 +243,7 @@ export class OpenAPINode extends LGraphNode {
     slotIndex: number,
     isConnected: boolean,
     link: LLink,
-    ioSlot: INodeInputSlot | INodeOutputSlot
+    ioSlot: INodeInputSlot | INodeOutputSlot,
   ): void {
     try {
       logger.debug("Connection changed", {
@@ -226,22 +254,26 @@ export class OpenAPINode extends LGraphNode {
         slot: slotIndex,
         connected: isConnected,
         linkInfo: link,
-        ioSlot: ioSlot
+        ioSlot: ioSlot,
       });
 
-      if (typeof super.onConnectionsChange === 'function') {
+      if (typeof super.onConnectionsChange === "function") {
         super.onConnectionsChange(type, slotIndex, isConnected, link, ioSlot);
       }
     } catch (err) {
       const error = err as Error;
-      logger.error("Error handling connection change", {
-        component: "OpenAPINode",
-        nodeId: this.nodeId,
-        operation: "connectionChange",
-        connectionType: type === LiteGraph.INPUT ? "input" : "output",
-        slot: slotIndex,
-        error: error.message
-      }, error);
+      logger.error(
+        "Error handling connection change",
+        {
+          component: "OpenAPINode",
+          nodeId: this.nodeId,
+          operation: "connectionChange",
+          connectionType: type === LiteGraph.INPUT ? "input" : "output",
+          slot: slotIndex,
+          error: error.message,
+        },
+        error,
+      );
     }
   }
 
@@ -259,21 +291,25 @@ export class OpenAPINode extends LGraphNode {
         operation: "propertyChange",
         property: name,
         newValue: value,
-        previousValue: prev_value
+        previousValue: prev_value,
       });
 
-      if (typeof super.onPropertyChanged === 'function') {
+      if (typeof super.onPropertyChanged === "function") {
         super.onPropertyChanged(name, value, prev_value);
       }
     } catch (err) {
       const error = err as Error;
-      logger.error("Error changing property", {
-        component: "OpenAPINode",
-        nodeId: this.nodeId,
-        operation: "propertyChange",
-        property: name,
-        error: error.message
-      }, error);
+      logger.error(
+        "Error changing property",
+        {
+          component: "OpenAPINode",
+          nodeId: this.nodeId,
+          operation: "propertyChange",
+          property: name,
+          error: error.message,
+        },
+        error,
+      );
     }
   }
 
@@ -292,27 +328,31 @@ export class OpenAPINode extends LGraphNode {
         operation: "widgetChange",
         widget: name,
         newValue: value,
-        options: options
+        options: options,
       });
 
-      // Store the widget value
+      // Store the widget value.
       if (value !== undefined && value !== null) {
         this.inputValues.set(name, {
           value: value,
-          type: widget.type || "string"
+          type: widget.type || "string",
         });
       }
 
       this.setDirtyCanvas(true);
     } catch (err) {
       const error = err as Error;
-      logger.error("Error handling widget change", {
-        component: "OpenAPINode",
-        nodeId: this.nodeId,
-        operation: "widgetChange",
-        widget: name,
-        error: error.message
-      }, error);
+      logger.error(
+        "Error handling widget change",
+        {
+          component: "OpenAPINode",
+          nodeId: this.nodeId,
+          operation: "widgetChange",
+          widget: name,
+          error: error.message,
+        },
+        error,
+      );
     }
   }
 
@@ -322,7 +362,7 @@ export class OpenAPINode extends LGraphNode {
    * @param skipOutputs - Whether to skip outputs.
    */
   setDirtyCanvas(value: boolean, skipOutputs: boolean = false): void {
-    if (typeof super.setDirtyCanvas === 'function') {
+    if (typeof super.setDirtyCanvas === "function") {
       super.setDirtyCanvas(value, skipOutputs);
     }
   }
@@ -335,7 +375,11 @@ export class OpenAPINode extends LGraphNode {
  * @param operation - The OpenAPI operation object.
  * @returns A custom node class.
  */
-export function createOpenAPINodeClass(method: string, path: string, operation: any) {
+export function createOpenAPINodeClass(
+  method: string,
+  path: string,
+  operation: any,
+) {
   const title = `${method.toUpperCase()} ${path}`;
   return class extends OpenAPINode {
     static title = title;

@@ -22,19 +22,19 @@ npm install @soldarlabs/oapi-litegraph-nodegen
 import { NodeGenerator } from "@soldarlabs/oapi-litegraph-nodegen";
 import { LGraph, LGraphCanvas } from "litegraph.js";
 
-// Create a new graph
+// Create a new graph.
 const graph = new LGraph();
 
-// Initialize the node generator
+// Initialize the node generator.
 const generator = new NodeGenerator();
 
-// Add an OpenAPI specification
+// Add an OpenAPI specification.
 await generator.addSpec("myApi", "./openapi.yaml");
 
-// Register nodes from the spec
+// Register nodes from the spec.
 generator.registerNodes();
 
-// Create and start the canvas
+// Create and start the canvas.
 const canvas = document.getElementById("mycanvas");
 new LGraphCanvas("#mycanvas", graph);
 graph.start();
@@ -52,13 +52,13 @@ graph.start();
 
 ```typescript
 const generator = new NodeGenerator({
-  // Prefix for generated node types (default: '')
+  // Prefix for generated node types (default: '').
   typePrefix: "MyAPI/",
 
-  // Whether to group nodes by tag (default: true)
+  // Whether to group nodes by tag (default: true).
   groupByTag: true,
 
-  // Custom widget mappings
+  // Custom widget mappings.
   widgetMappings: {
     "string:date": "date-picker",
     "string:color": "color-picker",
