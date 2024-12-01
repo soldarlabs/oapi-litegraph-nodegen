@@ -1,5 +1,5 @@
 /**
- * @file Contains visual customization for node widgets
+ * @file Contains visual customization for node widgets.
  */
 import { LGraphNode, IWidget, Vector2 } from "litegraph.js";
 import { WidgetConfig } from "./widgets.js";
@@ -26,7 +26,7 @@ interface WidgetPosition {
 }
 
 /**
- * Calculate the position for a widget to align with an input
+ * Calculate the position for a widget to align with an input.
  */
 export function calculateWidgetPosition(
   node: LGraphNode,
@@ -43,7 +43,7 @@ export function calculateWidgetPosition(
 }
 
 /**
- * Add a widget to the node and position it to align with an input
+ * Add a widget to the node and position it to align with an input.
  */
 export function addAlignedWidget(
   node: LGraphNode,
@@ -128,7 +128,7 @@ export function addAlignedWidget(
 }
 
 /**
- * Calculate node size based on number of inputs and outputs
+ * Calculate node size based on number of inputs and outputs.
  */
 export function calculateNodeSize(
   inputCount: number,
@@ -145,7 +145,7 @@ export function calculateNodeSize(
 }
 
 /**
- * Style customization for the node
+ * Style customization for the node.
  */
 export function customizeNodeAppearance(node: LGraphNode) {
   // Override computeSize to ensure correct height.
