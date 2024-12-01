@@ -1,11 +1,6 @@
 /**
  * @file Contains widget mappings and utilities for OpenAPI node inputs.
  */
-<<<<<<< HEAD
-// These are the widget types supported by LiteGraph.js
-export type WidgetType = "number" | "slider" | "combo" | "text" | "toggle" | "file";
-=======
-import { IWidget } from "litegraph.js";
 
 // These are the widget types supported by LiteGraph.js.
 export type WidgetType =
@@ -15,7 +10,6 @@ export type WidgetType =
   | "text"
   | "toggle"
   | "file";
->>>>>>> 6232cec60e66945b9577670dc4b646a3c2bf9881
 
 export interface WidgetConfig {
   type: WidgetType;
@@ -23,11 +17,7 @@ export interface WidgetConfig {
 }
 
 /**
-<<<<<<< HEAD
  * Maps OpenAPI types and formats to appropriate LiteGraph widget configurations
-=======
- * Maps OpenAPI types and formats to appropriate LiteGraph widgets.
->>>>>>> 6232cec60e66945b9577670dc4b646a3c2bf9881
  */
 export function getWidgetConfigForParameter(schema: any): WidgetConfig {
   const type = schema.type;
