@@ -209,8 +209,8 @@ export class NodeGenerator {
   /**
    * Unregisters LiteGraph nodes for a specific OpenAPI specification.
    *
-   * @param key - Identifier of the specification to unregister nodes for
-   * @param spec - The OpenAPI specification
+   * @param key - Identifier of the specification to unregister nodes for.
+   * @param spec - The OpenAPI specification.
    */
   private unregisterNodesForSpec(key: string, spec: any): void {
     log.debug(`Unregistering nodes for OpenAPI spec '${key}'...`);

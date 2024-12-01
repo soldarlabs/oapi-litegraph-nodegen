@@ -17,7 +17,7 @@ const NODE_CONSTANTS = {
 };
 
 /**
- * Positions for aligning widgets with node inputs
+ * Positions for aligning widgets with node inputs.
  */
 interface WidgetPosition {
   x: number;

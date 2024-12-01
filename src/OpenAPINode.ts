@@ -161,7 +161,7 @@ export class OpenAPINode extends LGraphNode {
   }
 
   /**
-   * Override onExecute to ensure widget values are used when no input connections exist
+   * Override onExecute to ensure widget values are used when no input connections exist.
    */
   onExecute() {
     try {
