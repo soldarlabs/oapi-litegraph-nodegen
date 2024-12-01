@@ -5,12 +5,14 @@
 ### Core Components
 
 1. **NodeGenerator**
+
    - Main entry point for the library
    - Manages OpenAPI spec loading and parsing
    - Handles node type registration
    - Coordinates widget creation
 
 2. **OpenAPINode**
+
    - Base class for generated nodes
    - Manages input/output slots
    - Handles API request execution
@@ -24,11 +26,13 @@
 ### Data Flow
 
 1. **Initialization**
+
    ```
    Load OpenAPI Spec → Parse Operations → Generate Node Types → Register with LiteGraph
    ```
 
 2. **Node Execution**
+
    ```
    Input Values → Validate Parameters → Execute API Call → Process Response → Update Outputs
    ```
@@ -41,11 +45,13 @@
 ## Performance Considerations
 
 1. **Memory Management**
+
    - Lazy loading of OpenAPI specs
    - Efficient widget disposal
    - Smart caching of API responses
 
 2. **Rendering Optimization**
+
    - Minimized DOM updates
    - Efficient event handling
    - Batched widget updates
@@ -58,6 +64,7 @@
 ## Extension Points
 
 1. **Custom Widgets**
+
    ```typescript
    interface WidgetDefinition {
      type: string;
@@ -67,6 +74,7 @@
    ```
 
 2. **Node Templates**
+
    ```typescript
    interface NodeTemplate {
      title: string;
@@ -87,11 +95,13 @@
 ## Security Measures
 
 1. **Input Validation**
+
    - Schema-based validation
    - Type checking
    - Sanitization
 
 2. **API Security**
+
    - Authentication handling
    - CORS configuration
    - Rate limiting
@@ -104,11 +114,13 @@
 ## Testing Strategy
 
 1. **Unit Tests**
+
    - Widget behavior
    - Node generation
    - API integration
 
 2. **Integration Tests**
+
    - End-to-end flows
    - Browser compatibility
    - Network conditions
@@ -121,11 +133,13 @@
 ## Future Improvements
 
 1. **Features**
+
    - WebSocket support
    - Custom authentication flows
    - Advanced caching
 
 2. **Performance**
+
    - Worker thread support
    - Virtual scrolling
    - Incremental updates
