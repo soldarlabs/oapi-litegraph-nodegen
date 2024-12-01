@@ -13,7 +13,8 @@
     "lint": "eslint . --ext .ts,.js",
     "format": "prettier --write \"src/**/*.{ts,js}\" \"example/**/*.{ts,js}\"",
     "build:prod": "tsc && NODE_ENV=production node ./example/build.js",
-    "build:dev": "tsc && NODE_ENV=development node ./example/build.js"
+    "build:dev": "tsc && NODE_ENV=development node ./example/build.js",
+    "prettier": "prettier --write \"src/**/*.{js,ts,tsx,jsx,json,css,scss,md}\""
   },
   "keywords": [
     "litegraph",
