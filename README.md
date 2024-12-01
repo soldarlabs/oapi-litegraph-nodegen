@@ -52,15 +52,6 @@ graph.start();
 
 ```typescript
 const generator = new NodeGenerator({
-<<<<<<< HEAD
-  // Prefix for generated node types (default: '').
-  typePrefix: "MyAPI/",
-
-  // Whether to group nodes by tag (default: true).
-  groupByTag: true,
-
-  // Custom widget mappings.
-=======
   // Prefix for generated node types (default: '')
   typePrefix: "MyAPI/",
 
@@ -68,7 +59,6 @@ const generator = new NodeGenerator({
   groupByTag: true,
 
   // Custom widget mappings
->>>>>>> e8db03b (refactor: apply prettier formatting to markdown files)
   widgetMappings: {
     "string:date": "date-picker",
     "string:color": "color-picker",
