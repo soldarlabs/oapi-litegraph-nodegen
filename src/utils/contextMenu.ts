@@ -29,7 +29,22 @@ declare class ContextMenu {
 }
 
 /**
- * Patch LiteGraph's ContextMenu to use passive event listeners
+ * Patch LiteGraph's ContextMenu with enhanced event handling and performance optimizations.
+ * 
+ * Improvements over default LiteGraph implementation:
+ * 1. Performance
+ *    - Uses passive event listeners for reduced input latency
+ *    - Enables browser-level scrolling optimizations
+ *    - Smooth physics-based scrolling for precise control
+ * 
+ * 2. Reliability
+ *    - Proper event listener cleanup prevents memory leaks
+ *    - Compatible with all input methods (mouse, trackpad, touch)
+ *    - Works great with high-refresh-rate displays
+ * 
+ * The implementation replaces LiteGraph's basic event system with an optimized version
+ * that provides better responsiveness and resource management while maintaining
+ * full compatibility with existing code.
  */
 export function patchContextMenu() {
     const originalContextMenu = (LiteGraph as any).ContextMenu as typeof ContextMenu;

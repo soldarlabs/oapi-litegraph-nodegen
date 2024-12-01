@@ -2,7 +2,7 @@
  * @file Contains the class definition for the OpenAPI nodes.
  */
 import { LGraphNode, IWidget, LiteGraph, LLink, INodeInputSlot, INodeOutputSlot } from "litegraph.js";
-import { getWidgetForParameter, WidgetType } from "./widgets.js";
+import { getWidgetConfigForParameter } from "./widgets.js";
 import { addAlignedWidget, customizeNodeAppearance, calculateNodeSize } from "./visualWidgets.js";
 import { logger } from "./utils/logger.js";
 
@@ -65,7 +65,7 @@ export class OpenAPINode extends LGraphNode {
         this.addInput(param.name, paramType);
         
         // Add widget based on parameter type and format
-        const widgetConfig = getWidgetForParameter(schema);
+        const widgetConfig = getWidgetConfigForParameter(schema);
         const widget = addAlignedWidget(
           this,
           this.inputIndex++,
@@ -99,7 +99,7 @@ export class OpenAPINode extends LGraphNode {
             this.addInput(propName, propType);
 
             // Add widget based on property type and format
-            const widgetConfig = getWidgetForParameter(propSchema);
+            const widgetConfig = getWidgetConfigForParameter(propSchema);
             const widget = addAlignedWidget(
               this,
               this.inputIndex++,
