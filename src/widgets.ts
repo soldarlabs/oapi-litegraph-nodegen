@@ -2,7 +2,7 @@
  * @file Contains widget mappings and utilities for OpenAPI node inputs.
  */
 
-// These are the widget types supported by LiteGraph.js.
+// These are the widget types supported by LiteGraph.js
 export type WidgetType =
   | "number"
   | "slider"

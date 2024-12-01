@@ -43,7 +43,7 @@ export class CanvasWrapper {
   }
 
   /**
-   * Sets up high-DPI aware resize handling.
+   * Sets up high-DPI aware resize handling
    */
   private setupResizeHandling() {
     const updateCanvas = () => {
@@ -92,14 +92,14 @@ export class CanvasWrapper {
   }
 
   /**
-   * Gets the underlying LGraphCanvas instance.
+   * Gets the underlying LGraphCanvas instance
    */
   public getGraphCanvas(): LGraphCanvas {
     return this.graphCanvas;
   }
 
   /**
-   * Gets the underlying canvas element.
+   * Gets the underlying canvas element
    */
   public getCanvas(): HTMLCanvasElement {
     return this.canvas;

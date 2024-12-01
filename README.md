@@ -52,13 +52,13 @@ graph.start();
 
 ```typescript
 const generator = new NodeGenerator({
-  // Prefix for generated node types (default: '')
+  // Prefix for generated node types (default: '').
   typePrefix: "MyAPI/",
 
-  // Whether to group nodes by tag (default: true)
+  // Whether to group nodes by tag (default: true).
   groupByTag: true,
 
-  // Custom widget mappings
+  // Custom widget mappings.
   widgetMappings: {
     "string:date": "date-picker",
     "string:color": "color-picker",

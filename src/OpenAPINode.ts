@@ -9,7 +9,7 @@ import {
   INodeInputSlot,
   INodeOutputSlot,
 } from "litegraph.js";
-import { getWidgetConfigForParameter, WidgetType } from "./widgets.js";
+import { getWidgetConfigForParameter } from "./widgets.js";
 import {
   addAlignedWidget,
   customizeNodeAppearance,
