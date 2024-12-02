@@ -23,6 +23,7 @@ Before creating bug reports, please check the issue list as you might find out t
   - Node.js version
   - npm version
   - Library version
+  - Next.js version (if using the demo)
 
 ### Suggesting Enhancements
 
@@ -53,6 +54,25 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 5. Make sure your code lints
 6. Issue that pull request!
 
+### Project Structure
+
+```
+oapi-litegraph-nodegen/
+├── src/                    # Source code
+│   ├── utils/             # Utility functions and helpers
+│   │   ├── canvasWrapper.ts   # Canvas handling utilities
+│   │   └── contextMenu.ts     # Context menu functionality
+│   ├── widgets.ts         # Widget definitions and configurations
+│   ├── visualWidgets.ts   # Visual widget implementations
+│   └── OpenAPINode.ts     # Core node implementation
+├── demo/                  # Next.js demo application
+│   ├── pages/            # Next.js pages
+│   ├── styles/           # CSS styles
+│   └── public/           # Static files and OpenAPI specs
+├── test/                 # Test files
+└── dist/                 # Compiled output
+```
+
 ### Setting Up Development Environment
 
 1. Clone your fork:
@@ -68,7 +88,14 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
    npm install
    ```
 
-3. Build the library:
+3. Install demo dependencies:
+
+   ```bash
+   cd demo
+   npm install
+   ```
+
+4. Create a branch:
 
    ```bash
    npm run build
@@ -86,27 +113,15 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
    git checkout -b my-feature
    ```
 
-### Development Workflow
+### Running the Demo
 
-The project uses Vite for development, providing features like hot module reloading for instant feedback:
+```bash
+# From the root directory
+cd demo
+npm run dev
+```
 
-1. Start the development server:
-
-   ```bash
-   # From the root directory
-   npm run start:demo
-   ```
-
-2. Make changes to the code:
-
-   - Source files in `src/` will trigger TypeScript compilation
-   - Demo files in `demo/` will trigger instant updates in the browser
-   - OpenAPI specifications can be modified in `demo/public/`
-
-3. View changes:
-   - The demo runs at `http://localhost:5173`
-   - Changes to source files require rebuilding with `npm run build`
-   - Changes to demo files are reflected instantly
+The demo will be available at `http://localhost:3000`
 
 ### Running Tests
 
@@ -165,3 +180,7 @@ We also welcome financial contributions. You can support the project through:
 ## Questions?
 
 Feel free to open an issue with the tag `question`.
+
+## License
+
+By contributing, you agree that your contributions will be licensed under its MIT License.
