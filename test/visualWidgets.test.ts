@@ -7,8 +7,6 @@ import {
 import {
   LGraph,
   LGraphNode,
-  IWidget,
-  Vector2,
   LGraphCanvas,
 } from "litegraph.js";
 

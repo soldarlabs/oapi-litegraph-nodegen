@@ -156,7 +156,6 @@ export function customizeNodeAppearance(node: LGraphNode) {
   };
 
   // Override getConnectionPos for better alignment.
-  const originalGetConnectionPos = node.getConnectionPos.bind(node);
   node.getConnectionPos = function (
     is_input: boolean,
     slot: number | string,
