@@ -17,11 +17,20 @@ export class CanvasWrapper {
   private options: CanvasOptions;
 
   constructor(
-    canvas: HTMLCanvasElement,
+    canvas: HTMLCanvasElement | string,
     graph: LGraph,
     options: CanvasOptions = {},
   ) {
-    this.canvas = canvas;
+    if (typeof canvas === "string") {
+      const canvasElement = document.querySelector(canvas) as HTMLCanvasElement;
+      if (!canvasElement) {
+        throw new Error(`Canvas element not found: ${canvas}`);
+      }
+      this.canvas = canvasElement;
+    } else {
+      this.canvas = canvas;
+    }
+
     this.graph = graph;
     this.options = {
       passive: true,
@@ -30,14 +39,14 @@ export class CanvasWrapper {
     };
 
     // Create the graph canvas first.
-    this.graphCanvas = new LGraphCanvas(canvas, graph);
+    this.graphCanvas = new LGraphCanvas(this.canvas, this.graph);
 
     // Setup resize handling.
     this.setupResizeHandling();
 
     logger.debug("Canvas wrapper initialized", {
       component: "CanvasWrapper",
-      canvasId: canvas.id,
+      canvasId: this.canvas.id,
       options: this.options,
     });
   }

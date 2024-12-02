@@ -70,6 +70,7 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
    ```
 
 3. Create a branch:
+
    ```bash
    git checkout -b my-feature
    ```
@@ -98,6 +99,7 @@ We use ESLint and Prettier to maintain code quality. Before submitting a pull re
    ```
 
 2. Format code:
+
    ```bash
    npm run format
    ```

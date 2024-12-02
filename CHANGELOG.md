@@ -30,6 +30,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Support for complex nested types
 - Added support for modern pointer events
 - Maintained compatibility with older mouse events
+- Next.js-based demo implementation with hot reloading support
+- React integration example in documentation
+- Client-side only rendering for canvas components
+- Proper cleanup handling for canvas and widgets
+- Viewport meta tag for better scaling control
 
 ### Changed
 
@@ -51,6 +56,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved input system handling
   - Smarter type inference from OpenAPI schemas
   - Enhanced connection compatibility checks
+- Replaced static example with Next.js demo
+- Updated documentation to reflect new demo setup
+- Improved canvas scaling using viewport units
+- Enhanced canvas positioning for consistent full-screen display
+- Modified widget positioning to work better with React lifecycle
 
 ### Fixed
 
@@ -82,3 +92,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Optimized widget rendering and updates
   - More efficient input slot connection handling
   - Improved performance on high-DPI displays
+- Canvas scaling issues across different resolutions
+- Widget positioning in Next.js environment
+- Event handling conflicts between React and LiteGraph
+- Full-screen display issues on various aspect ratios
+
+### Removed
+- Old example directory in favor of Next.js demo
+- Redundant canvas initialization code
+- Legacy static HTML implementation

@@ -16,6 +16,23 @@ Generate dynamic and callable LiteGraph nodes from OpenAPI specifications, enabl
 npm install @soldarlabs/oapi-litegraph-nodegen
 ```
 
+## Demo
+
+The project includes a Next.js-based demo that showcases the library's capabilities with hot-reloading support for development:
+
+```bash
+# Navigate to the demo directory
+cd demo
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+```
+
+Visit `http://localhost:3000` to see the demo in action.
+
 ## Quick Start
 
 ```javascript
@@ -38,6 +55,56 @@ generator.registerNodes();
 const canvas = document.getElementById("mycanvas");
 new LGraphCanvas("#mycanvas", graph);
 graph.start();
+```
+
+## React Integration
+
+For React applications, wrap the canvas initialization in a useEffect hook:
+
+```typescript
+import { useEffect, useState } from "react";
+import { LGraph, LiteGraph } from "litegraph.js";
+import { NodeGenerator, CanvasWrapper } from "@soldarlabs/oapi-litegraph-nodegen";
+
+function Graph() {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+    let canvasWrapper = null;
+
+    async function initGraph() {
+      const generator = new NodeGenerator();
+      await generator.addSpec("myApi", "/openapi.yaml");
+      generator.registerNodes();
+
+      const graph = new LGraph();
+      canvasWrapper = new CanvasWrapper("#mycanvas", graph);
+      graph.start();
+    }
+
+    if (isClient) {
+      initGraph();
+    }
+
+    return () => {
+      if (canvasWrapper) {
+        const graphCanvas = canvasWrapper.getGraphCanvas();
+        if (graphCanvas) {
+          graphCanvas.clear();
+        }
+      }
+    };
+  }, [isClient]);
+
+  if (!isClient) return null;
+
+  return (
+    <div id="graph-container">
+      <canvas id="mycanvas" />
+    </div>
+  );
+}
 ```
 
 ## Documentation
