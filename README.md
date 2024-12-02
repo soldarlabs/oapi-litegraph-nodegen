@@ -17,6 +17,23 @@ Generate dynamic and callable LiteGraph nodes from OpenAPI specifications, enabl
 npm install @soldarlabs/oapi-litegraph-nodegen
 ```
 
+## Demo
+
+The project includes a Next.js-based demo that showcases the library's capabilities with hot-reloading support for development:
+
+```bash
+# Navigate to the demo directory
+cd demo
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+```
+
+Visit `http://localhost:3000` to see the demo in action.
+
 ## Quick Start
 
 ```javascript
