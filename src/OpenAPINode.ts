@@ -36,22 +36,23 @@ interface InputData {
  * on the OpenAPI operation.
  */
 export class OpenAPINode extends LGraphNode {
+  // TODO: Make properties private/protected if https://github.com/microsoft/TypeScript/issues/35822 is resolved.
   /**
    * Map of input widgets.
    */
-  private inputWidgets: Map<string, IWidget> = new Map();
+  public inputWidgets: Map<string, IWidget> = new Map();
   /**
    * Map of input values.
    */
-  private inputValues: Map<string, InputData> = new Map();
+  public inputValues: Map<string, InputData> = new Map();
   /**
    * Index of the current input.
    */
-  protected inputIndex: number = 0;
+  public inputIndex: number = 0;
   /**
    * Unique identifier for the node.
    */
-  protected nodeId: string;
+  public nodeId: string;
 
   /**
    * Creates an instance of OpenAPINode.

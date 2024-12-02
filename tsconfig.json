@@ -7,8 +7,11 @@
     "skipLibCheck": true,
     "strict": true,
     "outDir": "dist",
-    "sourceMap": true,
-    "noUncheckedIndexedAccess": true
+    "noEmit": true,
+    "noUncheckedIndexedAccess": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true
   },
   "include": ["src/**/*"]
 }

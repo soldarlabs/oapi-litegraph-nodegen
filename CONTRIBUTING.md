@@ -132,6 +132,7 @@ We use ESLint and Prettier to maintain code quality. Before submitting a pull re
    ```
 
 2. Format code:
+
    ```bash
    npm run format
    ```
