@@ -23,6 +23,7 @@ Before creating bug reports, please check the issue list as you might find out t
   - Node.js version
   - npm version
   - Library version
+  - Next.js version (if using the demo)
 
 ### Suggesting Enhancements
 
@@ -54,6 +55,25 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 5. Make sure your code lints
 6. Issue that pull request!
 
+### Project Structure
+
+```
+oapi-litegraph-nodegen/
+├── src/                    # Source code
+│   ├── utils/             # Utility functions and helpers
+│   │   ├── canvasWrapper.ts   # Canvas handling utilities
+│   │   └── contextMenu.ts     # Context menu functionality
+│   ├── widgets.ts         # Widget definitions and configurations
+│   ├── visualWidgets.ts   # Visual widget implementations
+│   └── OpenAPINode.ts     # Core node implementation
+├── demo/                  # Next.js demo application
+│   ├── pages/            # Next.js pages
+│   ├── styles/           # CSS styles
+│   └── public/           # Static files and OpenAPI specs
+├── test/                 # Test files
+└── dist/                 # Compiled output
+```
+
 ### Setting Up Development Environment
 
 1. Clone your fork:
@@ -69,11 +89,28 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
    npm install
    ```
 
-3. Create a branch:
+3. Install demo dependencies:
+
+   ```bash
+   cd demo
+   npm install
+   ```
+
+4. Create a branch:
 
    ```bash
    git checkout -b my-feature
    ```
+
+### Running the Demo
+
+```bash
+# From the root directory
+cd demo
+npm run dev
+```
+
+The demo will be available at `http://localhost:3000`
 
 ### Running Tests
 
@@ -121,19 +158,6 @@ We use ESLint and Prettier to maintain code quality. Before submitting a pull re
 - Update API documentation for any changes to public APIs
 - Include code examples for new features
 
-## Project Structure
-
-```
-oapi-litegraph-nodegen/
-├── src/                    # Source code
-│   ├── utils/             # Utility functions
-│   ├── nodeGenerator.ts   # Main node generator
-│   └── index.ts          # Public API
-├── example/               # Example implementation
-├── test/                  # Test files
-└── docs/                  # Documentation
-```
-
 ## Financial Contribution
 
 We also welcome financial contributions. You can support the project through:
@@ -145,3 +169,7 @@ We also welcome financial contributions. You can support the project through:
 ## Questions?
 
 Feel free to open an issue with the tag `question`.
+
+## License
+
+By contributing, you agree that your contributions will be licensed under its MIT License.
