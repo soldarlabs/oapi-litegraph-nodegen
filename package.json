@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Generate dynamic and callable LiteGraph nodes from OpenAPI specifications, enabling seamless API integration in a visual programming environment",
   "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist demo/dist node_modules/.cache && npm cache clean --force",

@@ -23,6 +23,7 @@ Before creating bug reports, please check the issue list as you might find out t
   - Node.js version
   - npm version
   - Library version
+  - Next.js version (if using the demo)
 
 ### Suggesting Enhancements
 
@@ -53,6 +54,25 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 5. Make sure your code lints
 6. Issue that pull request!
 
+### Project Structure
+
+```
+oapi-litegraph-nodegen/
+├── src/                    # Source code
+│   ├── utils/             # Utility functions and helpers
+│   │   ├── canvasWrapper.ts   # Canvas handling utilities
+│   │   └── contextMenu.ts     # Context menu functionality
+│   ├── widgets.ts         # Widget definitions and configurations
+│   ├── visualWidgets.ts   # Visual widget implementations
+│   └── OpenAPINode.ts     # Core node implementation
+├── demo/                  # Next.js demo application
+│   ├── pages/            # Next.js pages
+│   ├── styles/           # CSS styles
+│   └── public/           # Static files and OpenAPI specs
+├── test/                 # Test files
+└── dist/                 # Compiled output
+```
+
 ### Setting Up Development Environment
 
 1. Clone your fork:
@@ -82,6 +102,7 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
    ```
 
 5. Create a branch:
+
    ```bash
    git checkout -b my-feature
    ```
@@ -132,6 +153,7 @@ We use ESLint and Prettier to maintain code quality. Before submitting a pull re
    ```
 
 2. Format code:
+
    ```bash
    npm run format
    ```
@@ -164,3 +186,7 @@ We also welcome financial contributions. You can support the project through:
 ## Questions?
 
 Feel free to open an issue with the tag `question`.
+
+## License
+
+By contributing, you agree that your contributions will be licensed under its MIT License.
