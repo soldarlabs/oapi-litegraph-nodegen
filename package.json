@@ -5,15 +5,15 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "clean": "rm -rf dist example/dist node_modules/.cache && npm cache clean --force",
-    "start:example": "npm run clean && npm run build --f && node ./example/build.js --f && npx http-server example -c-1 --cors",
+    "clean": "rm -rf dist demo/dist node_modules/.cache && npm cache clean --force",
+    "start:demo": "cd demo && npm run dev",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "lint": "eslint . --ext .ts,.js",
-    "format": "prettier --write \"src/**/*.{ts,js}\" \"example/**/*.{ts,js}\"",
-    "build:prod": "tsc && NODE_ENV=production node ./example/build.js",
-    "build:dev": "tsc && NODE_ENV=development node ./example/build.js",
+    "format": "prettier --write \"src/**/*.{ts,js}\" \"demo/**/*.{ts,js}\"",
+    "build:prod": "tsc && NODE_ENV=production",
+    "build:dev": "tsc && NODE_ENV=development",
     "prettier": "prettier --write \"src/**/*.{js,ts,tsx,jsx,json,css,scss,md}\""
   },
   "keywords": [

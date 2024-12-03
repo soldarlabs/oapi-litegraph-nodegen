@@ -1,0 +1,24 @@
+{
+  "name": "vite-demo",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@apidevtools/swagger-parser": "^10.1.0",
+    "litegraph.js": "^0.7.18",
+    "loglevel": "^1.9.2",
+    "openapi-client-axios": "^7.5.5",
+    "buffer": "^6.0.3",
+    "process": "^0.11.10"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "vite": "^4.4.0",
+    "vite-plugin-node-polyfills": "^0.22.0"
+  }
+}
