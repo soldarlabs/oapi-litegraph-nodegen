@@ -1,18 +1,18 @@
 import { useEffect } from "react";
-import { LGraph, LiteGraph, LGraphCanvas } from "litegraph.js";
+import { LGraph, LGraphCanvas, LiteGraph } from "litegraph.js";
 import {
   NodeGenerator,
   setLogLevel,
-  CanvasWrapper,
+  optimizeCanvas,
   patchContextMenu,
 } from "oapi-litegraph-nodegen";
 
 export default function Home() {
   useEffect(() => {
     /**
-     * Generate the LiveGraph graph.
+     * Initializes the LiteGraph graph, registers nodes, and applies optimizations.
      */
-    async function generateGraph() {
+    async function initializeGraph() {
       try {
         setLogLevel("debug");
 
@@ -23,41 +23,29 @@ export default function Home() {
           );
         }
 
-        // Configure LiteGraph to use passive event listeners and pointer events.
-        // LiteGraph.pointerevents_method = "pointer"; // Use pointer events instead of mouse events.
-        // // Prevent zoom on wheel by default, but make it passive.
-        // Object.assign(LiteGraph, {
-        //   prevent_zoom_default: false,
-        //   ctrl_shift_zoom_default: true,
-        // });
+        // Create the LiteGraph graph and apply optimizations.
+        const graph = new LGraph();
+        const graphCanvas = new LGraphCanvas("#mycanvas", graph);
+        optimizeCanvas(graphCanvas, { pointerEvents: false });
+        patchContextMenu();
 
-        // Patch the context menu to use passive event listeners.
-        // patchContextMenu();
-
+        // Register LiteGraph nodes for the OpenAPI specification.
         const generator = new NodeGenerator();
         await generator.addSpec("exampleSpec", "/example.openapi.yaml");
         generator.registerNodes();
 
-        const graph = new LGraph();
-
-        // Use our optimized canvas wrapper.
-        new CanvasWrapper("#mycanvas", graph, {
-          passive: true,
-          preventDefaultOnWheel: false,
-        });
-
         graph.start();
       } catch (err) {
-        console.error("Error generating graph:", err);
+        console.error("Error initializing graph:", err);
       }
     }
 
-    generateGraph();
+    initializeGraph();
   }, []);
 
   return (
     <div id="graph-container">
-      <canvas id="mycanvas"/>
+      <canvas id="mycanvas" />
     </div>
   );
 }

@@ -1,6 +1,17 @@
 import { NodeGenerator } from "./nodeGenerator.js";
+
+// Export library utilities.
 import { setLogLevel } from "./utils/logger.js";
-import { CanvasWrapper } from "./utils/canvasWrapper.js";
+import {
+  optimizeCanvas,
+  optimizeCanvasForHighDPI,
+} from "./utils/optim/canvas.js";
 import { patchContextMenu } from "./utils/contextMenu.js";
 
-export { NodeGenerator, setLogLevel, CanvasWrapper, patchContextMenu };
+export {
+  NodeGenerator,
+  setLogLevel,
+  optimizeCanvas,
+  optimizeCanvasForHighDPI,
+  patchContextMenu,
+};

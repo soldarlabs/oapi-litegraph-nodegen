@@ -1,25 +1,27 @@
 {
   "name": "demo",
-  "description": "Oapi Litegraph Nodegen demo",
   "version": "0.1.0",
   "private": true,
+  "description": "Oapi Litegraph Nodegen demo",
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "next dev",
+    "lint": "next lint",
+    "sort-package-json": "sort-package-json",
+    "start": "next start"
   },
   "dependencies": {
     "litegraph.js": "^0.7.18",
     "next": "15.0.3",
+    "oapi-litegraph-nodegen": "file:../",
     "react": "19.0.0-rc-66855b96-20241106",
-    "react-dom": "19.0.0-rc-66855b96-20241106",
-    "oapi-litegraph-nodegen": "file:../"
+    "react-dom": "19.0.0-rc-66855b96-20241106"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "sort-package-json": "^2.12.0",
     "typescript": "^5"
   }
 }

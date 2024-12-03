@@ -2,20 +2,6 @@
   "name": "oapi-litegraph-nodegen",
   "version": "1.0.0",
   "description": "Generate dynamic and callable LiteGraph nodes from OpenAPI specifications, enabling seamless API integration in a visual programming environment",
-  "type": "module",
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "NODE_ENV=production tsup",
-    "dev": "NODE_ENV=development tsup",
-    "clean": "rimraf dist node_modules/.cache && npm cache clean --force",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "lint": "eslint . --ext .ts,.js",
-    "format": "prettier --write 'src/**/*.{js,ts,tsx,jsx,json,css,scss,md}'"
-  },
   "keywords": [
     "litegraph",
     "openapi",
@@ -24,17 +10,35 @@
     "visual-programming",
     "api-integration"
   ],
-  "author": "Rick Staa",
-  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/soldarlabs/oapi-litegraph-nodegen/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/soldarlabs/oapi-litegraph-nodegen"
   },
-  "bugs": {
-    "url": "https://github.com/soldarlabs/oapi-litegraph-nodegen/issues"
+  "license": "MIT",
+  "author": "Rick Staa",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "NODE_ENV=production tsup",
+    "clean": "rimraf dist node_modules/.cache && npm cache clean --force",
+    "dev": "NODE_ENV=development tsup",
+    "format": "prettier --write 'src/**/*.{js,ts,tsx,jsx,json,css,scss,md}'",
+    "lint": "eslint . --ext .ts,.js",
+    "sort-package-json": "sort-package-json",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch"
   },
-  "engines": {
-    "node": ">=18.0.0"
+  "dependencies": {
+    "@apidevtools/swagger-parser": "^10.1.0",
+    "litegraph.js": "^0.7.18",
+    "loglevel": "^1.9.2",
+    "openapi-client-axios": "^7.5.5"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
@@ -50,15 +54,13 @@
     "nock": "^13.5.6",
     "prettier": "^3.0.0",
     "rimraf": "^6.0.1",
+    "sort-package-json": "^2.12.0",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.1",
     "tsup": "^8.3.5",
     "typescript": "^5.0.0"
   },
-  "dependencies": {
-    "@apidevtools/swagger-parser": "^10.1.0",
-    "litegraph.js": "^0.7.18",
-    "loglevel": "^1.9.2",
-    "openapi-client-axios": "^7.5.5"
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
