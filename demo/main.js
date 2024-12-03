@@ -1,20 +1,19 @@
-import { NodeGenerator, setLogLevel } from "../src";
+import "./style.css";
 import { LGraph, LiteGraph } from "litegraph.js";
-import { CanvasWrapper } from "../src/utils/canvasWrapper.js";
-import { patchContextMenu } from "../src/utils/contextMenu.js";
+import { NodeGenerator, setLogLevel } from "../dist/index.js";
+import { CanvasWrapper } from "../dist/utils/canvasWrapper.js";
+import { patchContextMenu } from "../dist/utils/contextMenu.js";
+
+// Expose LGraph globally for audio nodes
+if (typeof window !== "undefined") {
+  window.LGraph = LGraph;
+}
 
 /**
  * Generate a graph using the NodeGenerator class and display it in the browser.
  */
 async function generateGraph() {
   setLogLevel("debug");
-
-  // Wait for DOM to be ready.
-  if (document.readyState === "loading") {
-    await new Promise((resolve) =>
-      document.addEventListener("DOMContentLoaded", resolve)
-    );
-  }
 
   // Configure LiteGraph to use passive event listeners and pointer events.
   LiteGraph.pointerevents_method = "pointer"; // Use pointer events instead of mouse events.
@@ -28,7 +27,8 @@ async function generateGraph() {
   patchContextMenu();
 
   const generator = new NodeGenerator();
-  await generator.addSpec("exampleSpec", "./openapi.yaml");
+  // Point to the correct OpenAPI file in the demo directory
+  await generator.addSpec("openai", "./openapi.yaml");
   generator.registerNodes();
 
   const canvas = document.querySelector("#mycanvas");
@@ -49,5 +49,5 @@ async function generateGraph() {
 }
 
 generateGraph().catch((err) => {
-  console.error("Error generating graph:", err);
+  console.error("Failed to generate graph:", err);
 });
