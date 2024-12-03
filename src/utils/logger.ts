@@ -23,7 +23,7 @@ class Logger {
   private constructor() {
     // Set default level based on environment.
     const defaultLevel: LogLevelDesc =
-      process.env.NODE_ENV === "production" ? "INFO" : "DEBUG";
+      process.env.NODE_ENV === "production" ? "WARN" : "DEBUG";
     log.setLevel(defaultLevel);
 
     // Override log methods to add structure.
@@ -32,6 +32,11 @@ class Logger {
       const rawMethod = originalFactory(methodName, logLevel, loggerName);
 
       return (message: any, context?: LogContext, error?: Error) => {
+        // In production, only log WARN and above
+        if (process.env.NODE_ENV === "production" && logLevel < log.levels.WARN) {
+          return;
+        }
+
         const logEntry: LogEntry = {
           timestamp: new Date().toISOString(),
           level: methodName.toUpperCase(),

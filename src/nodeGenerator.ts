@@ -92,10 +92,10 @@ export class NodeGenerator {
   public removeSpec(key: string): boolean {
     if (this.openApiSpecs[key]) {
       delete this.openApiSpecs[key];
-      console.log(`OpenAPI spec '${key}' has been removed.`);
+      log.debug(`OpenAPI spec '${key}' has been removed.`, { operation: 'removeSpec', key });
       return true;
     } else {
-      console.warn(`OpenAPI spec '${key}' does not exist.`);
+      log.warn(`OpenAPI spec '${key}' does not exist.`, { operation: 'removeSpec', key });
       return false;
     }
   }
@@ -106,12 +106,12 @@ export class NodeGenerator {
    *
    * @example
    * ```typescript
-   * generator.removeAllSpecs();
+   * generator.clearSpecs();
    * ```
    */
-  public removeAllSpecs(): void {
+  public clearSpecs(): void {
     this.openApiSpecs = {};
-    console.log("All OpenAPI specs have been removed.");
+    log.debug("All OpenAPI specs have been removed.", { operation: 'clearSpecs' });
   }
 
   /**
