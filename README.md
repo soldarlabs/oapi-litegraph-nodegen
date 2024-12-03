@@ -9,6 +9,7 @@ Generate dynamic and callable LiteGraph nodes from OpenAPI specifications, enabl
 - **Interactive Widgets**: Rich set of input widgets based on OpenAPI parameter types
 - **High Performance**: Optimized event handling and canvas rendering
 - **Easy Integration**: Simple API for adding OpenAPI specs and registering nodes
+- **Hot Reloading**: Development server with Vite for instant feedback
 
 ## Installation
 
@@ -40,9 +41,30 @@ new LGraphCanvas("#mycanvas", graph);
 graph.start();
 ```
 
+## Running the Demo
+
+The demo uses Vite for hot module reloading and fast development:
+
+```bash
+# Clone the repository
+git clone https://github.com/soldarlabs/oapi-litegraph-nodegen.git
+cd oapi-litegraph-nodegen
+
+# Install dependencies
+npm install
+
+# Build the library
+npm run build
+
+# Start the demo
+npm run start:demo
+```
+
+The demo will be available at `http://localhost:5173` with hot reloading enabled.
+
 ## Documentation
 
-- [Architecture Overview](docs/ARCHITECTURE.md): System design, components, and data flow
+- [Architecture Overview](docs/ARCHITECTURE.md): System design and components
 - [Troubleshooting Guide](docs/TROUBLESHOOTING.md): Common issues and solutions
 - [Contributing Guide](CONTRIBUTING.md): Development setup and guidelines
 
@@ -52,13 +74,8 @@ graph.start();
 
 ```typescript
 const generator = new NodeGenerator({
-  // Prefix for generated node types (default: '').
-  typePrefix: "MyAPI/",
-
-  // Whether to group nodes by tag (default: true).
-  groupByTag: true,
-
-  // Custom widget mappings.
+  typePrefix: "MyAPI/", // Prefix for generated node types
+  groupByTag: true, // Group nodes by OpenAPI tags
   widgetMappings: {
     "string:date": "date-picker",
     "string:color": "color-picker",
@@ -76,6 +93,15 @@ The library automatically selects appropriate widgets based on OpenAPI parameter
 - **Enum**: Combo box widget
 - **Object**: Nested properties with individual widgets
 - **Array**: Dynamic list of widgets
+
+## Development
+
+The project uses modern tooling:
+
+- **TypeScript** for type-safe code
+- **Vite** for fast development and hot module reloading
+- **Jest** for testing
+- **ESLint** and **Prettier** for code quality
 
 ## Browser Support
 

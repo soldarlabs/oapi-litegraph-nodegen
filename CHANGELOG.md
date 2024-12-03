@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Modernized development environment with Vite
+  - Hot Module Reloading (HMR) for instant feedback
+  - Fast development server with source maps
+  - Improved build performance and caching
+- New demo application structure
+  - Moved from example to dedicated demo directory
+  - Better organization of static files and OpenAPI specs
+  - Improved development workflow
+- Enhanced Node.js polyfills support
+  - Added vite-plugin-node-polyfills for better compatibility
+  - Proper handling of Buffer and process globals
+  - Improved ESM module support
 - New `CanvasWrapper` class in `src/utils/canvasWrapper.ts` for improved canvas handling
   - High-DPI display support
   - Automatic resize handling
@@ -33,6 +45,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Migrated from basic HTTP server to Vite development server
+  - Faster development feedback loop
+  - Better error reporting and debugging
+  - Improved module resolution
+- Updated project structure
+  - Separated demo from core library code
+  - Better organization of static assets
+  - Clearer separation of concerns
+- Improved documentation
+  - Added Vite-specific troubleshooting guides
+  - Updated development workflow documentation
+  - Enhanced architecture documentation with build system details
 - Updated `example.js` configuration
   - Using pointer events instead of mouse events
   - Configured wheel zoom behavior
@@ -54,6 +78,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Build issues with node polyfills
+  - Properly configured vite-plugin-node-polyfills
+  - Fixed Buffer and process global objects
+  - Resolved ESM compatibility issues
+- Development server CORS issues
+  - Added proper CORS configuration
+  - Fixed file system access permissions
+  - Improved security settings
+- Hot reload inconsistencies
+  - Better handling of TypeScript compilation
+  - Improved module invalidation
+  - Fixed source map generation
 - Context menu scrolling performance
   - Added passive event listeners for wheel events
   - Improved scroll handling without blocking the main thread

@@ -33,7 +33,6 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 - Provide specific examples to demonstrate the steps
 - Describe the current behavior and explain which behavior you expected to see instead
 - Explain why this enhancement would be useful
-- List some other tools or applications where this enhancement exists
 
 ### Pull Requests
 
@@ -69,10 +68,45 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
    npm install
    ```
 
-3. Create a branch:
+3. Build the library:
+
+   ```bash
+   npm run build
+   ```
+
+4. Install demo dependencies:
+
+   ```bash
+   cd demo
+   npm install
+   ```
+
+5. Create a branch:
    ```bash
    git checkout -b my-feature
    ```
+
+### Development Workflow
+
+The project uses Vite for development, providing features like hot module reloading for instant feedback:
+
+1. Start the development server:
+
+   ```bash
+   # From the root directory
+   npm run start:demo
+   ```
+
+2. Make changes to the code:
+
+   - Source files in `src/` will trigger TypeScript compilation
+   - Demo files in `demo/` will trigger instant updates in the browser
+   - OpenAPI specifications can be modified in `demo/public/`
+
+3. View changes:
+   - The demo runs at `http://localhost:5173`
+   - Changes to source files require rebuilding with `npm run build`
+   - Changes to demo files are reflected instantly
 
 ### Running Tests
 
@@ -118,19 +152,6 @@ We use ESLint and Prettier to maintain code quality. Before submitting a pull re
 - Update README.md for any user-facing changes
 - Update API documentation for any changes to public APIs
 - Include code examples for new features
-
-## Project Structure
-
-```
-oapi-litegraph-nodegen/
-├── src/                    # Source code
-│   ├── utils/             # Utility functions
-│   ├── nodeGenerator.ts   # Main node generator
-│   └── index.ts          # Public API
-├── example/               # Example implementation
-├── test/                  # Test files
-└── docs/                  # Documentation
-```
 
 ## Financial Contribution
 
