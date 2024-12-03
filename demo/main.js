@@ -28,7 +28,7 @@ async function generateGraph() {
 
   const generator = new NodeGenerator();
   // Point to the correct OpenAPI file in the demo directory
-  await generator.addSpec("openai", "./openapi.yaml");
+  await generator.addSpec("example-demo", "./openapi.yaml");
   generator.registerNodes();
 
   const canvas = document.querySelector("#mycanvas");

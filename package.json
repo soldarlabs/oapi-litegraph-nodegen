@@ -7,7 +7,7 @@
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsup",
     "clean": "rm -rf dist demo/dist node_modules/.cache && npm cache clean --force",
     "start:demo": "cd demo && npm install && npm run build && npm run dev",
     "test": "jest",
@@ -15,8 +15,8 @@
     "test:coverage": "jest --coverage",
     "lint": "eslint . --ext .ts,.js",
     "format": "prettier --write \"src/**/*.{ts,js}\" \"demo/**/*.{ts,js}\"",
-    "build:prod": "tsc && NODE_ENV=production",
-    "build:dev": "tsc && NODE_ENV=development",
+    "build:prod": "NODE_ENV=production tsup",
+    "build:dev": "NODE_ENV=development tsup",
     "prettier": "prettier --write \"src/**/*.{js,ts,tsx,jsx,json,css,scss,md}\" \"**/*.{md}\"",
     "deps:update": "ncu -u && npm install",
     "deps:check": "ncu"
@@ -59,6 +59,7 @@
     "prettier": "^3.4.1",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
+    "tsup": "^8.3.5",
     "typescript": "^5.7.2"
   },
   "dependencies": {

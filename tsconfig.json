@@ -7,8 +7,6 @@
     "skipLibCheck": true,
     "strict": true,
     "outDir": "dist",
-    "noEmit": true,
-    "noUncheckedIndexedAccess": true,
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true
