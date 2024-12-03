@@ -16,7 +16,7 @@
     "lint": "eslint . --ext .ts,.js",
     "format": "prettier --write \"src/**/*.{ts,js}\" \"demo/**/*.{ts,js}\"",
     "build:prod": "NODE_ENV=production tsup",
-    "build:dev": "NODE_ENV=development tsup",
+    "build:dev": "NODE_ENV=development tsup --watch",
     "prettier": "prettier --write \"src/**/*.{js,ts,tsx,jsx,json,css,scss,md}\" \"**/*.{md}\"",
     "deps:update": "ncu -u && npm install",
     "deps:check": "ncu"

@@ -1,8 +1,7 @@
 import "./style.css";
-import { LGraph, LiteGraph } from "litegraph.js";
+import { LGraph, LiteGraph, LGraphCanvas } from "litegraph.js";
 import { NodeGenerator, setLogLevel } from "../dist/index.js";
-import { CanvasWrapper } from "../dist/utils/canvasWrapper.js";
-import { patchContextMenu } from "../dist/utils/contextMenu.js";
+import { optimizeCanvas, optimizeCanvasForHighDPI } from "../dist/utils/optim/canvas.js";
 
 // Expose LGraph globally for audio nodes
 if (typeof window !== "undefined") {
@@ -23,9 +22,6 @@ async function generateGraph() {
     ctrl_shift_zoom_default: true,
   });
 
-  // Patch the context menu to use passive event listeners.
-  patchContextMenu();
-
   const generator = new NodeGenerator();
   // Point to the correct OpenAPI file in the demo directory
   await generator.addSpec("example-demo", "./openapi.yaml");
@@ -39,11 +35,13 @@ async function generateGraph() {
 
   const graph = new LGraph();
 
-  // Use our optimized canvas wrapper.
-  new CanvasWrapper(canvas, graph, {
+  // Optimize the canvas directly instead of using CanvasWrapper.
+  const graphCanvas = new LGraphCanvas(canvas, graph);
+  optimizeCanvas(graphCanvas, {
     passive: true,
     preventDefaultOnWheel: false,
   });
+  optimizeCanvasForHighDPI(graphCanvas);
 
   graph.start();
 }

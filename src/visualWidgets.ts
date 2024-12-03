@@ -13,7 +13,7 @@ const NODE_CONSTANTS = {
   MIN_WIDTH: 250, // Minimum node width
   MIN_HEIGHT: 120, // Minimum node height
   OUTPUT_MARGIN: 15, // Output margin
-  RIGHT_MARGIN: 5, // Right margin
+  RIGHT_MARGIN: 10, // Right margin
 };
 
 /**
