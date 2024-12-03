@@ -2,6 +2,25 @@
  * @file Contains widget mappings and utilities for OpenAPI node inputs.
  */
 
+import { clamp, hex2num, num2hex, colorToString } from "./utils/mathUtils.js";
+
+// Make utility functions available globally for LiteGraph
+declare global {
+  interface Window {
+    clamp: typeof clamp;
+    hex2num: typeof hex2num;
+    num2hex: typeof num2hex;
+    colorToString: typeof colorToString;
+  }
+}
+
+if (typeof window !== "undefined") {
+  window.clamp = clamp;
+  window.hex2num = hex2num;
+  window.num2hex = num2hex;
+  window.colorToString = colorToString;
+}
+
 // These are the widget types supported by LiteGraph.js.
 export type WidgetType =
   | "number"

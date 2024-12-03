@@ -44,6 +44,133 @@
    - Clear event listeners when destroying graph
    - Monitor browser memory usage
 
+### Build Issues
+
+1. **TypeScript Compilation Errors**
+
+   ```
+   Error: Cannot find module '../dist/index.js'
+   ```
+
+   **Solution**: Make sure to build the library before starting the demo:
+
+   ```bash
+   npm run build
+   ```
+
+2. **Vite Build Errors**
+
+   ```
+   Error: Failed to resolve import "litegraph.js"
+   ```
+
+   **Solution**: Check that all dependencies are installed in the demo directory:
+
+   ```bash
+   cd demo
+   npm install
+   ```
+
+3. **Node Polyfill Issues**
+
+   ```
+   ReferenceError: Buffer is not defined
+   ```
+
+   **Solution**: Make sure vite-plugin-node-polyfills is properly configured in vite.config.js:
+
+   ```javascript
+   plugins: [
+     nodePolyfills({
+       globals: {
+         Buffer: true,
+         global: true,
+       },
+     }),
+   ];
+   ```
+
+### Development Server Issues
+
+1. **Hot Reload Not Working**
+
+   **Symptoms**:
+
+   - Changes not reflecting in browser
+   - Need to manually refresh
+
+   **Solutions**:
+
+   - Check that you're editing the correct files
+   - Ensure you're running `npm run start:demo`
+   - Clear browser cache and reload
+
+2. **CORS Errors**
+
+   ```
+   Access to fetch at '...' has been blocked by CORS policy
+   ```
+
+   **Solution**: Update Vite config to allow necessary origins:
+
+   ```javascript
+   server: {
+     cors: true,
+     fs: {
+       allow: ['..'],
+     },
+   }
+   ```
+
+3. **Port Conflicts**
+
+   ```
+   Error: Port 5173 is already in use
+   ```
+
+   **Solution**: Either:
+
+   - Kill the process using the port
+   - Use a different port: `npm run dev -- --port 3000`
+
+### Runtime Issues
+
+1. **Node Generation Failures**
+
+   ```
+   Error: Could not find schema for operation
+   ```
+
+   **Solutions**:
+
+   - Check OpenAPI spec path in demo/public/
+   - Verify spec format and validity
+   - Look for console errors about schema parsing
+
+2. **Widget Rendering Issues**
+
+   ```
+   TypeError: Cannot read property 'value' of undefined
+   ```
+
+   **Solutions**:
+
+   - Check widget initialization in node constructor
+   - Verify property types in OpenAPI spec
+   - Look for missing widget definitions
+
+3. **API Request Failures**
+
+   ```
+   Error: Failed to fetch
+   ```
+
+   **Solutions**:
+
+   - Check API endpoint availability
+   - Verify authentication setup
+   - Look for CORS or network issues
+
 ## Debugging Techniques
 
 ### Debug Mode
@@ -105,6 +232,46 @@ setLogLevel("debug");
    - Minimize number of nodes
    - Use efficient data structures
    - Implement proper cleanup
+
+## Development Tips
+
+### Debugging
+
+1. **Source Maps**
+
+   - Source maps are enabled in development
+   - Use browser devtools to debug TypeScript
+   - Set breakpoints in original source
+
+2. **Console Logging**
+
+   - Use `setLogLevel("debug")` for verbose output
+   - Check browser console for errors
+   - Monitor network requests in devtools
+
+3. **Hot Reload**
+   - Changes to demo files reload instantly
+   - Library changes require rebuild
+   - Use `console.log` for quick debugging
+
+### Performance
+
+1. **Build Size**
+
+   - Use production build for deployment
+   - Enable minification in vite.config.js
+   - Monitor chunk sizes in build output
+
+2. **Memory Leaks**
+
+   - Dispose nodes properly
+   - Clean up event listeners
+   - Monitor memory usage in devtools
+
+3. **Network**
+   - Use local development server
+   - Cache API responses when possible
+   - Monitor network tab for bottlenecks
 
 ## Getting Help
 

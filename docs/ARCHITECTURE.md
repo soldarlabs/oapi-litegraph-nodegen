@@ -23,6 +23,30 @@
    - Manages widget lifecycle and updates
    - Handles widget validation
 
+### Development Environment
+
+1. **Build System**
+
+   ```
+   TypeScript → TSC → ESM Modules → Vite → Browser
+   ```
+
+   - TypeScript for type safety and modern JavaScript features
+   - TSC for compiling library code
+   - Vite for development server and hot module reloading
+   - ESM modules for better tree-shaking and modern module loading
+
+2. **Demo Application**
+
+   ```
+   Source Files → Vite Dev Server → Hot Module Reloading → Browser
+   ```
+
+   - Vite dev server for instant updates
+   - Hot module reloading for rapid development
+   - Source maps for easy debugging
+   - OpenAPI specs in public directory for easy modification
+
 ### Data Flow
 
 1. **Initialization**
@@ -55,11 +79,13 @@
    - Minimized DOM updates
    - Efficient event handling
    - Batched widget updates
+   - Hot module reloading for development
 
 3. **Network Efficiency**
    - Request debouncing
    - Response caching
    - Connection pooling
+   - Development server with instant updates
 
 ## Extension Points
 
@@ -92,6 +118,53 @@
    }
    ```
 
+## Project Structure
+
+```
+oapi-litegraph-nodegen/
+├── src/                    # Library source code
+│   ├── utils/             # Utility functions
+│   ├── nodeGenerator.ts   # Main node generator
+│   └── index.ts           # Public API
+├── demo/                   # Demo application
+│   ├── public/            # Static files and OpenAPI specs
+│   ├── src/               # Demo-specific code
+│   └── index.html         # Demo entry point
+├── dist/                   # Compiled library output
+├── test/                   # Test files
+└── docs/                   # Documentation
+```
+
+## Development Workflow
+
+1. **Library Development**
+
+   ```
+   Edit TypeScript → TSC Watch → Update Demo → Hot Reload
+   ```
+
+   - TypeScript compilation with source maps
+   - Automatic rebuilding on changes
+   - Hot module reloading in demo
+
+2. **Demo Development**
+
+   ```
+   Edit Demo Files → Vite Dev Server → Instant Updates
+   ```
+
+   - Fast development server
+   - Hot module replacement
+   - Source maps for debugging
+
+3. **Testing**
+   ```
+   Jest → TypeScript → Code Coverage
+   ```
+   - Unit tests with Jest
+   - Integration tests with demo
+   - Automated CI/CD pipeline
+
 ## Security Measures
 
 1. **Input Validation**
@@ -102,49 +175,11 @@
 
 2. **API Security**
 
-   - Authentication handling
    - CORS configuration
    - Rate limiting
+   - Authentication handling
 
-3. **Error Handling**
-   - Safe error messages
-   - Request timeouts
-   - Fallback mechanisms
-
-## Testing Strategy
-
-1. **Unit Tests**
-
-   - Widget behavior
-   - Node generation
-   - API integration
-
-2. **Integration Tests**
-
-   - End-to-end flows
-   - Browser compatibility
-   - Network conditions
-
-3. **Performance Tests**
-   - Load testing
-   - Memory profiling
-   - Rendering benchmarks
-
-## Future Improvements
-
-1. **Features**
-
-   - WebSocket support
-   - Custom authentication flows
-   - Advanced caching
-
-2. **Performance**
-
-   - Worker thread support
-   - Virtual scrolling
-   - Incremental updates
-
-3. **Developer Experience**
-   - Better error messages
-   - Development tools
-   - Documentation improvements
+3. **Development Security**
+   - Secure development server
+   - Environment variable handling
+   - Dependency scanning
