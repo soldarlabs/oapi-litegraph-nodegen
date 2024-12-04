@@ -28,24 +28,6 @@ export class NodeGenerator {
   private openApiSpecs: { [key: string]: any } = {};
 
   /**
-   * Validates if a string represents a valid URL.
-   * Used internally to determine how to load OpenAPI specifications.
-   *
-   * @param str - The string to validate as a URL.
-   * @returns True if the string is a valid URL, false otherwise.
-   *
-   * @internal
-   */
-  private isValidUrl(str: string): boolean {
-    try {
-      new URL(str);
-      return true;
-    } catch (_) {
-      return false;
-    }
-  }
-
-  /**
    * Adds an OpenAPI specification to the generator.
    * The specification can be loaded from either a local file path or a URL.
    *
