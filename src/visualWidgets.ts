@@ -4,7 +4,7 @@
 import { LGraphNode, IWidget, Vector2 } from "litegraph.js";
 import { WidgetConfig } from "./widgets.js";
 
-const NODE_CONSTANTS = {
+export const NODE_CONSTANTS = {
   INPUT_HEIGHT: 30, // Height for inputs and widgets
   HEADER_HEIGHT: 30, // Header height
   FOOTER_HEIGHT: 30, // Footer height

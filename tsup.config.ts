@@ -8,6 +8,7 @@ export default defineConfig({
     "src/nodeGenerator.ts",
     "src/OpenAPINode.ts",
     "src/visualWidgets.ts",
+    "src/*.ts",
     "src/widgets.ts",
     "src/utils/*.ts",
     "src/utils/optim/*.ts",
