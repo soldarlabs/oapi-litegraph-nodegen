@@ -162,13 +162,13 @@ The project uses a watch-based development workflow with Vite for instant feedba
 ### Running Tests
 
 ```bash
-# Run all tests
+# Run all tests.
 npm test
 
-# Run tests in watch mode
+# Run tests in watch mode.
 npm run test:watch
 
-# Run tests with coverage
+# Run tests with coverage.
 npm run test:coverage
 ```
 

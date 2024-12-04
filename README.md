@@ -22,13 +22,13 @@ npm install @soldarlabs/oapi-litegraph-nodegen
 The project includes a Next.js-based demo that showcases the library's capabilities with hot-reloading support for development:
 
 ```bash
-# Navigate to the demo directory
+# Navigate to the demo directory.
 cd demo
 
-# Install dependencies
+# Install dependencies.
 npm install
 
-# Start the development server
+# Start the development server.
 npm run dev
 ```
 
@@ -43,16 +43,16 @@ import {
 } from "@soldarlabs/oapi-litegraph-nodegen";
 import { LGraph, LGraphCanvas } from "litegraph.js";
 
-// Create a new graph
+// Create a new graph.
 const graph = new LGraph();
 const canvas = new LGraphCanvas("#graphcanvas", graph);
 
-// Apply canvas optimizations (optional)
+// Apply canvas optimizations (optional).
 optimizeCanvas(canvas, {
-  pointerEvents: true,  // Enable pointer events for better performance
+  pointerEvents: true,  // Enable pointer events for better performance.
 });
 
-// Initialize the node generator
+// Initialize the node generator.
 const generator = new NodeGenerator();
 
 // Add an OpenAPI specification.
@@ -70,17 +70,17 @@ canvas.start();
 The demo uses Vite for hot module reloading and fast development:
 
 ```bash
-# Clone the repository
+# Clone the repository.
 git clone https://github.com/soldarlabs/oapi-litegraph-nodegen.git
 cd oapi-litegraph-nodegen
 
-# Install dependencies
+# Install dependencies.
 npm install
 
-# Build the library
+# Build the library.
 npm run build
 
-# Start the demo
+# Start the demo.
 npm run start:demo
 ```
 
@@ -98,8 +98,8 @@ The demo will be available at `http://localhost:5173` with hot reloading enabled
 
 ```typescript
 const generator = new NodeGenerator({
-  typePrefix: "MyAPI/", // Prefix for generated node types
-  groupByTag: true, // Group nodes by OpenAPI tags
+  typePrefix: "MyAPI/", // Prefix for generated node types.
+  groupByTag: true, // Group nodes by OpenAPI tags.
   widgetMappings: {
     "string:date": "date-picker",
     "string:color": "color-picker",

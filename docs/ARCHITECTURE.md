@@ -95,7 +95,7 @@ The canvas optimization module provides a set of utilities to enhance LiteGraph'
    ```typescript
    import { optimizeCanvas } from "@soldarlabs/oapi-litegraph-nodegen";
 
-   // Apply optimizations
+   // Apply optimizations.
    optimizeCanvas(canvas, {
      pointerEvents: true, // Enable pointer events
    });
