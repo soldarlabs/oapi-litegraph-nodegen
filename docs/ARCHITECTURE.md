@@ -18,7 +18,14 @@
    - Handles API request execution
    - Manages widget state
 
-3. **WidgetFactory**
+3. **Canvas Optimization**
+
+   - Modular canvas optimization utilities
+   - High-DPI display support
+   - Pointer events optimization
+   - Performance-focused event handling
+
+4. **WidgetFactory**
    - Creates appropriate widgets based on OpenAPI types
    - Manages widget lifecycle and updates
    - Handles widget validation
@@ -64,6 +71,33 @@
 3. **Widget Updates**
    ```
    User Input → Validate Value → Update Node State → Trigger Execution
+   ```
+
+### Canvas Optimization
+
+The canvas optimization module provides a set of utilities to enhance LiteGraph's canvas performance:
+
+1. **High-DPI Support**
+
+   - Automatically detects device pixel ratio
+   - Adjusts canvas resolution for crisp rendering
+   - Maintains correct scaling for input events
+
+2. **Pointer Events**
+
+   - Optional pointer events support
+   - Improved touch device compatibility
+   - Better performance than mouse events
+
+3. **Usage**
+
+   ```typescript
+   import { optimizeCanvas } from "@soldarlabs/oapi-litegraph-nodegen";
+
+   // Apply optimizations
+   optimizeCanvas(canvas, {
+     pointerEvents: true, // Enable pointer events
+   });
    ```
 
 ## Performance Considerations
@@ -124,15 +158,27 @@
 oapi-litegraph-nodegen/
 ├── src/                    # Library source code
 │   ├── utils/             # Utility functions
+│   │   ├── optim/        # Performance optimization utilities
+│   │   │   └── canvas.ts # Canvas optimization module
+│   │   |── logger.ts     # Logging utilities
+|   |   └── mathUtils.ts       # Math utilities
 │   ├── nodeGenerator.ts   # Main node generator
-│   └── index.ts           # Public API
-├── demo/                   # Demo application
-│   ├── public/            # Static files and OpenAPI specs
-│   ├── src/               # Demo-specific code
-│   └── index.html         # Demo entry point
-├── dist/                   # Compiled library output
-├── test/                   # Test files
-└── docs/                   # Documentation
+│   ├── visualWidgets.ts   # Visual widget implementations
+│   ├── OpenAPINode.ts     # Core node implementation
+│   ├── widgets.ts         # Widget definitions
+│   └── index.ts          # Public API
+├── demo/                  # Demo application
+│   └── index.html       # Demo entry point
+|   |── main.js           # Demo entry point
+|   |── vite.config.js    # Vite configuration
+│   └── styles.css        # Demo styles
+|   └── openapi.yaml      # OpenAPI spec for demo
+├── dist/                 # Compiled library output
+├── test/                 # Test files
+└── docs/                # Documentation
+    ├── ARCHITECTURE.md  # Architecture documentation
+    ├── CHANGELOG.md     # Version history
+    └── CONTRIBUTING.md  # Contribution guidelines
 ```
 
 ## Development Workflow

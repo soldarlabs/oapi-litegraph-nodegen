@@ -38,7 +38,7 @@ export default defineConfig(({ mode }) => ({
   },
   optimizeDeps: {
     include: ["litegraph.js", "buffer", "process"],
-    exclude: ['oapi-litegraph-nodegen'],
+    exclude: ["oapi-litegraph-nodegen"],
     esbuildOptions: {
       define: {
         global: "globalThis",
@@ -50,7 +50,7 @@ export default defineConfig(({ mode }) => ({
       "@dist": resolve(__dirname, "../dist"),
       buffer: "vite-plugin-node-polyfills/shims/buffer",
       process: "vite-plugin-node-polyfills/shims/process",
-      'oapi-litegraph-nodegen': resolve(__dirname, '../src'),
+      "oapi-litegraph-nodegen": resolve(__dirname, "../src"),
     },
   },
   server: {
@@ -61,7 +61,7 @@ export default defineConfig(({ mode }) => ({
     open: true,
     cors: true,
     watch: {
-      ignored: ['!**/node_modules/oapi-litegraph-nodegen/**'],
+      ignored: ["!**/node_modules/oapi-litegraph-nodegen/**"],
     },
   },
 }));

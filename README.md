@@ -7,7 +7,7 @@ Generate dynamic and callable LiteGraph nodes from OpenAPI specifications, enabl
 - **Dynamic Node Generation**: Automatically generate LiteGraph nodes from OpenAPI specifications
 - **Type-Safe Integration**: Full TypeScript support with proper type inference
 - **Interactive Widgets**: Rich set of input widgets based on OpenAPI parameter types
-- **High Performance**: Optimized event handling and canvas rendering
+- **Optimized Canvas**: Modular canvas optimization for high-DPI displays and pointer events
 - **Easy Integration**: Simple API for adding OpenAPI specs and registering nodes
 - **Hot Reloading**: Development server with Vite for instant feedback
 
@@ -37,13 +37,19 @@ Visit `http://localhost:3000` to see the demo in action.
 ## Quick Start
 
 ```javascript
-import { NodeGenerator } from "@soldarlabs/oapi-litegraph-nodegen";
+import { NodeGenerator, optimizeCanvas } from "@soldarlabs/oapi-litegraph-nodegen";
 import { LGraph, LGraphCanvas } from "litegraph.js";
 
-// Create a new graph.
+// Create a new graph
 const graph = new LGraph();
+const canvas = new LGraphCanvas("#graphcanvas", graph);
 
-// Initialize the node generator.
+// Apply canvas optimizations (optional)
+optimizeCanvas(canvas, {
+  pointerEvents: true  // Enable pointer events for better performance
+});
+
+// Initialize the node generator
 const generator = new NodeGenerator();
 
 // Add an OpenAPI specification.
@@ -53,9 +59,7 @@ await generator.addSpec("myApi", "./openapi.yaml");
 generator.registerNodes();
 
 // Create and start the canvas.
-const canvas = document.getElementById("mycanvas");
-new LGraphCanvas("#mycanvas", graph);
-graph.start();
+canvas.start();
 ```
 
 ## Running the Demo
