@@ -55,7 +55,7 @@ export default defineConfig(({ mode }) => ({
   },
   server: {
     fs: {
-      // Allow serving files from one level up to the project root
+      // Allow serving files from one level up to the project root.
       allow: [".."],
     },
     open: true,

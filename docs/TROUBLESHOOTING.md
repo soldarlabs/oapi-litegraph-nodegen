@@ -48,7 +48,7 @@
 
 1. **TypeScript Compilation Errors**
 
-   ```
+   ```bash
    Error: Cannot find module '../dist/index.js'
    ```
 
@@ -60,7 +60,7 @@
 
 2. **Vite Build Errors**
 
-   ```
+   ```bash
    Error: Failed to resolve import "litegraph.js"
    ```
 
@@ -73,7 +73,7 @@
 
 3. **Node Polyfill Issues**
 
-   ```
+   ```bash
    ReferenceError: Buffer is not defined
    ```
 
@@ -107,7 +107,7 @@
 
 2. **CORS Errors**
 
-   ```
+   ```bash
    Access to fetch at '...' has been blocked by CORS policy
    ```
 
@@ -124,7 +124,7 @@
 
 3. **Port Conflicts**
 
-   ```
+   ```bash
    Error: Port 5173 is already in use
    ```
 
@@ -137,7 +137,7 @@
 
 1. **Node Generation Failures**
 
-   ```
+   ```bash
    Error: Could not find schema for operation
    ```
 
@@ -149,7 +149,7 @@
 
 2. **Widget Rendering Issues**
 
-   ```
+   ```bash
    TypeError: Cannot read property 'value' of undefined
    ```
 
@@ -161,7 +161,7 @@
 
 3. **API Request Failures**
 
-   ```
+   ```bash
    Error: Failed to fetch
    ```
 

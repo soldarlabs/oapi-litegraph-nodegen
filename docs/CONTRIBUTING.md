@@ -56,7 +56,7 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 
 ### Project Structure
 
-```
+```bash
 oapi-litegraph-nodegen/
 ├── src/                    # Library source code
 │   ├── utils/             # Utility functions

@@ -1,3 +1,6 @@
+/**
+ * Main entry point for the demo.
+ */
 import "./style.css";
 import { LGraph, LiteGraph, LGraphCanvas } from "litegraph.js";
 import { NodeGenerator, setLogLevel } from "../dist/index.js";
@@ -6,7 +9,7 @@ import {
   optimizeCanvasForHighDPI,
 } from "../dist/utils/optim/canvas.js";
 
-// Expose LGraph globally for audio nodes
+// Expose LGraph globally for audio nodes.
 if (typeof window !== "undefined") {
   window.LGraph = LGraph;
 }
@@ -27,7 +30,7 @@ async function generateGraph() {
 
   const generator = new NodeGenerator();
   // Point to the correct OpenAPI file in the demo directory
-  await generator.addSpec("example-demo", "./openapi.yaml");
+  await generator.addSpec("example-demo", "./example.openapi.yaml");
   generator.registerNodes();
 
   const canvas = document.querySelector("#mycanvas");

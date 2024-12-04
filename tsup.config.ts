@@ -1,17 +1,11 @@
 import { defineConfig } from "tsup";
 
-const isProduction = process.env.NODE_ENV === "production";
+// Retrieve the build environment.
+const NODE_ENV = process.env.NODE_ENV || "development";
+const isProduction = NODE_ENV === "production";
 
 export default defineConfig({
-  entry: [
-    "src/index.ts",
-    "src/nodeGenerator.ts",
-    "src/OpenAPINode.ts",
-    "src/visualWidgets.ts",
-    "src/widgets.ts",
-    "src/utils/*.ts",
-    "src/utils/optim/*.ts",
-  ],
+  entry: ["src/**/*.ts"],
   format: ["esm", "cjs"],
   target: "es2020",
   dts: true,
@@ -23,9 +17,9 @@ export default defineConfig({
   treeshake: false,
   bundle: false,
   env: {
-    NODE_ENV: process.env.NODE_ENV || "development"
+    NODE_ENV,
   },
   define: {
-    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || "development")
-  }
+    "process.env.NODE_ENV": JSON.stringify(NODE_ENV),
+  },
 });

@@ -34,7 +34,7 @@
 
 1. **Build System**
 
-   ```
+   ```txt
    TypeScript → TSC → ESM Modules → Vite → Browser
    ```
 
@@ -45,7 +45,7 @@
 
 2. **Demo Application**
 
-   ```
+   ```txt
    Source Files → Vite Dev Server → Hot Module Reloading → Browser
    ```
 
@@ -58,18 +58,19 @@
 
 1. **Initialization**
 
-   ```
+   ```txt
    Load OpenAPI Spec → Parse Operations → Generate Node Types → Register with LiteGraph
    ```
 
 2. **Node Execution**
 
-   ```
+   ```txt
    Input Values → Validate Parameters → Execute API Call → Process Response → Update Outputs
    ```
 
 3. **Widget Updates**
-   ```
+
+   ```txt
    User Input → Validate Value → Update Node State → Trigger Execution
    ```
 
@@ -144,6 +145,7 @@ The canvas optimization module provides a set of utilities to enhance LiteGraph'
    ```
 
 3. **API Middleware**
+
    ```typescript
    interface Middleware {
      before?: (config: any) => any;
@@ -154,7 +156,7 @@ The canvas optimization module provides a set of utilities to enhance LiteGraph'
 
 ## Project Structure
 
-```
+```bash
 oapi-litegraph-nodegen/
 ├── src/                    # Library source code
 │   ├── utils/             # Utility functions
@@ -185,7 +187,7 @@ oapi-litegraph-nodegen/
 
 1. **Library Development**
 
-   ```
+   ```txt
    Edit TypeScript → TSC Watch → Update Demo → Hot Reload
    ```
 
@@ -195,7 +197,7 @@ oapi-litegraph-nodegen/
 
 2. **Demo Development**
 
-   ```
+   ```txt
    Edit Demo Files → Vite Dev Server → Instant Updates
    ```
 
@@ -204,9 +206,11 @@ oapi-litegraph-nodegen/
    - Source maps for debugging
 
 3. **Testing**
-   ```
+
+   ```txt
    Jest → TypeScript → Code Coverage
    ```
+
    - Unit tests with Jest
    - Integration tests with demo
    - Automated CI/CD pipeline
