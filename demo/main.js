@@ -1,7 +1,10 @@
 import "./style.css";
 import { LGraph, LiteGraph, LGraphCanvas } from "litegraph.js";
 import { NodeGenerator, setLogLevel } from "../dist/index.js";
-import { optimizeCanvas, optimizeCanvasForHighDPI } from "../dist/utils/optim/canvas.js";
+import {
+  optimizeCanvas,
+  optimizeCanvasForHighDPI,
+} from "../dist/utils/optim/canvas.js";
 
 // Expose LGraph globally for audio nodes
 if (typeof window !== "undefined") {

@@ -92,10 +92,16 @@ export class NodeGenerator {
   public removeSpec(key: string): boolean {
     if (this.openApiSpecs[key]) {
       delete this.openApiSpecs[key];
-      log.debug(`OpenAPI spec '${key}' has been removed.`, { operation: 'removeSpec', key });
+      log.debug(`OpenAPI spec '${key}' has been removed.`, {
+        operation: "removeSpec",
+        key,
+      });
       return true;
     } else {
-      log.warn(`OpenAPI spec '${key}' does not exist.`, { operation: 'removeSpec', key });
+      log.warn(`OpenAPI spec '${key}' does not exist.`, {
+        operation: "removeSpec",
+        key,
+      });
       return false;
     }
   }
@@ -111,7 +117,9 @@ export class NodeGenerator {
    */
   public clearSpecs(): void {
     this.openApiSpecs = {};
-    log.debug("All OpenAPI specs have been removed.", { operation: 'clearSpecs' });
+    log.debug("All OpenAPI specs have been removed.", {
+      operation: "clearSpecs",
+    });
   }
 
   /**

@@ -21,14 +21,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added vite-plugin-node-polyfills for better compatibility
   - Proper handling of Buffer and process globals
   - Improved ESM module support
-- New `CanvasWrapper` class in `src/utils/canvasWrapper.ts` for improved canvas handling
-  - High-DPI display support
-  - Automatic resize handling
-  - Passive event listeners for better performance
-- New `contextMenu.ts` utility for enhanced context menu behaviour
-  - Passive event listeners for wheel events
-  - Improved scrolling performance
-  - TypeScript type definitions for better type safety
+- New modular canvas optimization utilities in `src/utils/optim/canvas.ts`
+  - High-DPI display support with automatic pixel ratio detection
+  - Optional pointer events support for better touch device compatibility
+  - Performance-focused event handling with passive listeners
+  - Type-safe implementation with proper TypeScript definitions
 - Enhanced widget support for nodes
   - Added input widgets with validation
   - Added number input widgets with range support
@@ -85,6 +82,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved canvas scaling using viewport units
 - Enhanced canvas positioning for consistent full-screen display
 - Modified widget positioning to work better with React lifecycle
+- Refactored canvas optimization implementation
+  - Moved from class-based `CanvasWrapper` to functional utilities
+  - Simplified API with optional configuration
+  - Better separation of concerns for maintainability
+  - Improved TypeScript type safety with proper type assertions
 
 ### Fixed
 
@@ -134,6 +136,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Full-screen display issues on various aspect ratios
 
 ### Removed
+
 - Old example directory in favor of Next.js demo
 - Redundant canvas initialization code
 - Legacy static HTML implementation
+- Removed `CanvasWrapper` class in favor of modular utilities
+- Removed `contextMenu.ts` utility and related patches
+  - Simplified codebase by removing custom context menu handling
+  - Reverted to LiteGraph's native context menu implementation

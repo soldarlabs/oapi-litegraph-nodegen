@@ -78,10 +78,15 @@ export function optimizeCanvasForHighDPI(graphCanvas: LGraphCanvas): void {
  * Optimizes the Litegraph canvas to apply performance optimizations.
  * @param graphCanvas The LiteGraph canvas to optimize.
  * @param options Options for optimizing the canvas.
+ * @remarks
+ * When pointer events are enabled, this function uses a type assertion to set
+ * LiteGraph's internal pointer events method. This is necessary because the
+ * property is not included in LiteGraph's TypeScript definitions but exists
+ * at runtime.
  */
 export function optimizeCanvas(
   graphCanvas: LGraphCanvas,
-  options: CanvasOptions = {}
+  options: CanvasOptions = {},
 ): void {
   const canvasElement = graphCanvas.canvas;
 

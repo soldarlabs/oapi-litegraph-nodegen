@@ -58,19 +58,29 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 
 ```
 oapi-litegraph-nodegen/
-├── src/                    # Source code
-│   ├── utils/             # Utility functions and helpers
-│   │   ├── canvasWrapper.ts   # Canvas handling utilities
-│   │   └── contextMenu.ts     # Context menu functionality
-│   ├── widgets.ts         # Widget definitions and configurations
+├── src/                    # Library source code
+│   ├── utils/             # Utility functions
+│   │   ├── optim/        # Performance optimization utilities
+│   │   │   └── canvas.ts # Canvas optimization module
+│   │   |── logger.ts     # Logging utilities
+|   |   └── mathUtils.ts  # Math utilities
+│   ├── nodeGenerator.ts   # Main node generator
 │   ├── visualWidgets.ts   # Visual widget implementations
-│   └── OpenAPINode.ts     # Core node implementation
-├── demo/                  # Next.js demo application
-│   ├── pages/            # Next.js pages
-│   ├── styles/           # CSS styles
-│   └── public/           # Static files and OpenAPI specs
+│   ├── OpenAPINode.ts     # Core node implementation
+│   ├── widgets.ts         # Widget definitions
+│   └── index.ts          # Public API
+├── demo/                  # Demo application
+│   └── index.html       # Demo entry point
+|   |── main.js          # Demo entry point
+|   |── vite.config.js   # Vite configuration
+│   └── styles.css       # Demo styles
+|   └── openapi.yaml     # OpenAPI spec for demo
+├── dist/                 # Compiled library output
 ├── test/                 # Test files
-└── dist/                 # Compiled output
+└── docs/                # Documentation
+    ├── ARCHITECTURE.md  # Architecture documentation
+    ├── CHANGELOG.md     # Version history
+    └── CONTRIBUTING.md  # Contribution guidelines
 ```
 
 ### Setting Up Development Environment
@@ -88,20 +98,7 @@ oapi-litegraph-nodegen/
    npm install
    ```
 
-3. Build the library:
-
-   ```bash
-   npm run build
-   ```
-
-4. Install demo dependencies:
-
-   ```bash
-   cd demo
-   npm install
-   ```
-
-5. Create a branch:
+3. Create a branch:
 
    ```bash
    git checkout -b my-feature
@@ -109,25 +106,39 @@ oapi-litegraph-nodegen/
 
 ### Development Workflow
 
-The project uses Vite for development, providing features like hot module reloading for instant feedback:
+The project uses a watch-based development workflow with Vite for instant feedback:
 
-1. Start the development server:
+1. Start the development environment:
 
    ```bash
    # From the root directory
-   npm run start:demo
+   # This will start both the library watch mode and the demo server
+   npm run dev
    ```
+
+   This command starts two processes in parallel:
+
+   - Library watch mode using `tsup` for instant rebuilds
+   - Vite dev server for the demo with hot module reloading
 
 2. Make changes to the code:
 
-   - Source files in `src/` will trigger TypeScript compilation
-   - Demo files in `demo/` will trigger instant updates in the browser
-   - OpenAPI specifications can be modified in `demo/public/`
+   - Source files in `src/` are automatically rebuilt by tsup
+   - Demo files in `demo/` trigger instant updates in the browser
+   - All changes are reflected immediately without manual rebuilds
 
 3. View changes:
-   - The demo runs at `http://localhost:5173`
-   - Changes to source files require rebuilding with `npm run build`
-   - Changes to demo files are reflected instantly
+
+   - Demo runs at `http://localhost:5173`
+   - Library changes are automatically rebuilt and reflected in the demo
+   - Browser automatically reloads when necessary
+
+4. Build for production:
+
+   ```bash
+   # Build the library for production
+   npm run build
+   ```
 
 ### Running Tests
 
@@ -142,14 +153,17 @@ npm run test:watch
 npm run test:coverage
 ```
 
-### Style Guide
+### Code Quality
 
-We use ESLint and Prettier to maintain code quality. Before submitting a pull request:
+We use ESLint and Prettier to maintain code quality. These run automatically in watch mode, but you can also run them manually:
 
 1. Run linter:
 
    ```bash
    npm run lint
+
+   # Auto-fix linting issues
+   npm run lint:fix
    ```
 
 2. Format code:
@@ -157,6 +171,12 @@ We use ESLint and Prettier to maintain code quality. Before submitting a pull re
    ```bash
    npm run format
    ```
+
+The development server will automatically catch most linting and formatting issues. Check the terminal output for any warnings or errors.
+
+### Dependency Management
+
+We use [ncu](https://github.com/auditjs/ncu) to automatically update dependencies. Run `npm run deps:update` to update all dependencies.
 
 ### Commit Messages
 

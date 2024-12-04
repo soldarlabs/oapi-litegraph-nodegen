@@ -33,7 +33,10 @@ class Logger {
 
       return (message: any, context?: LogContext, error?: Error) => {
         // In production, only log WARN and above
-        if (process.env.NODE_ENV === "production" && logLevel < log.levels.WARN) {
+        if (
+          process.env.NODE_ENV === "production" &&
+          logLevel < log.levels.WARN
+        ) {
           return;
         }
 
