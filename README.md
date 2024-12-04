@@ -37,7 +37,10 @@ Visit `http://localhost:3000` to see the demo in action.
 ## Quick Start
 
 ```javascript
-import { NodeGenerator, optimizeCanvas } from "@soldarlabs/oapi-litegraph-nodegen";
+import {
+  NodeGenerator,
+  optimizeCanvas,
+} from "@soldarlabs/oapi-litegraph-nodegen";
 import { LGraph, LGraphCanvas } from "litegraph.js";
 
 // Create a new graph
@@ -46,7 +49,7 @@ const canvas = new LGraphCanvas("#graphcanvas", graph);
 
 // Apply canvas optimizations (optional)
 optimizeCanvas(canvas, {
-  pointerEvents: true  // Enable pointer events for better performance
+  pointerEvents: true,  // Enable pointer events for better performance
 });
 
 // Initialize the node generator

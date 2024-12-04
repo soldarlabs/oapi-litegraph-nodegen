@@ -4,11 +4,7 @@ import {
   calculateWidgetPosition,
   addAlignedWidget,
 } from "../src/visualWidgets.js";
-import {
-  LGraph,
-  LGraphNode,
-  LGraphCanvas,
-} from "litegraph.js";
+import { LGraph, LGraphNode, LGraphCanvas } from "litegraph.js";
 
 // Set up DOM environment for LiteGraph.
 const dom = new JSDOM("<!DOCTYPE html><html><head></head><body></body></html>");
