@@ -1,4 +1,8 @@
 /**
+ * @file Contains utility functions for mathematical operations.
+ */
+
+/**
  * Clamps a value between a minimum and maximum value.
  * @param value The value to clamp
  * @param min The minimum allowed value

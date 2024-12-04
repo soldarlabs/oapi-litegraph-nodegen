@@ -1,8 +1,9 @@
 import { defineConfig } from "tsup";
 
-// Retrieve the build environment.
 const NODE_ENV = process.env.NODE_ENV || "development";
 const isProduction = NODE_ENV === "production";
+
+console.log(`Building for ${NODE_ENV}...`);
 
 export default defineConfig({
   entry: ["src/**/*.ts"],
@@ -14,7 +15,7 @@ export default defineConfig({
   outDir: "dist",
   skipNodeModulesBundle: true,
   splitting: true,
-  treeshake: false,
+  treeshake: isProduction,
   bundle: false,
   env: {
     NODE_ENV,

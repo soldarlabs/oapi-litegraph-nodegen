@@ -2,8 +2,9 @@
  * @file Contains visual customization for node widgets.
  */
 import { LGraphNode, IWidget, Vector2 } from "litegraph.js";
-import { WidgetConfig } from "./widgets.js";
+import { WidgetConfig } from "./utils.js";
 
+// Constants for node appearance.
 const NODE_CONSTANTS = {
   INPUT_HEIGHT: 30, // Height for inputs and widgets
   HEADER_HEIGHT: 30, // Header height

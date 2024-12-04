@@ -1,37 +1,38 @@
-import { getWidgetConfigForParameter } from "../src/widgets.js";
+import { getWidgetConfigForParameter } from "../src/nodes/widgets/utils";
+import { SchemaObject } from "openapi-typescript";
 
 describe("Widget Parameter Mapping", () => {
   describe("String Type Parameters", () => {
     it("should return text widget for basic string", () => {
-      const schema = { type: "string" };
+      const schema = { type: "string" } as SchemaObject;
       const widget = getWidgetConfigForParameter(schema);
       expect(widget.type).toBe("text");
     });
 
     it("should return text widget with placeholder for date format", () => {
-      const schema = { type: "string", format: "date" };
+      const schema = { type: "string", format: "date" } as SchemaObject;
       const widget = getWidgetConfigForParameter(schema);
       expect(widget.type).toBe("text");
       expect(widget.options?.placeholder).toBe("YYYY-MM-DD");
     });
 
     it("should return text widget with placeholder for email format", () => {
-      const schema = { type: "string", format: "email" };
+      const schema = { type: "string", format: "email" } as SchemaObject;
       const widget = getWidgetConfigForParameter(schema);
       expect(widget.type).toBe("text");
       expect(widget.options?.placeholder).toBe("email@example.com");
     });
 
     it("should return text widget with password option", () => {
-      const schema = { type: "string", format: "password" };
+      const schema = { type: "string", format: "password" } as SchemaObject;
       const widget = getWidgetConfigForParameter(schema);
       expect(widget.type).toBe("text");
       expect(widget.options?.password).toBe(true);
     });
 
     it("should return combo widget for enum values", () => {
-      const schema = { type: "string", enum: ["one", "two", "three"] };
-      const widget = getWidgetConfigForParameter(schema);
+      const schema = { type: "string", enum: ["one", "two", "three"] } as SchemaObject;
+      const widget = getWidgetConfigForParameter(schema) ;
       expect(widget.type).toBe("combo");
       expect(widget.options?.values).toEqual(["one", "two", "three"]);
     });
@@ -39,14 +40,14 @@ describe("Widget Parameter Mapping", () => {
 
   describe("Number Type Parameters", () => {
     it("should return number widget for integer", () => {
-      const schema = { type: "integer" };
+      const schema = { type: "integer" } as SchemaObject;
       const widget = getWidgetConfigForParameter(schema);
       expect(widget.type).toBe("number");
       expect(widget.options?.precision).toBe(0);
     });
 
     it("should return number widget for number", () => {
-      const schema = { type: "number" };
+      const schema = { type: "number" } as SchemaObject;
       const widget = getWidgetConfigForParameter(schema);
       expect(widget.type).toBe("number");
       expect(widget.options?.precision).toBe(3);
@@ -57,7 +58,7 @@ describe("Widget Parameter Mapping", () => {
         type: "number",
         minimum: 0,
         maximum: 100,
-      };
+      } as SchemaObject;
       const widget = getWidgetConfigForParameter(schema);
       expect(widget.type).toBe("slider");
       expect(widget.options?.min).toBe(0);
@@ -67,7 +68,7 @@ describe("Widget Parameter Mapping", () => {
 
   describe("Boolean Type Parameters", () => {
     it("should return toggle widget for boolean", () => {
-      const schema = { type: "boolean" };
+      const schema = { type: "boolean" } as SchemaObject;
       const widget = getWidgetConfigForParameter(schema);
       expect(widget.type).toBe("toggle");
     });
@@ -75,7 +76,7 @@ describe("Widget Parameter Mapping", () => {
 
   describe("Array Type Parameters", () => {
     it("should return text widget for array type", () => {
-      const schema = { type: "array", items: { type: "string" } };
+      const schema = { type: "array", items: { type: "string" } } as SchemaObject;
       const widget = getWidgetConfigForParameter(schema);
       expect(widget.type).toBe("text");
       expect(widget.options?.placeholder).toBe("comma,separated,values");
@@ -87,7 +88,7 @@ describe("Widget Parameter Mapping", () => {
         items: {
           enum: ["one", "two", "three"],
         },
-      };
+      } as SchemaObject;
       const widget = getWidgetConfigForParameter(schema);
       expect(widget.type).toBe("combo");
       expect(widget.options?.values).toEqual(["one", "two", "three"]);
@@ -97,7 +98,7 @@ describe("Widget Parameter Mapping", () => {
 
   describe("Object Type Parameters", () => {
     it("should return text widget for object", () => {
-      const schema = { type: "object" };
+      const schema = { type: "object" } as SchemaObject;
       const widget = getWidgetConfigForParameter(schema);
       expect(widget.type).toBe("text");
       expect(widget.options?.placeholder).toBe('{"key": "value"}');
@@ -106,7 +107,7 @@ describe("Widget Parameter Mapping", () => {
 
   describe("Binary Type Parameters", () => {
     it("should return file widget for binary format", () => {
-      const schema = { type: "string", format: "binary" };
+      const schema = { type: "string", format: "binary" } as SchemaObject;
       const widget = getWidgetConfigForParameter(schema);
       expect(widget.type).toBe("file");
     });
@@ -116,7 +117,7 @@ describe("Widget Parameter Mapping", () => {
         type: "string",
         format: "binary",
         contentMediaType: "image/*",
-      };
+      } as SchemaObject;
       const widget = getWidgetConfigForParameter(schema);
       expect(widget.type).toBe("file");
       expect(widget.options?.accept).toBe("image/*");
@@ -125,14 +126,14 @@ describe("Widget Parameter Mapping", () => {
 
   describe("Custom Format Parameters", () => {
     it("should return text widget with uri placeholder", () => {
-      const schema = { type: "string", format: "uri" };
+      const schema = { type: "string", format: "uri" } as SchemaObject;
       const widget = getWidgetConfigForParameter(schema);
       expect(widget.type).toBe("text");
       expect(widget.options?.placeholder).toBe("https://example.com");
     });
 
     it("should return text widget with datetime placeholder", () => {
-      const schema = { type: "string", format: "date-time" };
+      const schema = { type: "string", format: "date-time" } as SchemaObject;
       const widget = getWidgetConfigForParameter(schema);
       expect(widget.type).toBe("text");
       expect(widget.options?.placeholder).toBe("YYYY-MM-DDTHH:mm:ssZ");
@@ -143,7 +144,7 @@ describe("Widget Parameter Mapping", () => {
     it("should handle allOf schema combination", () => {
       const schema = {
         allOf: [{ type: "string" }, { enum: ["one", "two", "three"] }],
-      };
+      } as SchemaObject;
       const widget = getWidgetConfigForParameter(schema);
       expect(widget.type).toBe("combo");
       expect(widget.options?.values).toEqual(["one", "two", "three"]);
@@ -152,7 +153,7 @@ describe("Widget Parameter Mapping", () => {
     it("should handle oneOf schema with enum values", () => {
       const schema = {
         oneOf: [{ enum: ["a", "b"] }, { enum: ["c", "d"] }],
-      };
+      } as SchemaObject;
       const widget = getWidgetConfigForParameter(schema);
       expect(widget.type).toBe("combo");
       expect(widget.options?.values).toEqual(["a", "b", "c", "d"]);
@@ -161,20 +162,20 @@ describe("Widget Parameter Mapping", () => {
 
   describe("Edge Cases", () => {
     it("should handle empty schema", () => {
-      const schema = {};
+      const schema = {} as SchemaObject;
       const widget = getWidgetConfigForParameter(schema);
       expect(widget.type).toBe("text");
     });
 
     it("should handle schema with only title", () => {
-      const schema = { title: "Test Input" };
+      const schema = { title: "Test Input" } as SchemaObject;
       const widget = getWidgetConfigForParameter(schema);
       expect(widget.type).toBe("text");
       expect(widget.options?.name).toBe("Test Input");
     });
 
     it("should handle null type", () => {
-      const schema = { type: "null" };
+      const schema = { type: "null" } as SchemaObject;
       const widget = getWidgetConfigForParameter(schema);
       expect(widget.type).toBe("text");
       expect(widget.options?.disabled).toBe(true);
