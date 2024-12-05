@@ -7,7 +7,8 @@ console.log(`Building for ${NODE_ENV}...`);
 
 export default defineConfig({
   entry: ["src/**/*.ts"],
-  format: ["esm", "cjs"],
+  // format: ["esm", "cjs"],
+  format: ["esm"],
   target: "es2020",
   dts: true,
   sourcemap: !isProduction,
@@ -20,7 +21,7 @@ export default defineConfig({
   env: {
     NODE_ENV,
   },
-  define: {
-    "process.env.NODE_ENV": JSON.stringify(NODE_ENV),
-  },
+  // define: {
+  //   "process.env.NODE_ENV": JSON.stringify(NODE_ENV),
+  // },
 });
