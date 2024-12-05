@@ -3,7 +3,7 @@ import {
   calculateNodeSize,
   calculateWidgetPosition,
   addAlignedWidget,
-} from "../src/visualWidgets.js";
+} from "../src/nodes/widgets/visual.js";
 import { LGraph, LGraphNode, LGraphCanvas } from "litegraph.js";
 
 // Set up DOM environment for LiteGraph.
@@ -43,7 +43,7 @@ describe("Visual Widget Tests", () => {
     });
 
     it("should handle multiple widgets with different sizes", () => {
-      const widget1 = addAlignedWidget(
+      addAlignedWidget(
         node,
         0,
         { type: "text" },
@@ -51,7 +51,7 @@ describe("Visual Widget Tests", () => {
         "",
         () => {}
       );
-      const widget2 = addAlignedWidget(
+      addAlignedWidget(
         node,
         1,
         { type: "number", options: { width: 100 } },

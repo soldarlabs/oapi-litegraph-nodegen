@@ -1,7 +1,10 @@
+/**
+ * @file Contains the main class for generating LiteGraph nodes from OpenAPI specifications.
+ */
 import SwaggerParser from "@apidevtools/swagger-parser";
 import { LiteGraph } from "litegraph.js";
-import log from "./utils/logger.js";
-import { createOpenAPINodeClass } from "./OpenAPINode.js";
+import log from "../utils/logger.js";
+import { createOpenAPINodeClass } from "../nodes/OpenAPINode.js";
 
 /**
  * NodeGenerator is responsible for creating LiteGraph nodes from OpenAPI specifications.

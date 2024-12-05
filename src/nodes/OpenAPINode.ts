@@ -9,13 +9,13 @@ import {
   INodeInputSlot,
   INodeOutputSlot,
 } from "litegraph.js";
-import { getWidgetConfigForParameter } from "./widgets.js";
+import { getWidgetConfigForParameter } from "./widgets/utils.js";
 import {
   addAlignedWidget,
   customizeNodeAppearance,
   calculateNodeSize,
-} from "./visualWidgets.js";
-import { logger } from "./utils/logger.js";
+} from "./widgets/visual.js";
+import { logger } from "../utils/logger.js";
 
 /**
  * Interface defining the structure of input data.

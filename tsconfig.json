@@ -3,14 +3,16 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "target": "ES2020",
+    "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "strict": true,
-    "outDir": "dist",
-    "noUncheckedIndexedAccess": true,
     "declaration": true,
     "declarationMap": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "rootDir": "src",
+    "outDir": "dist",
+    "forceConsistentCasingInFileNames": true,
+    "noUncheckedIndexedAccess": true
   },
   "include": ["src/**/*"]
 }
