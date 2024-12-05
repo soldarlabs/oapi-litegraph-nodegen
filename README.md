@@ -45,12 +45,9 @@ import { LGraph, LGraphCanvas } from "litegraph.js";
 
 // Create a new graph.
 const graph = new LGraph();
-const canvas = new LGraphCanvas("#graphcanvas", graph);
 
 // Apply canvas optimizations (optional).
-optimizeCanvas(canvas, {
-  pointerEvents: true,  // Enable pointer events for better performance.
-});
+optimizeCanvas("#graphcanvas", graph);
 
 // Initialize the node generator.
 const generator = new NodeGenerator();
