@@ -12,10 +12,8 @@ type ExtendedWidgetTypes = widgetTypes | "file";
  * Widget configuration object.
  */
 export interface WidgetConfig {
-  /** Widget type. */
   type: ExtendedWidgetTypes;
-  /** Widget options. */
-  options?: any;
+  options?: Record<string, any>;
 }
 
 /**

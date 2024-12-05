@@ -1,12 +1,13 @@
 /**
  * @file Main entry point for the demo.
  */
-import { LGraph, LGraphCanvas, LiteGraph} from "litegraph.js";
+import { LGraph, LiteGraph } from "litegraph.js";
 
 import {
   NodeGenerator,
   setLogLevel,
   optimizeCanvas,
+  CustomOutputNode,
 } from "oapi-litegraph-nodegen";
 
 import "./style.css";
@@ -21,6 +22,9 @@ if (typeof window !== "undefined") {
  */
 async function generateGraph() {
   setLogLevel("debug");
+
+  // Register custom output node.
+  LiteGraph.registerNodeType("oapi/output", CustomOutputNode);
 
   // Create a new graph.
   const graph = new LGraph();
