@@ -1,0 +1,32 @@
+{
+  "name": "oapi-litegraph-nodegen-demo",
+  "description": "A demo project showcasing the oapi-litegraph-nodegen package",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "clean": "rm -rf dist dist node_modules && npm cache clean --force",
+    "deps:check": "ncu",
+    "deps:update": "ncu -u && npm install",
+    "sort-package-json": "sort-package-json"
+  },
+  "dependencies": {
+    "@apidevtools/swagger-parser": "^10.1.0",
+    "buffer": "^6.0.3",
+    "litegraph.js": "^0.7.18",
+    "loglevel": "^1.9.2",
+    "openapi-client-axios": "^7.5.5",
+    "process": "^0.11.10",
+    "oapi-litegraph-nodegen": "file:../"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "sort-package-json": "^2.12.0",
+    "typescript": "~5.7.2",
+    "vite": "^5.4.11",
+    "vite-plugin-node-polyfills": "^0.22.0"
+  }
+}
