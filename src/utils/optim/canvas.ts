@@ -83,6 +83,11 @@ export function optimizeCanvas(
   graph: LGraph,
   options: CanvasOptions = {}
 ): void {
+  options = {
+    pointerEvents: true,
+    ...options,
+  };
+
   // Override LiteGraph event handling to optimize performance.
   if (options.pointerEvents) {
     (LiteGraph as any).pointerevents_method = "pointer";
@@ -90,10 +95,6 @@ export function optimizeCanvas(
 
   var graphCanvas = new LGraphCanvas(canvas, graph);
 
-  options = {
-    pointerEvents: true,
-    ...options,
-  };
 
   optimizeCanvasForHighDPI(graphCanvas);
 

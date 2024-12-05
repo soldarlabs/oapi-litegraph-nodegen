@@ -26,11 +26,9 @@ async function generateGraph() {
   const graph = new LGraph();
 
   // Apply canvas optimizations (optional).
-  optimizeCanvas("#graphcanvas", graph, {
-    pointerEvents: true,  // Enable pointer events for better performance.
-  });
+  optimizeCanvas("#graphcanvas", graph);
 
-  // Initialize the node generator
+  // Initialize the node generator.
   const generator = new NodeGenerator();
   // Point to the correct OpenAPI file in the demo directory.
   await generator.addSpec("example-demo", "./example.openapi.yaml");
