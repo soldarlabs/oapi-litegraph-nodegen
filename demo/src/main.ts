@@ -1,7 +1,7 @@
 /**
  * @file Main entry point for the demo.
  */
-import { LGraph, LGraphCanvas } from "litegraph.js";
+import { LGraph, LGraphCanvas, LiteGraph} from "litegraph.js";
 
 import { NodeGenerator, setLogLevel } from "../../dist/index.js";
 import {
@@ -23,10 +23,9 @@ async function generateGraph() {
 
   // Create a new graph.
   const graph = new LGraph();
-  const canvas = new LGraphCanvas("#graphcanvas", graph);
 
   // Apply canvas optimizations (optional).
-  optimizeCanvas(canvas, {
+  optimizeCanvas("#graphcanvas", graph, {
     pointerEvents: true,  // Enable pointer events for better performance.
   });
 
