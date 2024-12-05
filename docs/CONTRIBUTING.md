@@ -98,7 +98,18 @@ oapi-litegraph-nodegen/
    npm install
    ```
 
-3. Create a branch:
+3. **Optional**: Link the library to the demo:
+
+   ```bash
+   # From the root directory
+   npm link
+   cd demo
+   npm link oapi-litegraph-nodegen
+   ```
+
+   This will allow you to make changes to the library and see them reflected in the demo without manual rebuilds.
+
+4. Create a branch:
 
    ```bash
    git checkout -b my-feature
@@ -112,7 +123,10 @@ The project uses a watch-based development workflow with Vite for instant feedba
 
    ```bash
    # From the root directory
-   # This will start both the library watch mode and the demo server
+   # This wil start the development server and watch for changes.
+   npm run dev
+   # From the demo directory
+   # This will start the vite server for the demo.
    npm run dev
    ```
 
@@ -139,6 +153,29 @@ The project uses a watch-based development workflow with Vite for instant feedba
    # Build the library for production
    npm run build
    ```
+
+### VS Code Configuration
+
+To set up debugging in VS Code, add the following configuration to your `.vscode/launch.json` file:
+
+```json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Launch Chrome against localhost",
+      "url": "http://localhost:5173",
+      "cwd": "${workspaceFolder}",
+      "webRoot": "${workspaceFolder}/demo",
+      "sourceMaps": true
+    }
+  ]
+}
+```
+
+This configuration allows you to launch Chrome and debug the application running at `http://localhost:5173`.
 
 ### Running Tests
 
