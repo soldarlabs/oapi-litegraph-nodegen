@@ -1,7 +1,7 @@
 /**
  * @file Litegraph canvas optimization utilities.
  */
-import { LiteGraph, LGraphCanvas } from "litegraph.js";
+import { LiteGraph, LGraphCanvas, LGraph } from "litegraph.js";
 import { logger } from "../logger.js";
 
 // Type declaration for LiteGraph's static properties
@@ -76,7 +76,8 @@ export function optimizeCanvasForHighDPI(graphCanvas: LGraphCanvas): void {
 
 /**
  * Optimizes the Litegraph canvas to apply performance optimizations.
- * @param graphCanvas The LiteGraph canvas to optimize.
+ * @param canvas the canvas where you want to render (it accepts a selector in string format or the canvas element itself).
+ * @param graph The LiteGraph graph to optimize.
  * @param options Options for optimizing the canvas.
  * @remarks
  * When pointer events are enabled, this function uses a type assertion to set
@@ -85,10 +86,16 @@ export function optimizeCanvasForHighDPI(graphCanvas: LGraphCanvas): void {
  * at runtime.
  */
 export function optimizeCanvas(
-  graphCanvas: LGraphCanvas,
-  options: CanvasOptions = {},
+  canvas: HTMLCanvasElement | string,
+  graph: LGraph,
+  options: CanvasOptions = {}
 ): void {
-  const canvasElement = graphCanvas.canvas;
+  // Override LiteGraph event handling to optimize performance.
+  if (options.pointerEvents) {
+    (LiteGraph as any).pointerevents_method = "pointer";
+  }
+
+  var graphCanvas = new LGraphCanvas(canvas, graph);
 
   options = {
     pointerEvents: true,
@@ -97,14 +104,9 @@ export function optimizeCanvas(
 
   optimizeCanvasForHighDPI(graphCanvas);
 
-  // Override LiteGraph event handling to optimize performance.
-  if (options.pointerEvents) {
-    (LiteGraph as any).pointerevents_method = "pointer";
-  }
-
   logger.debug("Canvas optimized", {
     component: "CanvasWrapper",
-    canvasId: canvasElement.id,
+    canvasId: graphCanvas,
     options,
   });
 }
