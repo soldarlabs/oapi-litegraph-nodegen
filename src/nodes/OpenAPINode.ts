@@ -71,6 +71,9 @@ export class OpenAPINode extends LGraphNode {
     // Apply visual customizations.
     customizeNodeAppearance(this);
 
+    //set default mode to on_trigger
+    this.mode = LiteGraph.ON_TRIGGER;
+
     // Create inputs based on operation parameters.
     if (operation.parameters) {
       operation.parameters.forEach((param: any) => {

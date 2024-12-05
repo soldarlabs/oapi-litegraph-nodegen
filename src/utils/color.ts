@@ -1,5 +1,5 @@
 /**
- * @file Contains utility functions for mathematical operations.
+ * @file Color and math utility functions for LiteGraph nodes
  */
 
 /**
@@ -35,14 +35,27 @@ export function num2hex(num: number): string {
 }
 
 /**
- * Converts a color object to a string representation
- * @param color The color object to convert
+ * Converts various color formats to a string representation
+ * @param color The color to convert (can be a number, string, array of RGB values, or RGB object)
  * @returns The string representation of the color
  */
-export function colorToString(color: {
-  r: number;
-  g: number;
-  b: number;
-}): string {
-  return `rgb(${color.r}, ${color.g}, ${color.b})`;
+export function colorToString(
+  color:
+    | number
+    | string
+    | [number, number, number]
+    | { r: number; g: number; b: number },
+): string {
+  if (typeof color === "string") {
+    return color;
+  }
+  if (Array.isArray(color)) {
+    const [r, g, b] = color;
+    return `rgb(${r},${g},${b})`;
+  }
+  if (typeof color === "object") {
+    const { r, g, b } = color;
+    return `rgb(${r},${g},${b})`;
+  }
+  return num2hex(color);
 }
