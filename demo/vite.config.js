@@ -21,7 +21,6 @@ export default defineConfig(({ mode }) => ({
         main: resolve(__dirname, "index.html"),
       },
       external: [
-        "litegraph.js",
         "vite-plugin-node-polyfills/shims/buffer",
         "vite-plugin-node-polyfills/shims/process",
       ],
@@ -47,10 +46,8 @@ export default defineConfig(({ mode }) => ({
   },
   resolve: {
     alias: {
-      "@dist": resolve(__dirname, "../dist"),
       buffer: "vite-plugin-node-polyfills/shims/buffer",
       process: "vite-plugin-node-polyfills/shims/process",
-      // "oapi-litegraph-nodegen": resolve(__dirname, ".."),
     },
   },
   server: {
@@ -61,8 +58,5 @@ export default defineConfig(({ mode }) => ({
     open: true,
     cors: true,
     sourcemap: true,
-    watch: {
-      ignored: ["!**/node_modules/oapi-litegraph-nodegen/**"],
-    },
   },
 }));
