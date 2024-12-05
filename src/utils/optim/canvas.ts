@@ -4,13 +4,6 @@
 import { LiteGraph, LGraphCanvas, LGraph } from "litegraph.js";
 import { logger } from "../logger.js";
 
-// Type declaration for LiteGraph's static properties
-declare module "litegraph.js" {
-  interface LiteGraph {
-    pointerevents_method: string;
-  }
-}
-
 /** Options for optimizing the canvas. */
 interface CanvasOptions {
   /** Whether to use pointer events instead of mouse events. */

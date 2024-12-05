@@ -1,5 +1,5 @@
 import { JSDOM } from "jsdom";
-import { NodeGenerator } from "../src/nodeGenerator.js";
+import { NodeGenerator } from "../src/generator/nodeGenerator.js";
 import SwaggerParser from "@apidevtools/swagger-parser";
 import path from "path";
 import fs from "fs";
@@ -69,7 +69,7 @@ describe("NodeGenerator", () => {
     );
     await generator.addSpec("localSpec1", localSpecPath1);
     await generator.addSpec("localSpec2", localSpecPath2);
-    generator.removeAllSpecs();
+    generator.clearSpecs();
     expect(Object.keys(generator["openApiSpecs"]).length).toBe(0);
   });
 

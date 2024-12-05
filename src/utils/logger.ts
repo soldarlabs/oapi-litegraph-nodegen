@@ -1,6 +1,14 @@
+/**
+ * @file Contains the library's logger utility.
+ * Provides a singleton logger with structured logging capabilities.
+ */
+
 import log from "loglevel";
 import type { LogLevelDesc } from "loglevel";
 
+/**
+ * Contextual information to include in log entries.
+ */
 export interface LogContext {
   component?: string;
   operation?: string;
@@ -8,6 +16,9 @@ export interface LogContext {
   [key: string]: any;
 }
 
+/**
+ * A structured log entry.
+ */
 export interface LogEntry {
   timestamp: string;
   level: string;
@@ -16,10 +27,18 @@ export interface LogEntry {
   error?: Error;
 }
 
+/**
+ * A singleton logger utility.
+ * Provides structured logging with contextual information and error handling.
+ */
 class Logger {
   private static instance: Logger;
   private context: LogContext = {};
 
+  /**
+   * Private constructor to enforce singleton pattern.
+   * Sets the default log level based on the environment and overrides log methods to add structure.
+   */
   private constructor() {
     // Set default level based on environment.
     const defaultLevel: LogLevelDesc =
@@ -66,7 +85,7 @@ class Logger {
               : "";
 
           rawMethod(
-            `${logEntry.timestamp} ${logEntry.level} ${contextStr} ${logEntry.message}`,
+            `${logEntry.timestamp} ${logEntry.level} ${contextStr} ${logEntry.message}`
           );
           if (error) {
             rawMethod(error.stack);
@@ -82,6 +101,9 @@ class Logger {
     log.setLevel(log.getLevel());
   }
 
+  /**
+   * Returns the singleton instance of the Logger.
+   */
   public static getInstance(): Logger {
     if (!Logger.instance) {
       Logger.instance = new Logger();
@@ -89,35 +111,74 @@ class Logger {
     return Logger.instance;
   }
 
+  /**
+   * Sets global context to be included in all log entries.
+   * @param context - The global context to set.
+   */
   public setGlobalContext(context: LogContext): void {
     this.context = { ...this.context, ...context };
   }
 
+  /**
+   * Clears the global context.
+   */
   public clearGlobalContext(): void {
     this.context = {};
   }
 
+  /**
+   * Logs a debug message.
+   * @param message - The message to log.
+   * @param context - Optional context to include in the log entry.
+   * @param error - Optional error to include in the log entry.
+   */
   public debug(message: string, context?: LogContext, error?: Error): void {
     log.debug(message, context, error);
   }
 
+  /**
+   * Logs an info message.
+   * @param message - The message to log.
+   * @param context - Optional context to include in the log entry.
+   * @param error - Optional error to include in the log entry.
+   */
   public info(message: string, context?: LogContext, error?: Error): void {
     log.info(message, context, error);
   }
 
+  /**
+   * Logs a warning message.
+   * @param message - The message to log.
+   * @param context - Optional context to include in the log entry.
+   * @param error - Optional error to include in the log entry.
+   */
   public warn(message: string, context?: LogContext, error?: Error): void {
     log.warn(message, context, error);
   }
 
+  /**
+   * Logs an error message.
+   * @param message - The message to log.
+   * @param context - Optional context to include in the log entry.
+   * @param error - Optional error to include in the log entry.
+   */
   public error(message: string, context?: LogContext, error?: Error): void {
     log.error(message, context, error);
   }
 
+  /**
+   * Sets the log level.
+   * @param level - The log level to set.
+   */
   public setLevel(level: LogLevelDesc): void {
     log.setLevel(level);
   }
 }
 
+/**
+ * Sets the log level for the logger.
+ * @param level - The log level to set.
+ */
 export function setLogLevel(level: LogLevelDesc) {
   log.setLevel(level);
 }

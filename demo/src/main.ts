@@ -3,10 +3,11 @@
  */
 import { LGraph, LGraphCanvas, LiteGraph} from "litegraph.js";
 
-import { NodeGenerator, setLogLevel } from "../../dist/index.js";
 import {
+  NodeGenerator,
+  setLogLevel,
   optimizeCanvas,
-} from "../../dist/utils/optim/canvas.js";
+} from "oapi-litegraph-nodegen";
 
 import "./style.css";
 
