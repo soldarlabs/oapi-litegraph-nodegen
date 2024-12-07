@@ -1,22 +1,22 @@
 /**
- * @file Color and math utility functions for LiteGraph nodes
+ * @file Color and math utility functions for LiteGraph nodes.
  */
 
 /**
  * Clamps a value between a minimum and maximum value.
- * @param value The value to clamp
- * @param min The minimum allowed value
- * @param max The maximum allowed value
- * @returns The clamped value
+ * @param value The value to clamp.
+ * @param min The minimum allowed value.
+ * @param max The maximum allowed value.
+ * @returns The clamped value.
  */
 export function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);
 }
 
 /**
- * Converts a hexadecimal color string to a number
- * @param hex The hexadecimal color string (e.g., "#FF0000" or "FF0000")
- * @returns The numeric value of the color
+ * Converts a hexadecimal color string to a number.
+ * @param hex The hexadecimal color string (e.g., "#FF0000" or "FF0000").
+ * @returns The numeric value of the color.
  */
 export function hex2num(hex: string): number {
   if (hex.charAt(0) === "#") {
@@ -26,18 +26,18 @@ export function hex2num(hex: string): number {
 }
 
 /**
- * Converts a number to a hexadecimal color string
- * @param num The numeric value to convert
- * @returns The hexadecimal color string
+ * Converts a number to a hexadecimal color string.
+ * @param num The numeric value to convert.
+ * @returns The hexadecimal color string.
  */
 export function num2hex(num: number): string {
   return "#" + num.toString(16).padStart(6, "0");
 }
 
 /**
- * Converts various color formats to a string representation
- * @param color The color to convert (can be a number, string, array of RGB values, or RGB object)
- * @returns The string representation of the color
+ * Converts various color formats to a string representation.
+ * @param color The color to convert (can be a number, string, array of RGB values, or RGB object).
+ * @returns The string representation of the color.
  */
 export function colorToString(
   color:
