@@ -112,29 +112,10 @@ oapi-litegraph-nodegen/
 4. Create a branch:
 
    ```bash
-   cd demo
-   npm install
-   ```
-
-4. Create a branch:
-
-   ```bash
-   npm run build
-   ```
-
-4. Install demo dependencies:
-
-   ```bash
-   cd demo
-   npm install
-   ```
-
-5. Create a branch:
-   ```bash
    git checkout -b my-feature
    ```
 
-### Running the Demo
+### Development Workflow
 
 The project uses a watch-based development workflow with Vite for instant feedback:
 
