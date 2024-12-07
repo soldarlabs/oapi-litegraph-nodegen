@@ -163,7 +163,6 @@ oapi-litegraph-nodegen/
 │   │   ├── optim/        # Performance optimization utilities
 │   │   │   └── canvas.ts # Canvas optimization module
 │   │   |── logger.ts     # Logging utilities
-|   |   └── mathUtils.ts       # Math utilities
 │   ├── nodeGenerator.ts   # Main node generator
 │   ├── visualWidgets.ts   # Visual widget implementations
 │   ├── OpenAPINode.ts     # Core node implementation

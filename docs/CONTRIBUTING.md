@@ -23,7 +23,7 @@ Before creating bug reports, please check the issue list as you might find out t
   - Node.js version
   - npm version
   - Library version
-  - Next.js version (if using the demo)
+  - Vite version (if using the demo)
 
 ### Suggesting Enhancements
 
@@ -59,25 +59,24 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 ```bash
 oapi-litegraph-nodegen/
 ├── src/                    # Library source code
-│   ├── utils/             # Utility functions
-│   │   ├── optim/        # Performance optimization utilities
-│   │   │   └── canvas.ts # Canvas optimization module
-│   │   |── logger.ts     # Logging utilities
-|   |   └── mathUtils.ts  # Math utilities
-│   ├── nodeGenerator.ts   # Main node generator
-│   ├── visualWidgets.ts   # Visual widget implementations
-│   ├── OpenAPINode.ts     # Core node implementation
-│   ├── widgets.ts         # Widget definitions
-│   └── index.ts          # Public API
-├── demo/                  # Demo application
-│   └── index.html       # Demo entry point
-|   |── main.js          # Demo entry point
-|   |── vite.config.js   # Vite configuration
-│   └── styles.css       # Demo styles
-|   └── openapi.yaml     # OpenAPI spec for demo
-├── dist/                 # Compiled library output
-├── test/                 # Test files
-└── docs/                # Documentation
+│   ├── generator/         # Node generation logic
+│   │   └── nodeGenerator.ts # Main node generator
+│   ├── nodes/            # Node implementations
+│   │   ├── output/      # Output node types
+│   │   ├── widgets/     # Widget implementations
+│   │   └── OpenAPINode.ts # Base node implementation
+│   ├── utils/           # Utility functions
+│   │   ├── color.ts    # Color utilities
+│   │   └── other utils...
+│   └── index.ts        # Public API
+├── demo/               # Vite-powered demo application
+│   ├── index.html     # Demo entry point
+│   ├── src/           # Demo source code
+│   ├── public/        # Static assets
+│   └── vite.config.ts # Vite configuration
+├── dist/              # Compiled library output
+├── test/             # Test files
+└── docs/             # Documentation
     ├── ARCHITECTURE.md  # Architecture documentation
     ├── CHANGELOG.md     # Version history
     └── CONTRIBUTING.md  # Contribution guidelines
@@ -89,31 +88,53 @@ oapi-litegraph-nodegen/
 
    ```bash
    git clone https://github.com/soldarlabs/oapi-litegraph-nodegen.git
+   cd oapi-litegraph-nodegen
    ```
 
 2. Install dependencies:
 
    ```bash
-   cd oapi-litegraph-nodegen
    npm install
    ```
 
-3. **Optional**: Link the library to the demo:
+### Running the Demo
+
+The demo is built using Vite for better development experience. To run it:
+
+1. Start development:
 
    ```bash
-   # From the root directory
-   npm link
-   cd demo
-   npm link oapi-litegraph-nodegen
+   # Start the library in watch mode
+   npm run dev
+
+   # In another terminal, start the demo
+   npm run start:demo
    ```
 
-   This will allow you to make changes to the library and see them reflected in the demo without manual rebuilds.
+This will start a development server at `http://localhost:5173` (or another port if 5173 is in use).
 
-4. Create a branch:
+The demo includes:
+
+- Interactive LiteGraph canvas
+- Sample OpenAPI specifications
+- Live node generation
+- Real-time API testing
+
+### Building for Production
+
+1. Build the library:
 
    ```bash
-   git checkout -b my-feature
+   npm run build:prod
    ```
+
+2. Build the demo (optional):
+
+   ```bash
+   npm run build:prod
+   ```
+
+The built library will be in the `dist/` directory, and the demo build will be in `demo/dist/`.
 
 ### Development Workflow
 
@@ -123,7 +144,7 @@ The project uses a watch-based development workflow with Vite for instant feedba
 
    ```bash
    # From the root directory
-   # This wil start the development server and watch for changes.
+   # This will start the development server and watch for changes.
    npm run dev
    # From the demo directory
    # This will start the vite server for the demo.

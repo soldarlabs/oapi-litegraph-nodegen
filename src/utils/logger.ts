@@ -85,7 +85,7 @@ class Logger {
               : "";
 
           rawMethod(
-            `${logEntry.timestamp} ${logEntry.level} ${contextStr} ${logEntry.message}`
+            `${logEntry.timestamp} ${logEntry.level} ${contextStr} ${logEntry.message}`,
           );
           if (error) {
             rawMethod(error.stack);
