@@ -2,15 +2,14 @@
  * @file Main application component.
  */
 import { useEffect, useRef } from "react";
-import { LGraph, LiteGraph } from "litegraph.js";
+import { LGraph } from "litegraph.js";
 import {
   NodeGenerator,
   setLogLevel,
   optimizeCanvas,
-  CustomOutputNode,
 } from "oapi-litegraph-nodegen";
 import "litegraph.js/css/litegraph.css";
-import "./App.css";
+import "@/App.css";
 
 // Expose LGraph globally for audio nodes.
 if (typeof window !== "undefined") {
@@ -35,9 +34,6 @@ const App = () => {
 
       // Create a new LiteGraph graph.
       const graph = new LGraph();
-
-      // Register custom output node.
-      LiteGraph.registerNodeType("oapi/output", CustomOutputNode);
 
       // Apply canvas optimizations (optional).
       optimizeCanvas("#graphcanvas", graph);
