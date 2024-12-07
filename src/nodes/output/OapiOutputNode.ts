@@ -44,51 +44,47 @@ export class CustomOutputNode extends LGraphNode {
     // Add widgets
     this.addWidget(
       "toggle",
-      "Success (Green/Red)",
-      false,
-      (value: boolean) => {
-        this.properties.status.success = value;
-        this.setDirtyCanvas(true, false);
-      },
-      { bg: undefined, color: (value: boolean) => (value ? "#00FF00" : "#FF0000") }
+      "Success Status",
+      this.properties.status.success,
+      "properties.status.success",  
+      { 
+        bg: undefined, 
+        color: (value: boolean) => (value ? "#00FF00" : "#FF0000"),
+        readonly: true,
+      }
     );
 
     this.addWidget(
       "number",
       "Error Code",
-      0,
-      (value: number) => {
-        this.properties.status.errorCode = value;
-      },
-      { precision: 0 }
+      this.properties.status.errorCode,
+      "properties.status.errorCode",  
+      { 
+        precision: 0,
+        readonly: true,
+      }
     );
 
     this.addWidget(
       "text",
       "Recognized Outputs",
       JSON.stringify(this.properties.status.recognizedOutputs, null, 2),
-      (value: string) => {
-        try {
-          this.properties.status.recognizedOutputs = JSON.parse(value);
-        } catch (e) {
-          console.warn("Invalid JSON for Recognized Outputs");
-        }
-      },
-      { multiline: true }
+      () => {}, 
+      { 
+        multiline: true,
+        readonly: true,
+      }
     );
 
     this.addWidget(
       "text",
       "Unrecognized Outputs",
       JSON.stringify(this.properties.status.unrecognizedOutputs, null, 2),
-      (value: string) => {
-        try {
-          this.properties.status.unrecognizedOutputs = JSON.parse(value);
-        } catch (e) {
-          console.warn("Invalid JSON for Unrecognized Outputs");
-        }
-      },
-      { multiline: true }
+      () => {}, 
+      { 
+        multiline: true,
+        readonly: true,
+      }
     );
 
     this.size = [300, 200]; // Default node size
@@ -113,7 +109,7 @@ export class CustomOutputNode extends LGraphNode {
       // Force widget updates
       this.widgets?.forEach((w: IWidget) => {
         switch (w.name) {
-          case "Success (Green/Red)":
+          case "Success Status":
             w.value = this.properties.status.success;
             break;
           case "Error Code":
