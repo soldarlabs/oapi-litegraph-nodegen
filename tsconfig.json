@@ -12,7 +12,11 @@
     "rootDir": "src",
     "outDir": "dist",
     "forceConsistentCasingInFileNames": true,
-    "noUncheckedIndexedAccess": true
+    "noUncheckedIndexedAccess": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
   },
   "include": ["src/**/*"]
 }

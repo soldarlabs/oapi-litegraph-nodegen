@@ -19,7 +19,7 @@ if (typeof window !== "undefined") {
 /**
  * Application component.
  */
-const App = () => {
+const App: React.FC = () => {
   const hasGeneratedGraph = useRef(false);
 
   useEffect(() => {
@@ -62,6 +62,6 @@ const App = () => {
       </div>
     </>
   );
-}
+};
 
 export default App;
