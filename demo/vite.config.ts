@@ -1,9 +1,12 @@
 import { defineConfig } from "vite";
 import { resolve } from "path";
+import react from "@vitejs/plugin-react-swc";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
 
+// https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
   plugins: [
+    react(),
     nodePolyfills({
       globals: {
         process: true,
@@ -35,6 +38,12 @@ export default defineConfig(({ mode }) => ({
       },
     },
   },
+  resolve: {
+    alias: {
+      buffer: "vite-plugin-node-polyfills/shims/buffer",
+      process: "vite-plugin-node-polyfills/shims/process",
+    },
+  },
   optimizeDeps: {
     include: ["litegraph.js", "buffer", "process"],
     exclude: ["oapi-litegraph-nodegen"],
@@ -42,12 +51,6 @@ export default defineConfig(({ mode }) => ({
       define: {
         global: "globalThis",
       },
-    },
-  },
-  resolve: {
-    alias: {
-      buffer: "vite-plugin-node-polyfills/shims/buffer",
-      process: "vite-plugin-node-polyfills/shims/process",
     },
   },
   server: {
