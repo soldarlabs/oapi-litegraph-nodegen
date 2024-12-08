@@ -1,5 +1,5 @@
 /**
- * @file Main application component.
+ * @file Contains the main application component.
  */
 import { useEffect, useRef } from "react";
 import { LGraph } from "litegraph.js";
@@ -8,6 +8,7 @@ import {
   setLogLevel,
   optimizeCanvas,
 } from "oapi-litegraph-nodegen";
+import { FloatingToolbar } from "@/components/FloatingToolbar/FloatingToolbar";
 import "litegraph.js/css/litegraph.css";
 import "@/App.css";
 
@@ -17,9 +18,9 @@ if (typeof window !== "undefined") {
 }
 
 /**
- * Application component.
+ * Main application component.
  */
-const App: React.FC = () => {
+const App = () => {
   const hasGeneratedGraph = useRef(false);
 
   useEffect(() => {
@@ -47,6 +48,7 @@ const App: React.FC = () => {
       graph.start();
     };
 
+    // Prevent double trigger due to strict mode.
     if (!hasGeneratedGraph.current) {
       generateGraph().catch((err) => {
         console.error("Failed to generate graph:", err);
@@ -57,6 +59,7 @@ const App: React.FC = () => {
 
   return (
     <>
+      <FloatingToolbar />
       <div id="graph-container">
         <canvas id="graphcanvas"></canvas>
       </div>
