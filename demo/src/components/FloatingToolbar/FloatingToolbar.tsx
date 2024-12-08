@@ -2,7 +2,7 @@
  * @file Provides a floating toolbar component for controlling LiteGraph workflow
  * execution.
  */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { GripVertical, Settings, Repeat2 } from "lucide-react";
 import { PlayIcon, StopIcon } from "@heroicons/react/24/solid";
 import Draggable, { DraggableEvent, DraggableData } from "react-draggable";
@@ -14,6 +14,7 @@ import { SettingsDialog } from "@/components/FloatingToolbar/SettingsDialog/Sett
  * Floating toolbar component for controlling LiteGraph workflow execution.
  */
 export const FloatingToolbar = () => {
+  const nodeRef = useRef(null);
   const [isExecuting, setIsExecuting] = useState(false);
   const [isRecurring, setIsRecurring] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -63,8 +64,8 @@ export const FloatingToolbar = () => {
   }
 
   return (
-    <Draggable handle=".drag-handle" position={position} onStop={handleDrag}>
-      <div className="fixed bottom-5 left-0 right-0 flex justify-center z-50">
+    <Draggable handle=".drag-handle" position={position} onStop={handleDrag} nodeRef={nodeRef}>
+      <div ref={nodeRef} className="fixed bottom-5 left-0 right-0 flex justify-center z-50">
         <Card className="flex items-center space-x-2 p-2">
           {/* Draggable Handle */}
           <div className="drag-handle cursor-move flex items-center">

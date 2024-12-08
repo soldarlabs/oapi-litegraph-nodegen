@@ -175,6 +175,9 @@ export class OpenAPINode extends LGraphNode {
 
       const inputData: { [key: string]: any } = {};
 
+      // Set the mode to onTrigger so it doesnt execute indefinitely
+      this.mode = LiteGraph.ON_TRIGGER;
+
       // Collect input data.
       if (this.inputs) {
         for (let i = 0; i < this.inputs.length; i++) {
