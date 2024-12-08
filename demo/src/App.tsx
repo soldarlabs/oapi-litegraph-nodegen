@@ -13,11 +13,6 @@ import { FloatingToolbar } from "@/components/FloatingToolbar/FloatingToolbar";
 import "litegraph.js/css/litegraph.css";
 import "@/App.css";
 
-// Expose LGraph globally for audio nodes.
-if (typeof window !== "undefined") {
-  window.LGraph = LGraph;
-}
-
 /**
  * Main application component.
  */
