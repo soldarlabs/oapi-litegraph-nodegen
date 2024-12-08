@@ -1,16 +1,16 @@
 /**
- * @file Main application component.
+ * @file Defines the main application component.
  */
 import { useEffect, useRef } from "react";
-import { LGraph, LiteGraph } from "litegraph.js";
+import { LGraph } from "litegraph.js";
 import {
   NodeGenerator,
   setLogLevel,
   optimizeCanvas,
-  CustomOutputNode,
 } from "oapi-litegraph-nodegen";
+import { FloatingToolbar } from "@/components/FloatingToolbar/FloatingToolbar";
 import "litegraph.js/css/litegraph.css";
-import "./App.css";
+import "@/App.css";
 
 // Expose LGraph globally for audio nodes.
 if (typeof window !== "undefined") {
@@ -18,7 +18,7 @@ if (typeof window !== "undefined") {
 }
 
 /**
- * Application component.
+ * Main application component.
  */
 const App = () => {
   const hasGeneratedGraph = useRef(false);
@@ -36,9 +36,6 @@ const App = () => {
       // Create a new LiteGraph graph.
       const graph = new LGraph();
 
-      // Register custom output node.
-      LiteGraph.registerNodeType("oapi/output", CustomOutputNode);
-
       // Apply canvas optimizations (optional).
       optimizeCanvas("#graphcanvas", graph);
 
@@ -51,6 +48,7 @@ const App = () => {
       graph.start();
     };
 
+    // Prevent double trigger due to strict mode.
     if (!hasGeneratedGraph.current) {
       generateGraph().catch((err) => {
         console.error("Failed to generate graph:", err);
@@ -61,11 +59,12 @@ const App = () => {
 
   return (
     <>
+      <FloatingToolbar />
       <div id="graph-container">
         <canvas id="graphcanvas"></canvas>
       </div>
     </>
   );
-}
+};
 
 export default App;

@@ -42,6 +42,7 @@ export default defineConfig(({ mode }) => ({
     alias: {
       buffer: "vite-plugin-node-polyfills/shims/buffer",
       process: "vite-plugin-node-polyfills/shims/process",
+      "@": resolve(__dirname, "./src"),
     },
   },
   optimizeDeps: {
