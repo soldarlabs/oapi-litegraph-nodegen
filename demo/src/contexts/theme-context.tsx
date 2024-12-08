@@ -1,5 +1,5 @@
 /**
- * @file Contains the theme context for the application.
+ * @file Provides the theme context for the application.
  */
 import { createContext } from "react";
 

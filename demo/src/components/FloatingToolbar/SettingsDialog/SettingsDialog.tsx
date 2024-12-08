@@ -1,5 +1,5 @@
 /**
- * @file Contains the SettingsDialog component for configuring the LiteGraph graph.
+ * @file Provides the SettingsDialog component for configuring the LiteGraph graph.
  */
 import {
   Dialog,

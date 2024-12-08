@@ -1,5 +1,5 @@
 /**
- * @file Main entry point for the demo.
+ * @file Main entry point for the demo application.
  */
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
@@ -10,7 +10,7 @@ import App from "@/App.tsx";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ThemeProvider defaultTheme="light">
-      <App />
+        <App />
     </ThemeProvider>
   </StrictMode>
 );
