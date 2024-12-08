@@ -1,5 +1,5 @@
 /**
- * @file Contains a floating toolbar component for controlling LiteGraph workflow
+ * @file Provides a floating toolbar component for controlling LiteGraph workflow
  * execution.
  */
 import { useState, useEffect } from "react";

@@ -1,5 +1,5 @@
 /**
- * @file Contains the theme provider for managing the application-wide theme.
+ * @file Provides the theme provider for managing the application-wide theme.
  */
 import { useEffect, useState } from "react";
 import { Theme, ThemeProviderContext } from "@/contexts/theme-context";
@@ -16,13 +16,15 @@ type ThemeProviderProps = {
 
 /**
  * Theme provider for managing the application-wide theme.
+ * @param props The component props.
+ * @returns The theme provider component.
  */
-export function ThemeProvider({
+export const ThemeProvider = ({
   children,
   defaultTheme = "system",
   storageKey = "vite-ui-theme",
   ...props
-}: ThemeProviderProps) {
+}: ThemeProviderProps) =>{
   const [theme, setTheme] = useState<Theme>(
     () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
   );

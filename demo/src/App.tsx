@@ -1,5 +1,5 @@
 /**
- * @file Contains the main application component.
+ * @file Defines the main application component.
  */
 import { useEffect, useRef } from "react";
 import { LGraph } from "litegraph.js";

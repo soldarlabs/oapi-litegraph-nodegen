@@ -1,11 +1,13 @@
 /**
- * @file Contains a hook for using the current theme context.
+ * @file Provides a hook for accessing the current theme context.
  */
 import { useContext } from "react";
 import { ThemeProviderContext } from "@/context/ThemeContext";
 
 /**
  * Hook for using the current theme context.
+ * @returns The current theme context.
+ * @throws Will throw an error if used outside of a ThemeProvider.
  */
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext);
