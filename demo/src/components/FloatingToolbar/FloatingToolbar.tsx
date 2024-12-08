@@ -13,11 +13,11 @@ import { SettingsDialog } from "@/components/FloatingToolbar/SettingsDialog/Sett
 /**
  * Floating toolbar component for controlling LiteGraph workflow execution.
  */
-export const FloatingToolbar = ()  => {
+export const FloatingToolbar = () => {
   const [isExecuting, setIsExecuting] = useState(false);
   const [isRecurring, setIsRecurring] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
-
+  const [isPositionLoaded, setIsPositionLoaded] = useState(false);
 
   useEffect(() => {
     // Retrieve the saved position from localStorage.
@@ -25,6 +25,7 @@ export const FloatingToolbar = ()  => {
     if (savedPosition) {
       setPosition(JSON.parse(savedPosition));
     }
+    setIsPositionLoaded(true);
   }, []);
 
   /** Starts workflow execution. */
@@ -47,6 +48,11 @@ export const FloatingToolbar = ()  => {
     setPosition(newPosition);
     localStorage.setItem("floatingToolbarPosition", JSON.stringify(newPosition));
   };
+
+  // Wait for position to be loaded before rendering.
+  if (!isPositionLoaded) {
+    return null;
+  }
 
   return (
     <Draggable handle=".drag-handle" position={position} onStop={handleDrag}>
