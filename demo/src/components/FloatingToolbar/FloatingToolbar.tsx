@@ -57,7 +57,7 @@ export const FloatingToolbar = () => {
   return (
     <Draggable handle=".drag-handle" position={position} onStop={handleDrag}>
       <div className="fixed bottom-5 left-0 right-0 flex justify-center z-50">
-        <Card className="flex items-center space-x-3 p-3">
+        <Card className="flex items-center space-x-2 p-2">
           {/* Draggable Handle */}
           <div className="drag-handle cursor-move flex items-center">
             <GripVertical className="w-5 h-5 text-muted-foreground" />
