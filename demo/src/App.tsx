@@ -2,20 +2,16 @@
  * @file Defines the main application component.
  */
 import { useEffect, useRef } from "react";
-import { LGraph } from "litegraph.js";
+import { LGraph, LiteGraph } from "litegraph.js";
 import {
   NodeGenerator,
   setLogLevel,
   optimizeCanvas,
+  CustomOutputNode,
 } from "oapi-litegraph-nodegen";
 import { FloatingToolbar } from "@/components/FloatingToolbar/FloatingToolbar";
 import "litegraph.js/css/litegraph.css";
 import "@/App.css";
-
-// Expose LGraph globally for audio nodes.
-if (typeof window !== "undefined") {
-  window.LGraph = LGraph;
-}
 
 /**
  * Main application component.
@@ -42,6 +38,9 @@ const App = () => {
       // Initialize the node generator and add the example OpenAPI spec.
       const generator = new NodeGenerator();
       await generator.addSpec("example-demo", "./specs/example.openapi.yaml");
+
+      // Register the custom output node.
+      LiteGraph.registerNodeType("oapi/custom-output", CustomOutputNode);
 
       // Register nodes from the spec and start the graph.
       generator.registerNodes();
