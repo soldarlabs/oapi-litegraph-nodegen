@@ -5,7 +5,7 @@
 import { useState, useEffect } from "react";
 import { GripVertical, Settings, Repeat2 } from "lucide-react";
 import { PlayIcon, StopIcon } from "@heroicons/react/24/solid";
-import Draggable from "react-draggable";
+import Draggable, { DraggableEvent, DraggableData } from "react-draggable";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { SettingsDialog } from "@/components/FloatingToolbar/SettingsDialog/SettingsDialog";
@@ -43,10 +43,18 @@ export const FloatingToolbar = () => {
     setIsRecurring((prev) => !prev);
   };
 
-  const handleDrag = (e, data) => {
+  /**
+   * Ensures the toolbar position is saved when dragged.
+   * @param e - The drag event.
+   * @param data - The drag data.
+   */
+  const handleDrag = (_: DraggableEvent, data: DraggableData) => {
     const newPosition = { x: data.x, y: data.y };
     setPosition(newPosition);
-    localStorage.setItem("floatingToolbarPosition", JSON.stringify(newPosition));
+    localStorage.setItem(
+      "floatingToolbarPosition",
+      JSON.stringify(newPosition)
+    );
   };
 
   // Wait for position to be loaded before rendering.
@@ -69,7 +77,10 @@ export const FloatingToolbar = () => {
             aria-label="Play"
             className={`${isExecuting ? "bg-green-500 text-white" : ""}`}
             disabled={isExecuting}
-            style={{ opacity: isExecuting ? 1 : undefined, cursor: isExecuting ? "not-allowed" : undefined }}
+            style={{
+              opacity: isExecuting ? 1 : undefined,
+              cursor: isExecuting ? "not-allowed" : undefined,
+            }}
           >
             <PlayIcon className="w-5 h-5" />
           </Button>
