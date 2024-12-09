@@ -1,15 +1,9 @@
 /**
  * @file Defines the main application component.
  */
-import { useEffect, useRef } from "react";
-import { LGraph, LiteGraph } from "litegraph.js";
-import {
-  NodeGenerator,
-  setLogLevel,
-  optimizeCanvas,
-  CustomOutputNode,
-} from "oapi-litegraph-nodegen";
+import { useEffect } from "react";
 import { FloatingToolbar } from "@/components/FloatingToolbar/FloatingToolbar";
+import { useLiteGraph } from "@/hooks/use-litegraph";
 import "litegraph.js/css/litegraph.css";
 import "@/App.css";
 
@@ -17,44 +11,26 @@ import "@/App.css";
  * Main application component.
  */
 const App = () => {
-  const hasGeneratedGraph = useRef(false);
+  const { generator, isReady } = useLiteGraph();
 
   useEffect(() => {
     /**
-     * Generate the LiteGraph graph.
+     * Initialize the generator with the example spec.
      */
-    const generateGraph = async () => {
-      console.log("Call generateGraph");
+    const initializeGenerator = async () => {
+      if (!isReady || !generator) return;
 
-      // Set oapi-litegraph-nodegen log level to debug.
-      setLogLevel("debug");
-
-      // Create a new LiteGraph graph.
-      const graph = new LGraph();
-
-      // Apply canvas optimizations (optional).
-      optimizeCanvas("#graphcanvas", graph);
-
-      // Initialize the node generator and add the example OpenAPI spec.
-      const generator = new NodeGenerator();
+      // Add example spec to the generator.
       await generator.addSpec("example-demo", "./specs/example.openapi.yaml");
 
-      // Register the custom output node.
-      LiteGraph.registerNodeType("oapi/custom-output", CustomOutputNode);
-
-      // Register nodes from the spec and start the graph.
+      // Register OpenAPI nodes.
       generator.registerNodes();
-      graph.start();
     };
 
-    // Prevent double trigger due to strict mode.
-    if (!hasGeneratedGraph.current) {
-      generateGraph().catch((err) => {
-        console.error("Failed to generate graph:", err);
-      });
-      hasGeneratedGraph.current = true;
-    }
-  }, []);
+    initializeGenerator().catch((err) => {
+      console.error("Failed to initialize generator:", err);
+    });
+  }, [generator, isReady]);
 
   return (
     <>
