@@ -93,8 +93,7 @@ export function optimizeCanvas(
     (LiteGraph as any).pointerevents_method = "pointer";
   }
 
-  var graphCanvas = new LGraphCanvas(canvas, graph);
-
+  const graphCanvas = new LGraphCanvas(canvas, graph);
 
   optimizeCanvasForHighDPI(graphCanvas);
 
