@@ -91,7 +91,7 @@ export const FloatingToolbar = () => {
             variant="outline"
             onClick={toggleRecurring}
             aria-label="Toggle Recurring"
-            className={isRecurring ? "text-green-500" : ""}
+            className={isRecurring ? "text-green-500 hover:text-green-500" : ""}
           >
             <Repeat2 className="w-5 h-5" />
           </Button>
@@ -100,7 +100,7 @@ export const FloatingToolbar = () => {
             variant="outline"
             onClick={handleStop}
             aria-label="Stop"
-            className={isExecuting ? "text-red-500" : ""}
+            className={isExecuting ? "text-red-500 hover:text-red-500" : ""}
           >
             <StopIcon className="w-5 h-5" />
           </Button>
