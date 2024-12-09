@@ -74,6 +74,7 @@ export const FloatingToolbar = () => {
 
           {/* Play Button */}
           <Button
+            variant="outline"
             onClick={handlePlay}
             aria-label="Play"
             className={`${isExecuting ? "bg-green-500 text-white" : ""}`}
@@ -87,6 +88,7 @@ export const FloatingToolbar = () => {
           </Button>
           {/* Recurring Button */}
           <Button
+            variant="outline"
             onClick={toggleRecurring}
             aria-label="Toggle Recurring"
             className={isRecurring ? "text-green-500" : ""}
@@ -95,6 +97,7 @@ export const FloatingToolbar = () => {
           </Button>
           {/* Stop Button */}
           <Button
+            variant="outline"
             onClick={handleStop}
             aria-label="Stop"
             className={isExecuting ? "text-red-500" : ""}
@@ -104,7 +107,7 @@ export const FloatingToolbar = () => {
           {/* Settings Dialog Button */}
           <SettingsDialog
             trigger={
-              <Button aria-label="Settings">
+              <Button variant="outline" aria-label="Settings">
                 <Settings className="w-5 h-5" />
               </Button>
             }
