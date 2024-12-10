@@ -2,7 +2,7 @@
  * @file Provides a hook for accessing the current theme context.
  */
 import { useContext } from "react";
-import { ThemeProviderContext } from "@/contexts/theme-context";
+import { ThemeContext } from "@/contexts/theme-context";
 
 /**
  * Hook for using the current theme context.
@@ -10,7 +10,7 @@ import { ThemeProviderContext } from "@/contexts/theme-context";
  * @throws Will throw an error if used outside of a ThemeProvider.
  */
 export const useTheme = () => {
-  const context = useContext(ThemeProviderContext);
+  const context = useContext(ThemeContext);
   if (!context) {
     throw new Error("useTheme must be used within a ThemeProvider");
   }
