@@ -9,6 +9,7 @@ import Draggable, { DraggableEvent, DraggableData } from "react-draggable";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { SettingsDialog } from "@/components/FloatingToolbar/SettingsDialog/SettingsDialog";
+import { useLiteGraph } from "@/hooks/use-litegraph";
 
 /**
  * Floating toolbar component for controlling LiteGraph workflow execution.
@@ -19,6 +20,7 @@ export const FloatingToolbar = () => {
   const [isRecurring, setIsRecurring] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isPositionLoaded, setIsPositionLoaded] = useState(false);
+  const { graph, isReady } = useLiteGraph();
 
   useEffect(() => {
     // Retrieve the saved position from localStorage.
@@ -31,12 +33,41 @@ export const FloatingToolbar = () => {
 
   /** Starts workflow execution. */
   const handlePlay = () => {
-    setIsExecuting(true);
+    if (!isReady || !graph) {
+      console.warn("LiteGraph is not ready.");
+      return;
+    }
+
+    // Start graph based on mode.
+    try {
+      if (isRecurring) {
+        graph.start();
+        console.debug("Graph started in recurring mode.");
+      } else {
+        graph.runStep();
+        console.debug("Graph executed a single step.");
+      }
+      setIsExecuting(true);
+    } catch (error) {
+      console.error("Failed to execute graph:", error);
+    }
   };
 
   /** Stops workflow execution. */
   const handleStop = () => {
-    setIsExecuting(false);
+    if (!isReady || !graph) {
+      console.warn("LiteGraph is not ready.");
+      return;
+    }
+
+    // Stop graph execution.
+    try {
+      graph.stop();
+      console.debug("Graph stopped.");
+      setIsExecuting(false);
+    } catch (error) {
+      console.error("Failed to stop graph:", error);
+    }
   };
 
   /** Toggles continuous execution mode. */
@@ -64,8 +95,16 @@ export const FloatingToolbar = () => {
   }
 
   return (
-    <Draggable handle=".drag-handle" position={position} onStop={handleDrag} nodeRef={nodeRef}>
-      <div ref={nodeRef} className="fixed bottom-5 left-0 right-0 flex justify-center z-50">
+    <Draggable
+      handle=".drag-handle"
+      position={position}
+      onStop={handleDrag}
+      nodeRef={nodeRef}
+    >
+      <div
+        ref={nodeRef}
+        className="fixed bottom-5 left-0 right-0 flex justify-center z-50"
+      >
         <Card className="flex items-center space-x-2 p-2">
           {/* Draggable Handle */}
           <div className="drag-handle cursor-move flex items-center">

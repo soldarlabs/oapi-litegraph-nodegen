@@ -21,7 +21,7 @@ const App = () => {
       if (!isReady || !generator) return;
 
       // Add example spec to the generator.
-      await generator.addSpec("example-demo", "./specs/example.openapi.yaml");
+      await generator.addSpec("example-demo", "https://raw.githubusercontent.com/livepeer/ai-worker/refs/heads/main/runner/gateway.openapi.yaml");
 
       // Register OpenAPI nodes.
       generator.registerNodes();

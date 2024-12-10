@@ -1,6 +1,7 @@
 /**
  * @file Provides the SettingsDialog component for configuring the LiteGraph graph.
  */
+import { ReactNode } from "react";
 import {
   Dialog,
   DialogContent,
@@ -12,7 +13,6 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { ReactNode } from "react";
 
 /** Properties for the SettingsDialog component. */
 interface SettingsDialogProps {
