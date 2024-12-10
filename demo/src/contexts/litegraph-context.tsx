@@ -11,6 +11,8 @@ interface LiteGraphContextState {
   generator: NodeGenerator | null;
   /** LiteGraph instance. */
   graph: LGraph | null;
+  /** Flag indicating if the LiteGraph instance is ready. */
+  isReady: boolean;
 }
 
 export const LiteGraphContext = createContext<
