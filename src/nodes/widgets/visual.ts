@@ -7,12 +7,12 @@ import { WidgetConfig } from "./utils.js";
 // Constants for node appearance.
 const NODE_CONSTANTS = {
   INPUT_HEIGHT: 30, // Height for inputs and widgets
-  HEADER_HEIGHT: 30, // Header height
-  FOOTER_HEIGHT: 30, // Footer height
+  HEADER_HEIGHT: 20, // Header height
+  FOOTER_HEIGHT: 40, // Footer height
   WIDGET_HEIGHT: 30, // Widget height
   MARGIN_X: 10, // Left margin
-  MIN_WIDTH: 250, // Minimum node width
-  MIN_HEIGHT: 120, // Minimum node height
+  MIN_WIDTH: 300, // Minimum node width
+  MIN_HEIGHT: 200, // Minimum node height
   OUTPUT_MARGIN: 15, // Output margin
   RIGHT_MARGIN: 10, // Right margin
 };
@@ -183,7 +183,7 @@ export function customizeNodeAppearance(node: LGraphNode) {
 
     // Adjust y position based on slot number.
     // Main output at bottom, trigger output slightly above.
-    const y = this.pos[1] + this.size[1] - (25 + slotNum * 20);
+    const y = this.pos[1] + this.size[1] - (15 + slotNum * 20);
 
     out[0] = x;
     out[1] = y;

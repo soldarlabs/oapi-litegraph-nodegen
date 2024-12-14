@@ -3,8 +3,8 @@
  */
 import SwaggerParser from "@apidevtools/swagger-parser";
 import { LiteGraph } from "litegraph.js";
-import log from "../utils/logger.js";
-import { createOpenAPINodeClass } from "../nodes/OpenAPINode.js";
+import { createOpenAPINodeClass, HttpMethod } from "../nodes/OpenAPINodeFactory.js";
+import logger from "../utils/logger.js";
 
 /**
  * NodeGenerator is responsible for creating LiteGraph nodes from OpenAPI specifications.
@@ -55,9 +55,9 @@ export class NodeGenerator {
     try {
       const parsedSpec = await SwaggerParser.validate(spec);
       this.openApiSpecs[key] = parsedSpec;
-      log.debug(`OpenAPI spec '${key}' is valid:`, { spec: parsedSpec });
+      logger.debug(`OpenAPI spec '${key}' is valid:`, { spec: parsedSpec });
     } catch (err) {
-      log.error(`Invalid OpenAPI spec '${key}':`, { error: err });
+      logger.error(`Invalid OpenAPI spec '${key}':`, { error: err });
       throw err;
     }
   }
@@ -77,13 +77,13 @@ export class NodeGenerator {
   public removeSpec(key: string): boolean {
     if (this.openApiSpecs[key]) {
       delete this.openApiSpecs[key];
-      log.debug(`OpenAPI spec '${key}' has been removed.`, {
+      logger.debug(`OpenAPI spec '${key}' has been removed.`, {
         operation: "removeSpec",
         key,
       });
       return true;
     } else {
-      log.warn(`OpenAPI spec '${key}' does not exist.`, {
+      logger.warn(`OpenAPI spec '${key}' does not exist.`, {
         operation: "removeSpec",
         key,
       });
@@ -102,7 +102,7 @@ export class NodeGenerator {
    */
   public clearSpecs(): void {
     this.openApiSpecs = {};
-    log.debug("All OpenAPI specs have been removed.", {
+    logger.debug("All OpenAPI specs have been removed.", {
       operation: "clearSpecs",
     });
   }
@@ -132,7 +132,7 @@ export class NodeGenerator {
       }
       this.registerNodesForSpec(key, this.openApiSpecs[key]);
     } else {
-      log.debug("Registering LiteGraph nodes from all OpenAPI specs...");
+      logger.debug("Registering LiteGraph nodes from all OpenAPI specs...");
       for (const key in this.openApiSpecs) {
         this.registerNodesForSpec(key, this.openApiSpecs[key]);
       }
@@ -153,21 +153,37 @@ export class NodeGenerator {
    * ```
    */
   private registerNodesForSpec(key: string, spec: any): void {
-    log.debug(`Registering nodes for OpenAPI spec '${key}'...`);
+    logger.debug(`Registering nodes for OpenAPI spec '${key}'...`);
+
+    // Extract server URLs from the spec
+    const servers = spec.servers || [];
+    const serverUrl = servers.length > 0 ? servers[0].url : "";
+
     for (const path in spec.paths) {
       for (const method in spec.paths[path]) {
         const operation = spec.paths[path][method];
         const normalizedPath = path.startsWith("/") ? path : `/${path}`;
 
+        // Get operation-specific server if defined, otherwise use global server
+        const operationServers = operation.servers || [];
+        const operationServerUrl =
+          operationServers.length > 0 ? operationServers[0].url : serverUrl;
+
         const nodeType = `oapi/${key}/${method.toLowerCase()}${normalizedPath}`;
-        const NodeClass = createOpenAPINodeClass(
-          method,
-          normalizedPath,
+        const NodeClass = createOpenAPINodeClass({
+          method: method.toLowerCase() as HttpMethod,
+          path: normalizedPath,
           operation,
-        );
+          serverUrl: operationServerUrl,
+        });
+
         LiteGraph.registerNodeType(nodeType, NodeClass);
-        log.debug(
+        logger.debug(
           `Registered node for ${method.toUpperCase()} ${normalizedPath}: ${operation.summary}`,
+          {
+            serverUrl: operationServerUrl,
+            operation: operation.operationId || `${method} ${normalizedPath}`,
+          },
         );
       }
     }
@@ -192,7 +208,7 @@ export class NodeGenerator {
       }
       this.unregisterNodesForSpec(key, this.openApiSpecs[key]);
     } else {
-      log.debug("Unregistering LiteGraph nodes from all OpenAPI specs...");
+      logger.debug("Unregistering LiteGraph nodes from all OpenAPI specs...");
       for (const key in this.openApiSpecs) {
         this.unregisterNodesForSpec(key, this.openApiSpecs[key]);
       }
@@ -206,13 +222,13 @@ export class NodeGenerator {
    * @param spec - The OpenAPI specification.
    */
   private unregisterNodesForSpec(key: string, spec: any): void {
-    log.debug(`Unregistering nodes for OpenAPI spec '${key}'...`);
+    logger.debug(`Unregistering nodes for OpenAPI spec '${key}'...`);
     for (const path in spec.paths) {
       for (const method in spec.paths[path]) {
         const normalizedPath = path.startsWith("/") ? path : `/${path}`;
         const nodeType = `oapi/${key}/${method.toLowerCase()}${normalizedPath}`;
         LiteGraph.unregisterNodeType(nodeType);
-        log.debug(`Unregistered node type: ${nodeType}`);
+        logger.debug(`Unregistered node type: ${nodeType}`);
       }
     }
   }

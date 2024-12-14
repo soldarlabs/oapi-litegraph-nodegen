@@ -1,19 +1,20 @@
-import { LGraphNode, IWidget } from "litegraph.js";
+import { LGraphNode, IWidget, LiteGraph } from "litegraph.js";
+import { logger } from "../../utils/logger.js";
 
 export interface OapiOutputStatus {
   success: boolean;
-  errorCode: number;
-  recognizedOutputs: Record<string, any>;
-  unrecognizedOutputs: Record<string, any>;
+  data: any;
+  error?: string;
+  contentType?: string;
+  responseType?: string;
 }
 
 export interface OapiOutputProperties {
   status: OapiOutputStatus;
 }
 
-
 export class CustomOutputNode extends LGraphNode {
-  static title = "Custom Output Node";
+  static title = "API Output Node";
 
   properties: OapiOutputProperties;
   widgets?: IWidget[];
@@ -21,56 +22,71 @@ export class CustomOutputNode extends LGraphNode {
   constructor() {
     super();
 
+    // Set to trigger mode - only execute when triggered
+    this.mode = LiteGraph.ON_EVENT;
+
     this.properties = {
       status: {
         success: false,
-        errorCode: 0,
-        recognizedOutputs: {},
-        unrecognizedOutputs: {},
+        data: null,
+        error: undefined,
+        contentType: undefined,
+        responseType: undefined
       }
     };
 
-    this.title = "Custom Output Node";
+    this.title = "API Output Node";
 
-    // Add inputs
-    this.addInput("Response (Object)", "object");
+    // Add trigger input
+    this.addInput("trigger", LiteGraph.EVENT);
+    
+    // Add input for API response
+    this.addInput("API Response", "*");
 
-    // Add outputs
+    // Add outputs for different response types
     this.addOutput("Success", "boolean");
-    this.addOutput("Error Code", "number");
-    this.addOutput("Recognized Outputs", "object");
-    this.addOutput("Unrecognized Outputs", "object");
+    this.addOutput("Response Data", "*");
+    this.addOutput("Error", "string");
 
-    // Add widgets
+    // Add widgets for displaying response details
     this.addWidget(
       "toggle",
-      "Success Status",
+      "Success",
       this.properties.status.success,
-      "properties.status.success",  
-      { 
-        bg: undefined, 
+      "properties.status.success",
+      {
+        bg: undefined,
         color: (value: boolean) => (value ? "#00FF00" : "#FF0000"),
         readonly: true,
       }
     );
 
     this.addWidget(
-      "number",
-      "Error Code",
-      this.properties.status.errorCode,
-      "properties.status.errorCode",  
-      { 
-        precision: 0,
+      "text",
+      "Content Type",
+      "",
+      () => {},
+      {
         readonly: true,
       }
     );
 
     this.addWidget(
       "text",
-      "Recognized Outputs",
-      JSON.stringify(this.properties.status.recognizedOutputs, null, 2),
-      () => {}, 
-      { 
+      "Response Type",
+      "",
+      () => {},
+      {
+        readonly: true,
+      }
+    );
+
+    this.addWidget(
+      "text",
+      "Response Data",
+      "",
+      () => {},
+      {
         multiline: true,
         readonly: true,
       }
@@ -78,54 +94,82 @@ export class CustomOutputNode extends LGraphNode {
 
     this.addWidget(
       "text",
-      "Unrecognized Outputs",
-      JSON.stringify(this.properties.status.unrecognizedOutputs, null, 2),
-      () => {}, 
-      { 
+      "Error",
+      "",
+      () => {},
+      {
         multiline: true,
         readonly: true,
+        color: "#FF0000"
       }
     );
 
-    this.size = [300, 200]; // Default node size
+    this.size = [350, 200];
+  }
+
+  // Handle trigger events
+  onAction(action: string) {
+    if (action === "onComplete") {
+      this.onExecute();
+    }
   }
 
   onExecute() {
     const response = this.getInputData(0);
 
-    if (response) {
-      // Update internal properties
-      this.properties.status.success = response.success ?? false;
-      this.properties.status.errorCode = response.errorCode ?? 0;
-      this.properties.status.recognizedOutputs = response.recognizedOutputs ?? {};
-      this.properties.status.unrecognizedOutputs = response.unrecognizedOutputs ?? {};
+    logger.debug('Output node received data:', {
+      component: 'OapiOutputNode',
+      response,
+      type: typeof response,
+      isArray: Array.isArray(response)
+    });
+
+    if (response !== undefined) {
+      // Handle error responses
+      if (response && response.error) {
+        this.properties.status.success = false;
+        this.properties.status.error = response.error;
+        this.properties.status.data = null;
+      } else {
+        // Handle successful responses
+        this.properties.status.success = true;
+        this.properties.status.error = undefined;
+        this.properties.status.data = response;
+        
+        // Determine response type
+        this.properties.status.responseType = Array.isArray(response) ? 'array' :
+          typeof response === 'object' ? 'object' : typeof response;
+      }
 
       // Update outputs
       this.setOutputData(0, this.properties.status.success);
-      this.setOutputData(1, this.properties.status.errorCode);
-      this.setOutputData(2, this.properties.status.recognizedOutputs);
-      this.setOutputData(3, this.properties.status.unrecognizedOutputs);
+      this.setOutputData(1, this.properties.status.data);
+      this.setOutputData(2, this.properties.status.error);
 
-      // Force widget updates
+      // Update widgets with formatted data
       this.widgets?.forEach((w: IWidget) => {
         switch (w.name) {
-          case "Success Status":
+          case "Success":
             w.value = this.properties.status.success;
             break;
-          case "Error Code":
-            w.value = this.properties.status.errorCode;
+          case "Content Type":
+            w.value = this.properties.status.contentType || "N/A";
             break;
-          case "Recognized Outputs":
-            w.value = JSON.stringify(this.properties.status.recognizedOutputs, null, 2);
+          case "Response Type":
+            w.value = this.properties.status.responseType || typeof response;
             break;
-          case "Unrecognized Outputs":
-            w.value = JSON.stringify(this.properties.status.unrecognizedOutputs, null, 2);
+          case "Response Data":
+            w.value = typeof response === 'object' ? 
+              JSON.stringify(response, null, 2) : String(response);
+            break;
+          case "Error":
+            w.value = this.properties.status.error || "";
             break;
         }
       });
 
       // Mark canvas as dirty to trigger a redraw
-      this.setDirtyCanvas(true, false);
+      this.setDirtyCanvas(true, true);
     }
   }
 }

@@ -16,11 +16,12 @@ import {
   calculateNodeSize,
 } from "./widgets/visual.js";
 import { logger } from "../utils/logger.js";
+import { ApiClient } from "../services/ApiClient.js";
 
 /**
  * Interface defining the structure of input data.
  */
-interface InputData {
+export interface InputData {
   /**
    * Value of the input data.
    */
@@ -54,18 +55,26 @@ export class OpenAPINode extends LGraphNode {
    */
   public nodeId: string;
 
-  /**
-   * Creates an instance of OpenAPINode.
-   * @param title - The title of the node.
-   * @param operation - The OpenAPI operation object.
-   */
-  constructor(title: string, operation: any) {
+  public apiClient: ApiClient;
+  public method: string = "";
+  public path: string = "";
+  public operationId?: string;
+  public requestContentType: string = "application/json";
+  public responseContentType: string = "application/json";
+
+  constructor(title: string, operation: any, serverUrl?: string) {
     super(title);
     this.nodeId = `${this.type || "node"}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+    // Use the first server URL from the OpenAPI spec if no serverUrl provided
+    const defaultServer = operation.servers?.[0]?.url || serverUrl || "";
+    this.apiClient = new ApiClient(defaultServer);
+
     logger.info("Node created", {
       component: "OpenAPINode",
       nodeId: this.nodeId,
       type: this.type,
+      serverUrl: defaultServer,
     });
 
     // Apply visual customizations.
@@ -90,7 +99,9 @@ export class OpenAPINode extends LGraphNode {
           param.default || "",
           (v: any) => {
             // When widget value changes, store it.
-            this.inputValues.set(param.name, { value: v, type: paramType });
+            // If it's a file widget, ensure we store it with the correct type
+            const valueType = v instanceof File ? "file" : paramType;
+            this.inputValues.set(param.name, { value: v, type: valueType });
           },
         );
 
@@ -110,6 +121,9 @@ export class OpenAPINode extends LGraphNode {
       for (const contentType in content) {
         const schema = content[contentType].schema;
         if (schema && schema.properties) {
+          // Store content type for request
+          this.requestContentType = contentType;
+
           for (const propName in schema.properties) {
             const propSchema = schema.properties[propName];
             const propType = propSchema.type || "string";
@@ -117,8 +131,11 @@ export class OpenAPINode extends LGraphNode {
             // Add input slot first.
             this.addInput(propName, propType);
 
-            // Add widget based on property type and format.
-            const widgetConfig = getWidgetConfigForParameter(propSchema);
+            // Add widget based on property type and format, passing the content type
+            const widgetConfig = getWidgetConfigForParameter(
+              propSchema,
+              contentType,
+            );
             const widget = addAlignedWidget(
               this,
               this.inputIndex++,
@@ -127,7 +144,8 @@ export class OpenAPINode extends LGraphNode {
               propSchema.default || "",
               (v: any) => {
                 // When widget value changes, store it.
-                this.inputValues.set(propName, { value: v, type: propType });
+                const valueType = v instanceof File ? "file" : propType;
+                this.inputValues.set(propName, { value: v, type: valueType });
               },
             );
 
@@ -146,12 +164,31 @@ export class OpenAPINode extends LGraphNode {
     // Create output based on operation response.
     const responses = operation.responses;
     if (responses && responses["200"] && responses["200"].content) {
-      const responseSchema =
-        responses["200"].content["application/json"].schema;
-      const responseType = responseSchema.type;
-      this.addOutput(`Response (${responseType})`, responseType);
-    } else {
-      this.addOutput("Response (string)", "string");
+      const content = responses["200"].content;
+      for (const contentType in content) {
+        // Store content type for response
+        this.responseContentType = contentType;
+        const responseSchema = content[contentType].schema;
+        // Add output with more specific type information
+        if (responseSchema.type === "object" && responseSchema.properties) {
+          // For objects, show property structure
+          const properties = Object.keys(responseSchema.properties).join(", ");
+          this.addOutput(`Response (object: {${properties}})`, "object");
+        } else if (responseSchema.type === "array" && responseSchema.items) {
+          // For arrays, show item type
+          const itemType = responseSchema.items.type || "any";
+          this.addOutput(
+            `Response (${responseSchema.type}<${itemType}>)`,
+            responseSchema.type,
+          );
+        } else {
+          // For primitive types
+          this.addOutput(
+            `Response (${responseSchema.type})`,
+            responseSchema.type,
+          );
+        }
+      }
     }
 
     // Update node size based on content.
@@ -159,79 +196,6 @@ export class OpenAPINode extends LGraphNode {
       this.inputIndex,
       this.outputs ? this.outputs.length : 0,
     );
-  }
-
-  /**
-   * Override onExecute to ensure widget values are used when no input connections exist.
-   */
-  onExecute() {
-    try {
-      logger.debug("Node executing", {
-        component: "OpenAPINode",
-        nodeId: this.nodeId,
-        operation: "execute",
-        inputCount: this.inputs?.length || 0,
-      });
-
-      const inputData: { [key: string]: any } = {};
-
-      // Set the mode to onTrigger so it doesn't execute indefinitely
-      this.mode = LiteGraph.ON_TRIGGER;
-
-      // Collect input data.
-      if (this.inputs) {
-        for (let i = 0; i < this.inputs.length; i++) {
-          const value = this.getInputData(i);
-          const inputName = this.inputs[i]?.name;
-          if (value !== undefined && inputName) {
-            inputData[inputName] = value;
-            logger.debug("Input data collected", {
-              component: "OpenAPINode",
-              nodeId: this.nodeId,
-              operation: "execute",
-              input: inputName,
-              value: value,
-            });
-          }
-        }
-      }
-
-      // Process widget values.
-      this.inputWidgets.forEach((widget, name) => {
-        if (widget.value !== undefined && widget.value !== null) {
-          inputData[name] = widget.value;
-          logger.debug("Widget value processed", {
-            component: "OpenAPINode",
-            nodeId: this.nodeId,
-            operation: "execute",
-            widget: name,
-            value: widget.value,
-          });
-        }
-      });
-
-      // Set output data.
-      this.setOutputData(0, inputData);
-      logger.debug("Node execution completed", {
-        component: "OpenAPINode",
-        nodeId: this.nodeId,
-        operation: "execute",
-        outputData: inputData,
-      });
-    } catch (err) {
-      const error = err as Error;
-      logger.error(
-        "Error executing node",
-        {
-          component: "OpenAPINode",
-          nodeId: this.nodeId,
-          operation: "execute",
-          error: error.message,
-        },
-        error,
-      );
-      this.setOutputData(0, { error: error.message });
-    }
   }
 
   /**
@@ -326,20 +290,37 @@ export class OpenAPINode extends LGraphNode {
   onWidgetChanged(widget: IWidget, name: string, options: any): void {
     try {
       const value = widget.value;
+      const valueType = value instanceof File ? "file" : widget.type || "string";
+      
       logger.debug("Widget value changed", {
         component: "OpenAPINode",
         nodeId: this.nodeId,
         operation: "widgetChange",
         widget: name,
         newValue: value,
+        valueType,
+        isFile: value instanceof File,
         options: options,
       });
 
-      // Store the widget value.
+      // Store the widget value with correct type
       if (value !== undefined && value !== null) {
         this.inputValues.set(name, {
           value: value,
-          type: widget.type || "string",
+          type: valueType
+        });
+
+        logger.debug("Input values after widget change:", {
+          component: "OpenAPINode",
+          nodeId: this.nodeId,
+          operation: "widgetChange",
+          inputValues: Array.from(this.inputValues.entries()).map(([key, data]) => ({
+            key,
+            type: data.type,
+            isFile: data.value instanceof File,
+            valueType: typeof data.value,
+            constructor: data.value?.constructor?.name
+          }))
         });
       }
 
@@ -370,25 +351,4 @@ export class OpenAPINode extends LGraphNode {
       super.setDirtyCanvas(value, skipOutputs);
     }
   }
-}
-
-/**
- * Creates a custom node class for a specific OpenAPI operation.
- * @param method - HTTP method of the operation.
- * @param path - Path of the operation.
- * @param operation - The OpenAPI operation object.
- * @returns A custom node class.
- */
-export function createOpenAPINodeClass(
-  method: string,
-  path: string,
-  operation: any,
-) {
-  const title = `${method.toUpperCase()} ${path}`;
-  return class extends OpenAPINode {
-    static title = title;
-    constructor() {
-      super(title, operation);
-    }
-  };
 }

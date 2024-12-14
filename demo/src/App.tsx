@@ -4,6 +4,8 @@
 import { useEffect } from "react";
 import { FloatingToolbar } from "@/components/FloatingToolbar/FloatingToolbar";
 import { useLiteGraph } from "@/hooks/use-litegraph";
+import { CustomOutputNode } from "../../src/nodes/output/OapiOutputNode";
+import { LiteGraph } from "litegraph.js";
 import "litegraph.js/css/litegraph.css";
 import "@/App.css";
 
@@ -19,6 +21,9 @@ const App = () => {
      */
     const initializeGenerator = async () => {
       if (!isReady || !generator) return;
+
+      // Register custom output node
+      LiteGraph.registerNodeType("oapi/output", CustomOutputNode);
 
       // Add example spec to the generator.
       await generator.addSpec("example-demo", "https://raw.githubusercontent.com/livepeer/ai-worker/refs/heads/main/runner/gateway.openapi.yaml");

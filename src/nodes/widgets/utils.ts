@@ -4,6 +4,7 @@
 
 import type { widgetTypes } from "litegraph.js";
 import { SchemaObject, ArraySubtype, NumberSubtype, IntegerSubtype } from "openapi-typescript";
+import { logger } from "../../utils/logger.js";
 
 // Add new widget types to the LiteGraph widgetTypes type.
 type ExtendedWidgetTypes = widgetTypes | "file";
@@ -88,17 +89,26 @@ function handleNumberType(schema: NumberSubtype | IntegerSubtype): WidgetConfig 
  * @param schema Schema object.
  * @returns Widget configuration.
  */
-function handleStringType(schema: SchemaObject): WidgetConfig {
+function handleStringType(schema: SchemaObject, contentType?: string): WidgetConfig {
   const format = schema.format;
 
-  // Handle binary format with file upload widget.
-  if (format === "binary") {
+  // Handle binary format or multipart form data with file upload widget
+  if (format === "binary" && contentType === "multipart/form-data") {
+    logger.debug("Creating file upload widget:", {
+      component: "WidgetUtils",
+      reason: format === "binary" ? "binary format" : "multipart/form-data",
+      format,
+      contentType
+    });
+
     return {
       type: "file",
       options: {
-        accept: "contentMediaType" in schema ? schema.contentMediaType : "*/*",
-        callback: (file: File) => file,
-      },
+        accept: "*/*",  // Accept all file types
+        onUpload: (file: File) => {
+          return file; // Return the file directly for FormData
+        }
+      }
     };
   }
 
@@ -158,8 +168,23 @@ function handleCombinedSchemas(schema: SchemaObject): WidgetConfig {
  * Maps OpenAPI types and formats to appropriate LiteGraph widget configurations.
  */
 export function getWidgetConfigForParameter(
-  schema: SchemaObject
+  schema: SchemaObject,
+  contentType?: string
 ): WidgetConfig {
+  // If the content type is multipart/form-data and the schema format is binary,
+  // we should create a file upload widget
+  if (contentType === "multipart/form-data" && schema.format === "binary") {
+    return {
+      type: "file",
+      options: {
+        accept: "*/*",
+        onUpload: (file: File) => {
+          return file; // Return the file directly for FormData
+        }
+      }
+    };
+  }
+
   if (schema.allOf || schema.oneOf) {
     return handleCombinedSchemas(schema);
   }
@@ -171,7 +196,7 @@ export function getWidgetConfigForParameter(
   // Handle other types.
   switch (schema.type) {
     case "string":
-      return handleStringType(schema);
+      return handleStringType(schema, contentType);
     case "number":
     case "integer":
       return handleNumberType(schema);
